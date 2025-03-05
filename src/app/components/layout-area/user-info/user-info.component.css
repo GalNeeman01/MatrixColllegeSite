@@ -1,0 +1,12 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+}
+
+a {
+    font-size: 18px;
+}
+
+a:hover {
+    border-radius: 5px;
+}

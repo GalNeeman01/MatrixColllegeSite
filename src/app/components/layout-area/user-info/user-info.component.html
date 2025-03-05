@@ -1,0 +1,13 @@
+<div class="wrapper">
+    @if(!loggedIn)
+    {
+        <a mat-button routerLink="home">Log In</a>
+        |
+        <a mat-button routerLink="home">Register</a>
+    }
+    @else {
+        <a mat-button routerLink="home">Truueh</a>
+        |
+        <a mat-button routerLink="home"><mat-icon>logout</mat-icon></a>
+    }
+</div>

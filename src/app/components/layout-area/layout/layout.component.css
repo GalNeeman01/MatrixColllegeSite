@@ -1,0 +1,13 @@
+.wrapper {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+}
+
+header {
+    height: 8vh;
+}
+
+main {
+    flex: 1;
+}

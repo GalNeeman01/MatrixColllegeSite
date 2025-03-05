@@ -1,0 +1,10 @@
+.course-card {
+    transition: transform 0.3s ease;
+}
+.course-card:hover {
+    transform: scale(1.05);
+}
+.testimonial-card {
+    background-color: #f8f9fa;
+    border-left: 4px solid #007bff;
+}
