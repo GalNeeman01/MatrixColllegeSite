@@ -1,8 +1,13 @@
 div {
-    margin: 0 15px 0 15px;
     padding: 0;
     height: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
 }

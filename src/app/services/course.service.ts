@@ -14,6 +14,13 @@ export class CourseService {
     const courses$ = this.http.get<CourseModel[]>(environment.coursesUrl);
     const courses = await firstValueFrom(courses$);
 
-    return courses;
+    return courses; 
+  }
+
+  public async getCourseById(id: string) : Promise<CourseModel> {
+    const course$ = this.http.get<CourseModel>(environment.coursesUrl + "/" + id);
+    const course = await firstValueFrom(course$);
+
+    return course;
   }
 }

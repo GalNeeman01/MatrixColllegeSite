@@ -1,6 +1,7 @@
 .content {
     display: flex;
     flex-direction: row;
+    justify-content: center;
     height: fit-content;
     flex-wrap: wrap;
     gap: 30px;

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { CourseCardComponent } from "../../course-area/course-card/course-card.component";
 import { CourseModel } from '../../../models/course.model';
 import { CourseService } from '../../../services/course.service';
@@ -9,17 +9,16 @@ import { CommonModule } from '@angular/common';
   imports: [CourseCardComponent, CommonModule],
   templateUrl: './courses.component.html',
   styleUrl: './courses.component.css',
-  //changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CoursesComponent implements OnInit {
-  public courses : CourseModel[];
+  public courses = signal<CourseModel[]>([]);
   
   private courseService = inject(CourseService);
 
   public async ngOnInit(): Promise<void> {
     try {
-      this.courses = await this.courseService.getAllCourses();
-      console.log(this.courses);
+      this.courses.set(await this.courseService.getAllCourses());
     }
     catch (err: any)
     {
