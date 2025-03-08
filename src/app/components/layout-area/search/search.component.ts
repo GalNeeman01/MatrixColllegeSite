@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
@@ -7,7 +7,8 @@ import {MatButtonModule} from '@angular/material/button';
   selector: 'app-search',
   imports: [MatInputModule, MatFormFieldModule, MatButtonModule],
   templateUrl: './search.component.html',
-  styleUrl: './search.component.css'
+  styleUrl: './search.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SearchComponent {
 }

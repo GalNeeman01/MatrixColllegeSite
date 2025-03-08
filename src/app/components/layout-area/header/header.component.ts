@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { LogoComponent } from "../logo/logo.component";
 import { NavigationComponent } from "../navigation/navigation.component";
 import { UserInfoComponent } from "../user-info-area/user-info/user-info.component";
@@ -8,7 +8,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
   selector: 'app-header',
   imports: [LogoComponent, NavigationComponent, UserInfoComponent, MatToolbarModule],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.css'
+  styleUrl: './header.component.css',
 })
 export class HeaderComponent {
 

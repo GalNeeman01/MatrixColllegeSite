@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-user-profile',
   imports: [EnrollmentCardComponent, CommonModule],
   templateUrl: './user-profile.component.html',
-  styleUrl: './user-profile.component.css'
+  styleUrl: './user-profile.component.css',
 })
 export class UserProfileComponent implements OnInit {
   private userService = inject(UserService);

@@ -7,7 +7,7 @@ import { UserService } from '../../../services/user.service';
   selector: 'app-layout',
   imports: [HeaderComponent, RouterOutlet],
   templateUrl: './layout.component.html',
-  styleUrl: './layout.component.css'
+  styleUrl: './layout.component.css',
 })
 export class LayoutComponent implements OnInit {
   private userService = inject(UserService);

@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-view-course',
   imports: [RouterModule, CommonModule],
   templateUrl: './view-course.component.html',
-  styleUrl: './view-course.component.css'
+  styleUrl: './view-course.component.css',
 })
 export class ViewCourseComponent implements OnInit {
     private activatedRoute = inject(ActivatedRoute);
