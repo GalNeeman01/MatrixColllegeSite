@@ -5,4 +5,5 @@ export const environment = {
     enrollmentsUrl: "http://localhost:5000/api/user-enrollments/",
     progressUrl: "http://localhost:5000/api/user-progress/",
     courseLessonsUrl: "http://localhost:5000/api/lessons-by-course/",
-};
+    enrollUserUrl: "http://localhost:5000/api/user-enroll/",
+}

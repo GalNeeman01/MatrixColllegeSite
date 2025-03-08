@@ -7,3 +7,10 @@
     gap: 30px;
     align-items: start;
 }
+
+.course-card {
+    transition: transform 0.3s ease;
+}
+.course-card:hover {
+    transform: scale(1.02);
+}

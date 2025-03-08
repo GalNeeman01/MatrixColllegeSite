@@ -12,6 +12,8 @@ import { CourseModel } from "../models/course.model";
 import { ProgressModel } from "../models/progress.model";
 import { LessonService } from "./lesson.service";
 import { CourseProgress } from "../utils/types";
+import { EnrollmentStore } from "../storage/enrollments-store";
+import { CourseService } from "./course.service";
 
 @Injectable({
     providedIn: 'root'
@@ -19,7 +21,9 @@ import { CourseProgress } from "../utils/types";
 export class UserService {
     private http = inject(HttpClient);
     private userStore = inject(UserStore);
+    private enrollmentStore = inject(EnrollmentStore);
     private lessonService = inject(LessonService);
+    private courseService = inject(CourseService);
 
     public constructor() { }
 
@@ -32,6 +36,10 @@ export class UserService {
             const user = payload.user;
             this.userStore.initUser(user);
         }
+    }
+
+    public isLoggedIn(): boolean {
+        return this.userStore.user() !== null;
     }
 
     // Register a new user with the given details
@@ -59,6 +67,7 @@ export class UserService {
     // Log the current user out
     public logout(): void {
         this.userStore.logoutUser();
+        this.enrollmentStore.clearEnrollments();
         localStorage.removeItem("token");
     }
 
@@ -69,8 +78,13 @@ export class UserService {
 
     // Get the enrollments of the current user
     private async getUserEnrollments() : Promise<EnrollmentModel[]> {
+        if (this.enrollmentStore.enrollments().length > 0)
+            return this.enrollmentStore.enrollments();
+
         const enrollments$ = this.http.get<EnrollmentModel[]>(environment.enrollmentsUrl + this.userStore.user().id);
         const enrollments = await firstValueFrom(enrollments$);
+
+        this.enrollmentStore.initEnrollments(enrollments);
         
         return enrollments;
     }
@@ -79,15 +93,11 @@ export class UserService {
     public async getEnrolledCourses() : Promise<CourseModel[]> {
         const enrollments = await this.getUserEnrollments();
 
-        const courses : CourseModel[] = [];
+        // Retrieve all courses
+        let courses : CourseModel[] = await this.courseService.getAllCourses();
 
-        // Retrieve all courses the user is enrolled in
-        for (const enrollment of enrollments) {
-            const course$ = this.http.get<CourseModel>(environment.coursesUrl + enrollment.courseId);
-            const course = await firstValueFrom(course$);
-
-            courses.push(course);
-        }
+        // Filter for courses the user is enrolled in
+        courses = courses.filter(c => enrollments.some(e => e.courseId === c.id));
 
         return courses;
     }
@@ -108,5 +118,14 @@ export class UserService {
         };
 
         return progress; 
+    }
+
+    public async enrollUser(courseId: string) : Promise<void> {
+        const enrollment: EnrollmentModel = {id: undefined, userId: this.userStore.user().id, courseId: courseId, createdAt: new Date()};
+
+        const enroll$ = this.http.post<EnrollmentModel>(environment.enrollUserUrl, enrollment);
+        const dbEnrollment = await firstValueFrom(enroll$);
+
+        this.enrollmentStore.addEnrollment(dbEnrollment);
     }
 }
