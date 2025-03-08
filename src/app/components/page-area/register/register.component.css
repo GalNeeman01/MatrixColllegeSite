@@ -1,0 +1,16 @@
+button {
+    border-radius: 7px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+mat-card {
+    margin-top: 5vh;
+    padding: 15px;
+    width: 20vw;
+    min-width: 380px;
+    text-align: center;
+}

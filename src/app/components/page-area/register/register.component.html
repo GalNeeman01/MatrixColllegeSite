@@ -1,0 +1,23 @@
+
+<mat-card>
+    <h2>Register</h2>
+
+    <form [formGroup]="registerForm" (submit)="send()">
+        <mat-form-field appearance="outline">
+            <mat-label>Username</mat-label>
+            <input formControlName="usernameControl" matInput type="text">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Email</mat-label>
+            <input formControlName="emailControl" matInput type="email">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Password</mat-label>
+            <input formControlName="passwordControl" matInput type="password">
+        </mat-form-field>
+
+        <button [disabled]="registerForm.invalid" mat-flat-button type="submit">Log In</button>
+    </form>
+</mat-card>

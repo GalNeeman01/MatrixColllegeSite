@@ -1,4 +1,4 @@
-<h1>Courses:</h1>
+<h1 class="h1">Courses:</h1>
 <div class="content" *ngIf="courses">
     @for (course of courses(); track $index) {
         <app-course-card [course]="course"></app-course-card>

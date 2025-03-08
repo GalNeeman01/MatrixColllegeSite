@@ -1,13 +1,9 @@
 .wrapper {
     display: flex;
     height: 100%;
-    width: 75%;
+    width: 70%;
     margin: auto;
     flex-direction: column;
-}
-
-header {
-    height: 8vh;
 }
 
 footer {

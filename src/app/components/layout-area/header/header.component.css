@@ -1,13 +1,15 @@
-div {
-    padding: 0;
-    height: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+mat-toolbar {
+    height: 10vh;
 }
 
 .header {
-    width: 100%;
+    padding: 0;
     display: flex;
     justify-content: space-between;
+    width: 100%;
+    align-items: center;
+}
+
+.left {
+    display: flex;
 }

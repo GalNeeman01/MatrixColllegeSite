@@ -1,0 +1,36 @@
+mat-card {
+    width: 60vw;
+    height: 25vh;
+    min-width: 600px;
+    min-height: 230px;
+    filter: drop-shadow(5px 5px 5px #000);
+    padding: 20px;
+    margin: 0;
+}
+
+.bottom-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: auto;
+    gap: 30px;
+}
+
+.leave-button {
+    flex: 1;
+    border-radius: 10px;
+    background-color: #d32f2f !important; /* important to override materialUI component style */
+}
+
+.completed-button {
+    flex: 1;
+    border-radius: 10px;
+    background-color: #4CAF50 !important; /* important to override materialUI component style */
+}
+
+.progress-area {
+    flex: 8;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}

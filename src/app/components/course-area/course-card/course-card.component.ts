@@ -3,7 +3,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import { CourseModel } from '../../../models/course.model';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-course-card',
@@ -12,8 +12,6 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
   styleUrl: './course-card.component.css'
 })
 export class CourseCardComponent implements OnInit {
-    private activatedRoute = inject(ActivatedRoute);
-
   @Input()
   public course : CourseModel;
 
@@ -21,5 +19,5 @@ export class CourseCardComponent implements OnInit {
 
   ngOnInit(): void {
     this.link = `/courses/${this.course.id}`;
-}
+  }
 }

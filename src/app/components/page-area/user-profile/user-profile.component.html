@@ -1,0 +1,29 @@
+<div class="wrapper">
+    <h1>User Profile - {{username}}</h1>
+
+    <div class="content">
+        <div class="enrollments-area">
+            <div class="enrolled-courses-area">
+                <h2>My Enrollments:</h2>
+                @if (enrolledCourses && enrolledCourses.length > 0) {
+                    @for (course of enrolledCourses; track $index) {
+                        <app-enrollment-card *ngIf="coursesLoaded" [course]="course" [progress]="courseProgress[course.id]"></app-enrollment-card>
+                    }
+                }
+                @else {
+                    <p>You are not enrolled in any courses yet.</p>
+                }
+
+                <h2>Completed Courses:</h2>
+                @if (completedCourses && completedCourses.length > 0) {
+                    @for (course of completedCourses; track $index) {
+                        <app-enrollment-card *ngIf="coursesLoaded" [course]="course" [progress]="courseProgress[course.id]"></app-enrollment-card>
+                    }
+                }
+                @else {
+                    <p>You have not completed any courses yet.</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>

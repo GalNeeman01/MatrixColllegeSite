@@ -15,6 +15,6 @@ mat-card {
     margin-top: auto;
 }
 
-button {
+button, a {
     width: 45%;
 }

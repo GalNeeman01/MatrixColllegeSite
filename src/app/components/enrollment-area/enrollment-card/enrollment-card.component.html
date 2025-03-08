@@ -1,0 +1,21 @@
+<div style="margin: 50px">
+    <mat-card *ngIf="course && progress">
+        <mat-card-title>{{course.title}}</mat-card-title>
+        <mat-card-content>
+            {{course.description}}
+        </mat-card-content>
+        
+        <div class="bottom-area">
+            <div class="progress-area">
+                <span>{{progress.completed}} / {{progress.total}} completed</span>
+                <mat-progress-bar mode="determinate" [value]="progressPercent"></mat-progress-bar>
+            </div>
+            @if (progressPercent !== 100) {
+                <button class="leave-button" mat-flat-button>Leave Course<mat-icon>logout</mat-icon></button>
+            }
+            @else {
+                <button class="completed-button" mat-flat-button>Completed<mat-icon>checked</mat-icon></button>
+            }
+        </div>
+    </mat-card>
+</div>

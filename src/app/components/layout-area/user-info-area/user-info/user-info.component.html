@@ -1,0 +1,11 @@
+<div class="wrapper">
+    @if(!userStore.user())
+    {
+        <a mat-button routerLink="login">Log In</a>
+        |
+        <a mat-button routerLink="register">Register</a>
+    }
+    @else {
+        <app-user-badge></app-user-badge>
+    }
+</div>
