@@ -1,14 +1,16 @@
 import { ChangeDetectionStrategy, Component, inject, Input, OnInit, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterModule } from '@angular/router';
 import { CourseModel } from '../../../models/course.model';
 import { UserService } from '../../../services/user.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-course-card',
-  imports: [MatCardModule, MatButtonModule, MatIconModule, RouterModule],
+  imports: [MatCardModule, MatButtonModule, MatIconModule, RouterModule, DatePipe, MatChipsModule],
   templateUrl: './course-card.component.html',
   styleUrl: './course-card.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush

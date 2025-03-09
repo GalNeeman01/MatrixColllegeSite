@@ -1,5 +1,9 @@
 <div>
     <mat-card>
+        <mat-chip-set>
+            <mat-chip>{{course.createdAt | date}}</mat-chip>
+        </mat-chip-set>
+        
         <mat-card-title>{{course.title}}</mat-card-title>
         <mat-card-content>
             {{course.description}}

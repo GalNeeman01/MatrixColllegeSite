@@ -1,6 +1,10 @@
-mat-toolbar {
+.mat-toolbar {
     height: 10vh;
+    background-color: #e3f2fd; /* Muted light blue */
+    color: #1e3a5f; /* Darker blue for contrast */
 }
+
+
 
 .header {
     padding: 0;

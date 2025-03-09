@@ -14,3 +14,18 @@
 .course-card:hover {
     transform: scale(1.02);
 }
+
+h2 {
+    font-size: 5vh;
+    margin: 35px 0 15px 0;
+    padding: 0;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}

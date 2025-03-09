@@ -8,7 +8,12 @@
             <button mat-raised-button>Watch Now</button>
         }
         @else {
-            <button disabled="true" mat-raised-button>Watch Now <mat-icon>locked</mat-icon></button>
+            <button [disabled]="false" mat-raised-button
+            #tooltip="matTooltip"
+            matTooltip="Enroll to course to watch"
+            [matTooltipPosition]="position.value"
+            matTooltipHideDelay="100"
+            >Watch Now <mat-icon>locked</mat-icon></button>
         }
     </mat-card-content>
 </mat-card>

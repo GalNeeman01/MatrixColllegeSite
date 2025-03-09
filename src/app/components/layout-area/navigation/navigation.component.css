@@ -9,3 +9,7 @@ a:hover {
 .nav-links {
     padding-right: 20px;
 }
+
+.mat-toolbar {
+    background-color: inherit;
+}

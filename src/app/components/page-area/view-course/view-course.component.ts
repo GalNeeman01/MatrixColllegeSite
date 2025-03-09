@@ -6,6 +6,8 @@ import { CommonModule } from '@angular/common';
 import { LessonComponent } from "../../lesson-area/lesson/lesson.component";
 import { LessonService } from '../../../services/lesson.service';
 import { LessonModel } from '../../../models/lesson.model';
+import { UserService } from '../../../services/user.service';
+import { LessonInfoModel } from '../../../models/lessonInfo.model';
 
 @Component({
   selector: 'app-view-course',
@@ -17,9 +19,10 @@ export class ViewCourseComponent implements OnInit {
     private activatedRoute = inject(ActivatedRoute);
     private courseService = inject(CourseService);
     private lessonService = inject(LessonService);
+    private userService = inject(UserService);
 
     public courseModel: CourseModel;
-    public lessons: LessonModel[];
+    public lessons: LessonModel[] | LessonInfoModel[];
 
     @Input()
     public id : string = "";
@@ -29,6 +32,9 @@ export class ViewCourseComponent implements OnInit {
         this.id = this.activatedRoute.snapshot.params['id'];
         this.courseModel = await this.courseService.getCourseById(this.id);
 
-        this.lessons = await this.lessonService.getLessonsByCourseId(this.id);
+        if (this.userService.isLoggedIn())
+          this.lessons = await this.lessonService.getLessonsByCourseId(this.id);
+        else 
+          this.lessons = await this.lessonService.getLessonsInfoByCourseId(this.id);
     }
 }

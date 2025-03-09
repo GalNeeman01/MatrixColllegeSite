@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { CourseModel } from '../../../models/course.model';
 import { CourseService } from '../../../services/course.service';
-import { CourseCardComponent } from "../../course-area/course-card/course-card.component";
 import { UserService } from '../../../services/user.service';
+import { CourseCardComponent } from "../../course-area/course-card/course-card.component";
 
 @Component({
   selector: 'app-courses',
@@ -20,12 +20,13 @@ export class CoursesComponent implements OnInit {
 
   public async ngOnInit(): Promise<void> {
     try {
-        await this.userService.getUserEnrollments(); // Initialize enrollments store
-        this.courses.set(await this.courseService.getAllCourses());
+      if (this.userService.isLoggedIn())
+          await this.userService.getUserEnrollments(); // Initialize enrollments store
+      this.courses.set(await this.courseService.getAllCourses());
     }
     catch (err: any)
     {
-        console.log(err.message);
+      console.log(err.message);
     }
   }
 

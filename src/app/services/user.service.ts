@@ -125,7 +125,7 @@ export class UserService {
 
     // Create a new enrollment for the user
     public async enrollUser(courseId: string) : Promise<void> {
-        const enrollment: EnrollmentModel = {id: undefined, userId: this.userStore.user().id, courseId: courseId, createdAt: new Date()};
+        const enrollment: EnrollmentModel = {id: undefined, userId: this.userStore.user().id, courseId: courseId, enrolledAt: new Date()};
 
         const enroll$ = this.http.post<EnrollmentModel>(environment.enrollUserUrl, enrollment);
         const dbEnrollment = await firstValueFrom(enroll$);

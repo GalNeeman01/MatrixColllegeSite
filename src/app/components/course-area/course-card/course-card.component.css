@@ -22,3 +22,13 @@ button, a {
 .enrolled-button {
     background-color:  #4caf50  !important;
 }
+
+mat-chip {
+    position: absolute !important;
+    top: 5px;
+    right: 10px;
+}
+
+mat-card-title, mat-card-content {
+    margin-top: 10px;
+}
