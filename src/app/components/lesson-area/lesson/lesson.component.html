@@ -1,7 +1,8 @@
 <mat-card>
+    <mat-icon class="icon-play">play_arrow_outlined</mat-icon>
+
     <mat-card-header>
         <mat-card-title>{{ lesson.title }}</mat-card-title>
-        <mat-icon>play_arrow_outlined</mat-icon>
     </mat-card-header>
     <mat-card-content>
         @if (isEnrolled) {
@@ -13,7 +14,8 @@
             matTooltip="Enroll to course to watch"
             [matTooltipPosition]="position.value"
             matTooltipHideDelay="100"
-            >Watch Now <mat-icon>locked</mat-icon></button>
+            class="button-locked"
+            >Watch Now <mat-icon class="icon-lock">locked</mat-icon></button>
         }
     </mat-card-content>
 </mat-card>

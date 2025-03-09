@@ -79,6 +79,10 @@ export class UserService {
         return this.userStore.user().name;
     }
 
+    public getEmail() : string {
+        return this.userStore.user().email;
+    }
+
     // Get the enrollments of the current user
     public async getUserEnrollments() : Promise<EnrollmentModel[]> {
         if (this.enrollmentStore.enrollments().length > 0)

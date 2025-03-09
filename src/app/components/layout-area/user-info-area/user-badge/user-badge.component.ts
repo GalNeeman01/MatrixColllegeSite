@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, inject, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, inject, OnInit, Output, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
@@ -12,11 +12,17 @@ import { Router, RouterLink } from '@angular/router';
   styleUrl: './user-badge.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class UserBadgeComponent {
+export class UserBadgeComponent implements OnInit {
   private userService = inject(UserService);
   private router = inject(Router);
 
-  public userInitials = this.userService.getUsername()[0].toUpperCase();
+  public userInitials = signal<string>("");
+  public userEmail = signal<string>("");
+
+  ngOnInit(): void {
+    this.userInitials.set(this.userService.getUsername()[0].toUpperCase());
+    this.userEmail.set(this.userService.getEmail());
+  }
 
   public logout(): void {
     this.userService.logout();

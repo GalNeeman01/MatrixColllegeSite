@@ -16,3 +16,18 @@ button {
 .menu-item {
     margin-right: 50px;
 }
+
+.menu-email {
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.menu-email-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+hr {
+    width: 85%;
+}

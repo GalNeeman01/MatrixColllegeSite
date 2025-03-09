@@ -54,5 +54,12 @@ export class UserProfileComponent implements OnInit {
 
   public async updateEnrollments() : Promise<void> {
     this.enrolledCourses = await this.userService.getEnrolledCourses();
+
+    // Order courses by progress
+    this.completedCourses = this.enrolledCourses.filter(course => this.courseProgress[course.id].completed === this.courseProgress[course.id].total
+      && this.courseProgress[course.id].total !== 0
+    );
+    
+    this.enrolledCourses = this.enrolledCourses.filter(course => this.completedCourses.indexOf(course) === -1);
   }
 }

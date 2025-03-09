@@ -1,5 +1,5 @@
 <div class="wrapper">
-    <button [matMenuTriggerFor]="menu" mat-fab>{{userInitials}}</button>
+    <button [matMenuTriggerFor]="menu" mat-fab>{{userInitials()}}</button>
 
     <mat-menu class="menu" #menu="matMenu">
         <a routerLink="profile" class="menu-item" mat-menu-item>
@@ -10,5 +10,11 @@
             <mat-icon>exit_to_app</mat-icon>
             <span>Logout</span>
         </button>
+
+        <hr>
+
+        <div class="menu-email-wrapper">
+            <span class="menu-email">{{userEmail()}}</span>
+        </div>
     </mat-menu>
 </div>
