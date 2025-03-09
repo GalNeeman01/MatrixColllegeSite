@@ -111,10 +111,12 @@ export class UserService {
         const userProgress$ = this.http.get<ProgressModel[]>(environment.progressUrl + this.userStore.user().id);
         const userProgress = await firstValueFrom(userProgress$);
 
-        // Retrieve course lessons
+        // Retrieve completed lessons
         const lessons = await this.lessonService.getLessonsByCourseId(courseId);
-        const completed = userProgress.filter(p => lessons.some(l => l.id === p.lessonId)).length;
+        const uniqueCompletedLessonIds = new Set(userProgress.map(p => p.lessonId));
+        const completed = Array.from(uniqueCompletedLessonIds).filter(id => lessons.some(l => l.id === id)).length;
 
+        // Progress to return
         const progress : CourseProgress = {
             completed: completed,
             total: lessons.length
@@ -149,5 +151,13 @@ export class UserService {
     // Check if the user is enrolled in a specific course
     public isEnrolled(courseId: string) : boolean {
         return this.getEnrollmentForCourse(courseId) !== undefined;
+    }
+
+    // Add progress
+    public async addProgress(lessonId: string) : Promise<void> {
+        const progress: ProgressModel = {userId: this.userStore.user().id, lessonId: lessonId, watchedAt: new Date()};
+
+        const progress$ = this.http.post(environment.progressUrl, progress);
+        const dbProgress = await firstValueFrom(progress$);
     }
 }

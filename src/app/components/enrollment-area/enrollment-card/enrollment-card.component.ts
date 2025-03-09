@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CourseModel } from '../../../models/course.model';
 import { UserService } from '../../../services/user.service';
 import { CourseProgress } from '../../../utils/types';
@@ -30,6 +30,7 @@ export class EnrollmentCardComponent implements OnInit {
 
   private userService = inject(UserService);
   private changeDetectorRef = inject(ChangeDetectorRef);
+  private router = inject(Router);
 
   public async ngOnInit(): Promise<void> {
     try {
@@ -56,5 +57,9 @@ export class EnrollmentCardComponent implements OnInit {
 
       console.log(errMessage);
     }
+  }
+
+  public redirectToCourse(): void {
+    this.router.navigateByUrl("courses/" + this.course.id);
   }
 }

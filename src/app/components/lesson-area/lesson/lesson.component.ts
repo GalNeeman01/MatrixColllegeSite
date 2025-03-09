@@ -1,12 +1,11 @@
-import { ChangeDetectionStrategy, Component, inject, Input, OnInit, Signal, signal } from '@angular/core';
-import { LessonModel } from '../../../models/lesson.model';
+import { ChangeDetectionStrategy, Component, inject, Input, OnInit } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltip, TooltipPosition } from '@angular/material/tooltip';
-import { MatButtonModule } from '@angular/material/button';
-import { UserService } from '../../../services/user.service';
 import { LessonInfoModel } from '../../../models/lessonInfo.model';
-import { FormControl } from '@angular/forms';
+import { UserService } from '../../../services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-lesson',
@@ -17,15 +16,28 @@ import { FormControl } from '@angular/forms';
 })
 export class LessonComponent implements OnInit{
     @Input()
-    public lesson: LessonModel | LessonInfoModel;
+    public lesson: LessonInfoModel;
 
-    public isLoggedIn: boolean = false;
+    public isEnrolled: boolean = false;
 
     public position: { value: TooltipPosition } = { value: 'above' };
 
     private userService = inject(UserService);
+    private router = inject(Router);
 
     public ngOnInit(): void {
-      this.isLoggedIn = this.userService.isLoggedIn();
+      this.isEnrolled = this.userService.isEnrolled(this.lesson.courseId);
+    }
+
+    public async watchLesson(): Promise<void> {
+      try {
+        // Save user progress
+        await this.userService.addProgress(this.lesson.id);
+
+        this.router.navigateByUrl("watch/" + this.lesson.id);
+      }
+      catch (err: any) {
+        console.error(err);
+      }
     }
 }

@@ -24,4 +24,11 @@ export class LessonService {
     
     return lessons;
   }
+
+  public async getLessonById(lessonId: string) : Promise<LessonModel> { 
+    const lesson$ = this.http.get<LessonModel>(environment.lessonsUrl + lessonId);
+    const lesson = await firstValueFrom(lesson$);
+
+    return lesson;
+  }
 }

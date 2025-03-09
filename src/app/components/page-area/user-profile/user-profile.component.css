@@ -7,3 +7,7 @@
     gap: 30px;
     align-items: start;
 }
+
+h1 {
+    text-transform: capitalize;
+}

@@ -10,12 +10,15 @@
                 <span>{{progress.completed}} / {{progress.total}} completed</span>
                 <mat-progress-bar mode="determinate" [value]="progressPercent"></mat-progress-bar>
             </div>
-            @if (progressPercent !== 100) {
-                <button class="leave-button" mat-flat-button (click)="unEnroll()">Leave Course<mat-icon>logout</mat-icon></button>
-            }
-            @else {
-                <button class="completed-button" mat-flat-button>Completed<mat-icon>checked</mat-icon></button>
-            }
+            <div class="buttons-area">
+                @if (progressPercent !== 100) {
+                    <button class="leave-button" mat-flat-button (click)="unEnroll()">Leave Course<mat-icon>logout</mat-icon></button>
+                }
+                @else {
+                    <button class="completed-button" mat-flat-button>Completed<mat-icon>checked</mat-icon></button>
+                }
+                <button (click)="redirectToCourse()" class="view-button" mat-raised-button>View Course</button>
+            </div>
         </div>
     </mat-card>
 </div>

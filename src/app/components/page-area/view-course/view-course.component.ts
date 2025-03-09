@@ -22,19 +22,24 @@ export class ViewCourseComponent implements OnInit {
     private userService = inject(UserService);
 
     public courseModel: CourseModel;
-    public lessons: LessonModel[] | LessonInfoModel[];
+    public lessons: LessonInfoModel[];
 
     @Input()
     public id : string = "";
   
     public link = '/courses/' + this.id;
+
     async ngOnInit(): Promise<void> {
+      try {
         this.id = this.activatedRoute.snapshot.params['id'];
         this.courseModel = await this.courseService.getCourseById(this.id);
 
-        if (this.userService.isLoggedIn())
-          this.lessons = await this.lessonService.getLessonsByCourseId(this.id);
-        else 
-          this.lessons = await this.lessonService.getLessonsInfoByCourseId(this.id);
+        // Fetch lessons (no url)
+        this.lessons = await this.lessonService.getLessonsInfoByCourseId(this.id);
+      }
+      catch (err: any)
+      {
+        console.log(err.message);
+      }
     }
 }

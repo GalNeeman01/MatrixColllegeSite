@@ -7,4 +7,5 @@ export const environment = {
     courseLessonsUrl: "http://localhost:5000/api/lessons-by-course/",
     courseLessonsInfoUrl: "http://localhost:5000/api/lessons-info-by-course/",
     enrollUserUrl: "http://localhost:5000/api/user-enroll/",
+    lessonsUrl: "http://localhost:5000/api/lessons/",
 }
