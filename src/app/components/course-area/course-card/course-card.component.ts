@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Input, OnInit, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -16,30 +16,39 @@ import { UserService } from '../../../services/user.service';
 export class CourseCardComponent implements OnInit {
   @Input()
   public course : CourseModel;
+
+  public enrolled = signal<boolean>(false);
   
   public link : string;
 
   private userService = inject(UserService);
   private router = inject(Router);
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.link = `/courses/${this.course.id}`;
+
+    // Check if the user is enrolled in the course
+    if (this.userService.isLoggedIn()) {
+      this.enrolled.set(this.userService.isEnrolled(this.course.id));
+    }
   }
 
-  public enroll(): void {
+  public async enroll(): Promise<void> {
     try {
       // Verify that the user is logged in
       if (!this.userService.isLoggedIn()) {
         this.router.navigateByUrl("login");
       }
       else { // Enroll the user in the course
-        this.userService.enrollUser(this.course.id);
+        await this.userService.enrollUser(this.course.id);
         this.router.navigateByUrl("profile");
       }
     }
     catch (err: any)
     {
+        const errMessage = JSON.parse(err.error).errors;
 
+        console.log(errMessage);
     }
   }
 }

@@ -1,12 +1,13 @@
-import { ChangeDetectionStrategy, Component, inject, Input, OnInit } from '@angular/core';
-import {MatCardModule} from '@angular/material/card';
-import {MatButtonModule} from '@angular/material/button';
-import {MatIconModule} from '@angular/material/icon';
-import { CourseModel } from '../../../models/course.model';
-import { RouterModule } from '@angular/router';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
-import { CourseProgress } from '../../../utils/types';
 import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { RouterModule } from '@angular/router';
+import { CourseModel } from '../../../models/course.model';
+import { UserService } from '../../../services/user.service';
+import { CourseProgress } from '../../../utils/types';
 
 @Component({
   selector: 'app-enrollment-card',
@@ -19,14 +20,35 @@ export class EnrollmentCardComponent implements OnInit {
   public progressPercent: number;
 
   @Input()
-  public progress: CourseProgress;
+  public progress: CourseProgress; // Receive from parent component
 
   @Input()
   public course : CourseModel; // Receive from parent component
 
+  @Output()
+  public deleteClicked: EventEmitter<void> = new EventEmitter(); // Emit to parent component
+
+  private userService = inject(UserService);
+  private changeDetectorRef = inject(ChangeDetectorRef);
+
   public async ngOnInit(): Promise<void> {
     try {
       this.progressPercent = (this.progress.completed / this.progress.total) * 100;
+    }
+    catch (err: any)
+    {
+      const errMessage = JSON.parse(err.error).errors;
+
+      console.log(errMessage);
+    }
+  }
+
+  public async unEnroll(): Promise<void> {
+    try {
+        const enrollmentId: string = this.userService.getEnrollmentForCourse(this.course.id).id;
+        await this.userService.unenrollUser(enrollmentId);
+        this.changeDetectorRef.markForCheck();
+        this.deleteClicked.emit();
     }
     catch (err: any)
     {

@@ -29,7 +29,7 @@ export class CourseService {
     if (this.courseStore.courses().length > 0)
       return this.courseStore.courses().find(course => course.id === id);
 
-    const course$ = this.http.get<CourseModel>(environment.coursesUrl + "/" + id);
+    const course$ = this.http.get<CourseModel>(environment.coursesUrl + id);
     const course = await firstValueFrom(course$);
 
     return course;

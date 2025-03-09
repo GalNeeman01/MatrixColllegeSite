@@ -6,7 +6,12 @@
         </mat-card-content>
         
         <div class="buttons">
-            <button mat-stroked-button (click)="enroll()">Enroll<mat-icon>login</mat-icon></button>
+            @if (!enrolled()) {
+                <button mat-stroked-button (click)="enroll()">Enroll<mat-icon>login</mat-icon></button>
+            }
+            @else {
+                <button class="enrolled-button" mat-stroked-button>Enrolled<mat-icon>checked</mat-icon></button>
+            }
             <a mat-stroked-button [routerLink]="link">View<mat-icon>visibilityoutlined</mat-icon></a>
         </div>
     </mat-card>

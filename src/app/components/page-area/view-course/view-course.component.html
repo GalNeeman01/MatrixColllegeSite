@@ -1,4 +1,16 @@
 <div *ngIf="courseModel">
-    <h4>{{courseModel.title}}</h4>
-    <p>{{courseModel.description}}</p>
+    <div class="header">
+        <p class="badge">Course Content</p>
+        <h1>{{courseModel.title}}</h1>
+        <p>{{courseModel.description}}</p>
+    </div>
+
+    <div class="content-wrapper">
+        <h2>Course Videos</h2>
+        <div class="videos">
+            @for (lesson of lessons; track $index) {
+                <app-lesson [lesson]="lesson"></app-lesson>
+            }
+        </div>
+    </div>
 </div>

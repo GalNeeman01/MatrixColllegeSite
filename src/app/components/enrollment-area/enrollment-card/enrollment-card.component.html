@@ -11,7 +11,7 @@
                 <mat-progress-bar mode="determinate" [value]="progressPercent"></mat-progress-bar>
             </div>
             @if (progressPercent !== 100) {
-                <button class="leave-button" mat-flat-button>Leave Course<mat-icon>logout</mat-icon></button>
+                <button class="leave-button" mat-flat-button (click)="unEnroll()">Leave Course<mat-icon>logout</mat-icon></button>
             }
             @else {
                 <button class="completed-button" mat-flat-button>Completed<mat-icon>checked</mat-icon></button>

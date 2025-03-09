@@ -1,9 +1,9 @@
-import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
-import { UserService } from '../../../services/user.service';
-import { EnrollmentCardComponent } from "../../enrollment-area/enrollment-card/enrollment-card.component";
-import { CourseModel } from '../../../models/course.model';
-import { CourseProgress } from '../../../utils/types';
 import { CommonModule } from '@angular/common';
+import { Component, inject, OnInit } from '@angular/core';
+import { CourseModel } from '../../../models/course.model';
+import { UserService } from '../../../services/user.service';
+import { CourseProgress } from '../../../utils/types';
+import { EnrollmentCardComponent } from "../../enrollment-area/enrollment-card/enrollment-card.component";
 
 @Component({
   selector: 'app-user-profile',
@@ -13,7 +13,6 @@ import { CommonModule } from '@angular/common';
 })
 export class UserProfileComponent implements OnInit {
   private userService = inject(UserService);
-  private changeDetectorRef = inject(ChangeDetectorRef);
 
   public username: string;
   public enrolledCourses: CourseModel[];
@@ -23,10 +22,9 @@ export class UserProfileComponent implements OnInit {
 
   public async ngOnInit(): Promise<void> {
     try {
-      this.changeDetectorRef.markForCheck();
-
       this.username = this.userService.getUsername();
       this.enrolledCourses = await this.userService.getEnrolledCourses(); // Retrieve enrolled courses
+
       await this.loadCourseProgress(); // Load progress into dictionary
 
       // Order courses by progress
@@ -52,5 +50,9 @@ export class UserProfileComponent implements OnInit {
     }
 
     return null; // Avoid compilation error
+  }
+
+  public async updateEnrollments() : Promise<void> {
+    this.enrolledCourses = await this.userService.getEnrolledCourses();
   }
 }

@@ -18,3 +18,7 @@ mat-card {
 button, a {
     width: 45%;
 }
+
+.enrolled-button {
+    background-color:  #4caf50  !important;
+}

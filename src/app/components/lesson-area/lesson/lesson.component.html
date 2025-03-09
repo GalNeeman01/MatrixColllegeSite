@@ -1,0 +1,14 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>{{ lesson.title }}</mat-card-title>
+        <mat-icon>play_arrow_outlined</mat-icon>
+    </mat-card-header>
+    <mat-card-content>
+        @if (isLoggedIn) {
+            <button mat-raised-button>Watch Now</button>
+        }
+        @else {
+            <button disabled="true" mat-raised-button>Watch Now <mat-icon>locked</mat-icon></button>
+        }
+    </mat-card-content>
+</mat-card>

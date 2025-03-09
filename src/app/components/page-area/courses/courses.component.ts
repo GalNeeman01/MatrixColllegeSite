@@ -1,8 +1,9 @@
+import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
-import { CourseCardComponent } from "../../course-area/course-card/course-card.component";
 import { CourseModel } from '../../../models/course.model';
 import { CourseService } from '../../../services/course.service';
-import { CommonModule } from '@angular/common';
+import { CourseCardComponent } from "../../course-area/course-card/course-card.component";
+import { UserService } from '../../../services/user.service';
 
 @Component({
   selector: 'app-courses',
@@ -15,14 +16,16 @@ export class CoursesComponent implements OnInit {
   public courses = signal<CourseModel[]>([]);
   
   private courseService = inject(CourseService);
+  private userService = inject(UserService);
 
   public async ngOnInit(): Promise<void> {
     try {
-      this.courses.set(await this.courseService.getAllCourses());
+        await this.userService.getUserEnrollments(); // Initialize enrollments store
+        this.courses.set(await this.courseService.getAllCourses());
     }
     catch (err: any)
     {
-      console.log(err.message);
+        console.log(err.message);
     }
   }
 
