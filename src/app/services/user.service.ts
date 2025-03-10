@@ -32,12 +32,21 @@ export class UserService {
     // Check if the user is logged in and set the user store accordingly
     public async checkLoggedIn(): Promise<void>
     {
+        if (this.userStore.user()) return; // No need to check
+
         const token = localStorage.getItem("token");
         if (token) {
-            const payload = jwtDecode<{ user: UserModel }>(token);
+            // Retrieve payload from token (local)
+            const payload = jwtDecode<{ user: UserModel, exp: number }>(token);
+
+            // Handle expired JWT token
+            if (payload.exp * 1000 < Date.now()) {
+                localStorage.removeItem("token");
+                return;
+            };
+
             const user = payload.user;
             this.userStore.initUser(user);
-
             const enrollments = await this.getUserEnrollments();
             this.enrollmentStore.initEnrollments(enrollments)
         }
