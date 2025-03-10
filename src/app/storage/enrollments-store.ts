@@ -1,7 +1,5 @@
-import { patchState, signalStore, withComputed, withMethods, withState } from "@ngrx/signals";
+import { patchState, signalStore, withMethods, withState } from "@ngrx/signals";
 import { EnrollmentModel } from "../models/enrollment.model";
-import { CourseModel } from "../models/course.model";
-import { computed } from "@angular/core";
 
 export type EnrollmentState = {
     enrollments: EnrollmentModel[];

@@ -3,9 +3,9 @@ mat-card {
     height: 25vh;
     min-width: 600px;
     min-height: 230px;
-    filter: drop-shadow(5px 5px 5px #000);
+    background-color: white;
+    filter: drop-shadow(0 0 1px red);
     padding: 20px;
-    margin: 0;
 }
 
 .bottom-area {
@@ -46,4 +46,8 @@ mat-card {
     display: flex;
     gap: 10px;
     flex: 1;
+}
+
+.wrapper {
+    margin: 3vw;
 }

@@ -1,9 +1,11 @@
-<div style="margin: 50px">
+<div class="wrapper">
     <mat-card *ngIf="course && progress">
         <mat-card-title>{{course.title}}</mat-card-title>
         <mat-card-content>
             {{course.description}}
         </mat-card-content>
+
+        <mat-divider></mat-divider>
         
         <div class="bottom-area">
             <div class="progress-area">

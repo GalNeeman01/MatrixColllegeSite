@@ -1,18 +1,33 @@
 .wrapper {
-    display: flex;
-    height: 100%;
-    width: 70%;
-    margin: auto;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr 6fr 1fr;
+    grid-template-rows: 1fr;
 }
 
-footer {
-    margin-top: 30px;
+.content {
+    grid-column: span 6fr;
+    height: 100%;
+    grid-row: span 1fr;
 }
 
 main {
-    flex: 1;
+    width: 90%;
+    margin: 5vh auto;
+}
+
+aside {
+    grid-row: span 1fr;
+    grid-column: span 1fr;
+}
+
+header {
+    height: 10vh;
+    background-color: black;
+}
+
+.main-and-footer {
     display: flex;
-    width: 100%;
-    justify-content: center;
+    flex-direction: column;
+    height: 90vh;
+    justify-content: space-between;
 }

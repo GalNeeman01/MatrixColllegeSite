@@ -8,6 +8,7 @@ import { LessonService } from '../../../services/lesson.service';
 import { LessonModel } from '../../../models/lesson.model';
 import { UserService } from '../../../services/user.service';
 import { LessonInfoModel } from '../../../models/lessonInfo.model';
+import { ProgressModel } from '../../../models/progress.model';
 
 @Component({
   selector: 'app-view-course',
@@ -28,11 +29,16 @@ export class ViewCourseComponent implements OnInit {
     public id : string = "";
   
     public link = '/courses/' + this.id;
+    public userProgress: ProgressModel[] = [];
 
     async ngOnInit(): Promise<void> {
       try {
         this.id = this.activatedRoute.snapshot.params['id'];
         this.courseModel = await this.courseService.getCourseById(this.id);
+
+        // Fetch user progress
+        if (this.userService.isLoggedIn())
+            this.userProgress = await this.userService.getUserProgress();
 
         // Fetch lessons (no url)
         this.lessons = await this.lessonService.getLessonsInfoByCourseId(this.id);

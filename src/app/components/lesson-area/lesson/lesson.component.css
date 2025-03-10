@@ -16,7 +16,8 @@ mat-card:hover {
 
 mat-card-header {
     display: flex;
-    justify-content: space-between;
+    height: 100%;
+    justify-content: center;
     align-items: center;
     margin-top: 45px;
 }
@@ -47,11 +48,11 @@ mat-icon {
 }
 
 .icon-play {
-    min-width: 40px;
-    min-height: 40px;
-    font-size: 40px;
+    min-width: 30px;
+    min-height: 30px;
+    font-size: 30px;
     position: absolute;
-    top: 10px;
+    top: 20px;
     left: calc(50% - 20px);
 }
 

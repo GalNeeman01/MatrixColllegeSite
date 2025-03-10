@@ -6,7 +6,10 @@
     </mat-card-header>
     <mat-card-content>
         @if (isEnrolled) {
-            <button (click)="watchLesson()" mat-raised-button>Watch Now</button>
+            <button (click)="watchLesson()" mat-raised-button>
+                <span *ngIf="alreadyWatched() === true">Watch Again</span>
+                <span *ngIf="alreadyWatched() === false">Watch Now</span>
+            </button>
         }
         @else {
             <button mat-raised-button

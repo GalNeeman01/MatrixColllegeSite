@@ -1,5 +1,6 @@
 button {
     border-radius: 7px;
+    height: 7vh;
 }
 
 form {
@@ -8,9 +9,19 @@ form {
 }
 
 mat-card {
-    margin-top: 5vh;
     padding: 15px;
     width: 20vw;
     min-width: 380px;
     text-align: center;
+    background-color: white;
+    filter: drop-shadow(0px 0px 2px gray);
+}
+
+.wrapper {
+    margin: auto;
+    width: fit-content;
+}
+
+h2 {
+    color: #1565c0;
 }

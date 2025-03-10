@@ -8,10 +8,11 @@ import { Router, RouterModule } from '@angular/router';
 import { CourseModel } from '../../../models/course.model';
 import { UserService } from '../../../services/user.service';
 import { CourseProgress } from '../../../utils/types';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-enrollment-card',
-  imports: [MatCardModule, MatButtonModule, MatIconModule, RouterModule, MatProgressBarModule, CommonModule],
+  imports: [MatCardModule, MatButtonModule, MatIconModule, RouterModule, MatProgressBarModule, CommonModule, MatDividerModule],
   templateUrl: './enrollment-card.component.html',
   styleUrl: './enrollment-card.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush

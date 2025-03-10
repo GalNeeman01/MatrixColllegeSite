@@ -5,6 +5,8 @@ mat-card {
     padding: 20px;
     margin: 0;
     min-height: 250px;
+    background-color: white;
+    filter: drop-shadow(0px 0px 2px gray);
 }
 
 .buttons {
@@ -17,10 +19,12 @@ mat-card {
 
 button, a {
     width: 45%;
+    border-radius: 10px;
 }
 
 .enrolled-button {
-    background-color:  #4caf50  !important;
+    background-color:  #388e3c     !important;
+    color: white !important;
 }
 
 mat-chip {

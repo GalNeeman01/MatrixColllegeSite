@@ -9,7 +9,7 @@
         <h2>Course Videos</h2>
         <div class="videos">
             @for (lesson of lessons; track $index) {
-                <app-lesson class="app-lesson" [lesson]="lesson"></app-lesson>
+                <app-lesson [userProgress]="userProgress" class="app-lesson" [lesson]="lesson"></app-lesson>
             }
         </div>
     </div>

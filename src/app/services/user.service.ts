@@ -14,6 +14,7 @@ import { LessonService } from "./lesson.service";
 import { CourseProgress } from "../utils/types";
 import { EnrollmentStore } from "../storage/enrollments-store";
 import { CourseService } from "./course.service";
+import { ProgressStore } from "../storage/progress-store";
 
 @Injectable({
     providedIn: 'root'
@@ -24,6 +25,7 @@ export class UserService {
     private enrollmentStore = inject(EnrollmentStore);
     private lessonService = inject(LessonService);
     private courseService = inject(CourseService);
+    private progressStore = inject(ProgressStore);
 
     public constructor() { }
 
@@ -109,11 +111,24 @@ export class UserService {
         return courses;
     }
 
+    public async getUserProgress() : Promise<ProgressModel[]> { 
+        // Check if the progress is already loaded
+        if (this.progressStore.progresses().length > 0)
+            return this.progressStore.progresses();
+
+        // load the progress from the database
+        const progresses$ = this.http.get<ProgressModel[]>(environment.progressUrl + this.userStore.user().id);
+        const progresses = await firstValueFrom(progresses$);
+
+        this.progressStore.initProgresses(progresses);
+
+        return progresses;
+    }
+
     // Get the progress of the current user
     public async getCourseProgress(courseId: string) : Promise<CourseProgress> {
-        // Retrieve progress from DB
-        const userProgress$ = this.http.get<ProgressModel[]>(environment.progressUrl + this.userStore.user().id);
-        const userProgress = await firstValueFrom(userProgress$);
+        // Retrieve user progress
+        const userProgress = await this.getUserProgress();
 
         // Retrieve completed lessons
         const lessons = await this.lessonService.getLessonsByCourseId(courseId);
@@ -144,6 +159,13 @@ export class UserService {
         const delete$ = this.http.delete(environment.enrollmentsUrl + enrollmentId);
         await firstValueFrom(delete$);
 
+        // Update ProgressStore
+        const courseId = this.enrollmentStore.enrollments().find(e => e.id === enrollmentId).courseId;
+        const courseLessons = await this.lessonService.getLessonsInfoByCourseId(courseId);
+        const newProgress = this.progressStore.progresses().filter(p => !courseLessons.some(l => l.id === p.lessonId));
+        this.progressStore.initProgresses(newProgress);
+
+        // Update EnrollmentStore
         this.enrollmentStore.deleteEnrollment(enrollmentId);
     }
 
@@ -159,9 +181,12 @@ export class UserService {
 
     // Add progress
     public async addProgress(lessonId: string) : Promise<void> {
-        const progress: ProgressModel = {userId: this.userStore.user().id, lessonId: lessonId, watchedAt: new Date()};
+        const progress: ProgressModel = {id: undefined, userId: this.userStore.user().id, lessonId: lessonId, watchedAt: new Date()};
 
         const progress$ = this.http.post(environment.progressUrl, progress);
-        const dbProgress = await firstValueFrom(progress$);
+        await firstValueFrom(progress$);
+
+        // Update ProgressStore
+        this.progressStore.addProgress(progress);
     }
 }
