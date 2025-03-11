@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { LessonModel } from '../../../models/lesson.model';
 import { LessonService } from '../../../services/lesson.service';
 import { UserService } from '../../../services/user.service';
+import { SnackbarService } from '../../../services/snackbar.service';
 
 @Component({
   selector: 'app-watch-lesson',
@@ -23,6 +24,7 @@ export class WatchLessonComponent implements OnInit {
   private userService = inject(UserService);
   private lessonService = inject(LessonService);
   private sanitizer = inject(DomSanitizer);
+  private snackbarService = inject(SnackbarService);
 
   public async ngOnInit(): Promise<void> {
     try {
@@ -38,7 +40,7 @@ export class WatchLessonComponent implements OnInit {
       this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.lesson().videoUrl);
     } 
     catch (err: any) {
-      console.log(err.message);
+      this.snackbarService.showError(err.message);
     }
       
   }

@@ -4,7 +4,7 @@ mat-card {
     min-width: 600px;
     min-height: 230px;
     background-color: white;
-    filter: drop-shadow(0 0 1px red);
+    filter: drop-shadow(0 0 1px gray);
     padding: 20px;
 }
 
@@ -50,4 +50,10 @@ mat-card {
 
 .wrapper {
     margin: 3vw;
+}
+
+.date-chip {
+    position: absolute;
+    top: 10px;
+    right: 10px;
 }

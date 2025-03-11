@@ -5,9 +5,9 @@
         <div class="enrollments-area">
             <div class="enrolled-courses-area">
                 <h2>My Enrollments:</h2>
-                @if (enrolledCourses && enrolledCourses.length > 0) {
-                    @for (course of enrolledCourses; track $index) {
-                        <app-enrollment-card *ngIf="coursesLoaded" [course]="course" [progress]="courseProgress[course.id]" (deleteClicked)="updateEnrollments()"></app-enrollment-card>
+                @if (unfinishedCourses() && unfinishedCourses().length > 0) {
+                    @for (course of unfinishedCourses(); track $index) {
+                        <app-enrollment-card *ngIf="coursesLoaded" [course]="course" [progress]="courseProgress[course.id]" (deleteClicked)="removeEnrollment($event)"></app-enrollment-card>
                     }
                 }
                 @else {
@@ -15,8 +15,8 @@
                 }
 
                 <h2>Completed Courses:</h2>
-                @if (completedCourses && completedCourses.length > 0) {
-                    @for (course of completedCourses; track $index) {
+                @if (completedCourses() && completedCourses().length > 0) {
+                    @for (course of completedCourses(); track $index) {
                         <app-enrollment-card *ngIf="coursesLoaded" [course]="course" [progress]="courseProgress[course.id]"></app-enrollment-card>
                     }
                 }

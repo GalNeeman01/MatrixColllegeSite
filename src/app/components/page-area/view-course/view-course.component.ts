@@ -1,33 +1,36 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, Input, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CourseModel } from '../../../models/course.model';
-import { CourseService } from '../../../services/course.service';
-import { CommonModule } from '@angular/common';
-import { LessonComponent } from "../../lesson-area/lesson/lesson.component";
-import { LessonService } from '../../../services/lesson.service';
-import { LessonModel } from '../../../models/lesson.model';
-import { UserService } from '../../../services/user.service';
 import { LessonInfoModel } from '../../../models/lessonInfo.model';
 import { ProgressModel } from '../../../models/progress.model';
+import { CourseService } from '../../../services/course.service';
+import { LessonService } from '../../../services/lesson.service';
+import { UserService } from '../../../services/user.service';
+import { LessonComponent } from "../../lesson-area/lesson/lesson.component";
+import { SnackbarService } from '../../../services/snackbar.service';
 
 @Component({
   selector: 'app-view-course',
   imports: [RouterModule, CommonModule, LessonComponent],
   templateUrl: './view-course.component.html',
   styleUrl: './view-course.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ViewCourseComponent implements OnInit {
     private activatedRoute = inject(ActivatedRoute);
     private courseService = inject(CourseService);
     private lessonService = inject(LessonService);
     private userService = inject(UserService);
+    private changeDetectorRef = inject(ChangeDetectorRef);
+    private snackbarService = inject(SnackbarService);
 
     public courseModel: CourseModel;
-    public lessons: LessonInfoModel[];
+    public lessons = signal<LessonInfoModel[]>([]);
 
     @Input()
     public id : string = "";
-  
+
     public link = '/courses/' + this.id;
     public userProgress: ProgressModel[] = [];
 
@@ -41,11 +44,14 @@ export class ViewCourseComponent implements OnInit {
             this.userProgress = await this.userService.getUserProgress();
 
         // Fetch lessons (no url)
-        this.lessons = await this.lessonService.getLessonsInfoByCourseId(this.id);
+        this.lessons.set(await this.lessonService.getLessonsInfoByCourseId(this.id));
+
+        // Call change detection to render returned lessons
+        this.changeDetectorRef.markForCheck();
       }
       catch (err: any)
       {
-        console.log(err.message);
+        this.snackbarService.showError(err.message);
       }
     }
 }

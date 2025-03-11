@@ -1,12 +1,9 @@
 mat-card {
-    width: 20vw;
-    min-width: 300px !important;
-    filter: drop-shadow(5px 5px 5px #000);
-    padding: 20px;
-    margin: 0;
-    min-height: 250px;
+    width: 100%;
+    aspect-ratio: 16 / 13;
     background-color: white;
     filter: drop-shadow(0px 0px 2px gray);
+    padding: 20px;
 }
 
 .buttons {
@@ -35,4 +32,22 @@ mat-chip {
 
 mat-card-title, mat-card-content {
     margin-top: 10px;
+}
+
+.content {
+    margin-top: 2vh;
+}
+
+.mat-badge-content {
+    font-size: 14px !important;
+    height: fit-content !important;
+    width: fit-content !important;
+    min-width: none !important;
+    padding: 5px !important;
+    min-height: 14px !important;
+}
+
+.read-more-text {
+    color: darkgray;
+    font-size: 16px;
 }

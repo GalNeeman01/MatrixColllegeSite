@@ -1,12 +1,19 @@
 .mat-toolbar {
-    height: 100%;
-    display: flex;
-    background-color: #e3f2fd;
-    color: #1e3a5f;
+    width: 70%;
+    margin: auto;
 }
 
 .wrapper {
-    height: 100%;
+    display: flex;
+    align-items: center;
+    height: 10vh;
+    top: 0;
+    background-color: #FAFAFA;
+    color: #1e3a5f;
+    position: fixed;
+    width: 100%;
+    z-index: 1;
+    filter: drop-shadow(0 0 1px gray);
 }
 
 .header {

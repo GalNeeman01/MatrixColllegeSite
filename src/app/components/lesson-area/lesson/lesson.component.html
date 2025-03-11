@@ -1,9 +1,13 @@
 <mat-card>
     <mat-icon class="icon-play">play_arrow_outlined</mat-icon>
 
+    <mat-chip>#{{position}}</mat-chip>
+    <mat-chip class="completed-chip" *ngIf="alreadyWatched()">Completed</mat-chip>
+
     <mat-card-header>
         <mat-card-title>{{ lesson.title }}</mat-card-title>
     </mat-card-header>
+
     <mat-card-content>
         @if (isEnrolled) {
             <button (click)="watchLesson()" mat-raised-button>
@@ -16,7 +20,7 @@
             <button mat-raised-button
             #tooltip="matTooltip"
             matTooltip="Enroll to course to watch"
-            [matTooltipPosition]="position.value"
+            [matTooltipPosition]="toolTipPos.value"
             matTooltipHideDelay="100"
             class="button-locked"
             >Watch Now <mat-icon class="icon-lock">locked</mat-icon></button>

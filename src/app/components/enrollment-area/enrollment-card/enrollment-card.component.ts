@@ -1,23 +1,28 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { Router, RouterModule } from '@angular/router';
 import { CourseModel } from '../../../models/course.model';
+import { SnackbarService } from '../../../services/snackbar.service';
 import { UserService } from '../../../services/user.service';
-import { CourseProgress } from '../../../utils/types';
-import { MatDividerModule } from '@angular/material/divider';
+import { CourseProgress, GUID } from '../../../utils/types';
+import { ConfirmUnenrollComponent } from '../../dialogs/confirm-unenroll/confirm-unenroll.component';
 
 @Component({
   selector: 'app-enrollment-card',
-  imports: [MatCardModule, MatButtonModule, MatIconModule, RouterModule, MatProgressBarModule, CommonModule, MatDividerModule],
+  imports: [MatCardModule, MatButtonModule, MatIconModule, RouterModule, 
+            MatProgressBarModule, CommonModule, MatChipsModule,
+          MatDialogModule],
   templateUrl: './enrollment-card.component.html',
   styleUrl: './enrollment-card.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EnrollmentCardComponent implements OnInit {
+export class EnrollmentCardComponent implements OnInit, OnChanges {
   public progressPercent: number;
 
   @Input()
@@ -27,40 +32,48 @@ export class EnrollmentCardComponent implements OnInit {
   public course : CourseModel; // Receive from parent component
 
   @Output()
-  public deleteClicked: EventEmitter<void> = new EventEmitter(); // Emit to parent component
+  public deleteClicked: EventEmitter<GUID> = new EventEmitter(); // Emit to parent component
 
   private userService = inject(UserService);
-  private changeDetectorRef = inject(ChangeDetectorRef);
   private router = inject(Router);
+  private snackbarService = inject(SnackbarService);
+  private dialog = inject(MatDialog);
 
   public async ngOnInit(): Promise<void> {
-    try {
-      this.progressPercent = (this.progress.completed / this.progress.total) * 100;
-    }
-    catch (err: any)
-    {
-      const errMessage = JSON.parse(err.error).errors;
-
-      console.log(errMessage);
-    }
+    this.progressPercent = this.progress.total === 0 ? 0 : (this.progress.completed / this.progress.total) * 100;
   }
 
   public async unEnroll(): Promise<void> {
     try {
         const enrollmentId: string = this.userService.getEnrollmentForCourse(this.course.id).id;
         await this.userService.unenrollUser(enrollmentId);
-        this.changeDetectorRef.markForCheck();
-        this.deleteClicked.emit();
+        this.snackbarService.showSuccess("Successfully unenrolled from course.");
+        this.deleteClicked.emit(this.course.id);
     }
     catch (err: any)
     {
       const errMessage = JSON.parse(err.error).errors;
-
-      console.log(errMessage);
+      this.snackbarService.showError(errMessage);
     }
   }
 
   public redirectToCourse(): void {
     this.router.navigateByUrl("courses/" + this.course.id);
+  }
+
+  public ngOnChanges(changes: SimpleChanges): void {
+    // This fixes an issue that causes the progress bar to show 0% after a different enrollment is removed.
+    this.progressPercent = this.progress.total === 0 ? 0 : (this.progress.completed / this.progress.total) * 100;
+  }
+
+  // Confirm un-enroll
+  public openConfirmationDialog() : void
+  {
+    const dialogRef = this.dialog.open(ConfirmUnenrollComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true)
+        this.unEnroll();
+    });
   }
 }

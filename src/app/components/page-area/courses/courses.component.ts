@@ -4,6 +4,7 @@ import { CourseModel } from '../../../models/course.model';
 import { CourseService } from '../../../services/course.service';
 import { UserService } from '../../../services/user.service';
 import { CourseCardComponent } from "../../course-area/course-card/course-card.component";
+import { SnackbarService } from '../../../services/snackbar.service';
 
 @Component({
   selector: 'app-courses',
@@ -17,6 +18,7 @@ export class CoursesComponent implements OnInit {
   
   private courseService = inject(CourseService);
   private userService = inject(UserService);
+  private snackbarService = inject(SnackbarService);
 
   public async ngOnInit(): Promise<void> {
     try {
@@ -26,7 +28,7 @@ export class CoursesComponent implements OnInit {
     }
     catch (err: any)
     {
-      console.log(err.message);
+      this.snackbarService.showError(err.message);
     }
   }
 

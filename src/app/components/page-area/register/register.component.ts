@@ -1,13 +1,14 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { Router } from '@angular/router';
 import { RegisterDto } from '../../../models/register.dto';
 import { UserService } from '../../../services/user.service';
 import { isEmail, strongPassword } from '../../../utils/validators';
-import { Router } from '@angular/router';
-import { MatCardModule } from '@angular/material/card';
+import { SnackbarService } from '../../../services/snackbar.service';
 
 @Component({
   selector: 'app-register',
@@ -23,6 +24,7 @@ export class RegisterComponent implements OnInit {
   private formBuilder = inject(FormBuilder);
   private userService = inject(UserService);
   private router = inject(Router);
+  private snackbarService = inject(SnackbarService);
 
   public ngOnInit(): void {
     this.registerForm = this.formBuilder.group({
@@ -40,14 +42,15 @@ export class RegisterComponent implements OnInit {
 
       await this.userService.register(this.registerDto); // Do not navigate untill response
       this.router.navigateByUrl("home");
+      this.snackbarService.showSuccess("Welcome, " + this.userService.getUsername());
     }
     catch(err: any)
     {
       // Register failed
-      const errMessage = JSON.parse(err.error).errors;
       this.registerForm.get("emailControl").setValue("")
 
-      console.log(errMessage);
+      const errMessage = JSON.parse(err.error).errors;
+      this.snackbarService.showError(errMessage);
     }
   }
 }

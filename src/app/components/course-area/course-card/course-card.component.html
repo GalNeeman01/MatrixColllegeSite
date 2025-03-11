@@ -1,13 +1,13 @@
-<div>
+<div [matBadge]="badge" matBadgePosition="before">
     <mat-card>
-        <mat-chip-set>
-            <mat-chip>{{course.createdAt | date}}</mat-chip>
-        </mat-chip-set>
+        <mat-chip>{{course.createdAt | date}}</mat-chip>
         
-        <mat-card-title>{{course.title}}</mat-card-title>
-        <mat-card-content>
-            {{course.description}}
-        </mat-card-content>
+        <div class="content">
+            <mat-card-title>{{course.title}}</mat-card-title>
+            <mat-card-content>
+                {{course.description | slice:0:150}} <span class="read-more-text">{{course.description.length >= 150 ? "... Click 'View' for more information" : ""}}</span>
+            </mat-card-content>
+        </div>
         
         <div class="buttons">
             @if (!enrolled()) {

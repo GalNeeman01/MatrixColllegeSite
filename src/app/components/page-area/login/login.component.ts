@@ -1,12 +1,13 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
+import { Router } from '@angular/router';
 import { CredentialsModel } from '../../../models/credentials.model';
 import { UserService } from '../../../services/user.service';
 import { isEmail } from '../../../utils/validators';
-import { Router } from '@angular/router';
-import { MatCardModule } from '@angular/material/card';
+import { SnackbarService } from '../../../services/snackbar.service';
 
 @Component({
   selector: 'app-login',
@@ -22,6 +23,7 @@ export class LoginComponent implements OnInit {
   private formBuilder = inject(FormBuilder);
   private userService = inject(UserService);
   private router = inject(Router);
+  private snackbarService = inject(SnackbarService);
 
   public ngOnInit(): void {
     this.userForm = this.formBuilder.group({
@@ -39,6 +41,7 @@ export class LoginComponent implements OnInit {
       await this.userService.login(this.credentials);
 
       this.router.navigateByUrl("home");
+      this.snackbarService.showSuccess("Welcome, " + this.userService.getUsername());
     }
     catch (err: any)
     {
@@ -48,7 +51,7 @@ export class LoginComponent implements OnInit {
 
         const errMessage = JSON.parse(err.error).errors;
 
-        console.log(errMessage);
+        this.snackbarService.showError(errMessage);
     }
   }
 }

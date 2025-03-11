@@ -2,6 +2,7 @@
     display: grid;
     grid-template-columns: 1fr 6fr 1fr;
     grid-template-rows: 1fr;
+    margin-top: 10vh;
 }
 
 .content {
@@ -18,11 +19,6 @@ main {
 aside {
     grid-row: span 1fr;
     grid-column: span 1fr;
-}
-
-header {
-    height: 10vh;
-    background-color: black;
 }
 
 .main-and-footer {

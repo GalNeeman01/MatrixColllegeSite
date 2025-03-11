@@ -1,22 +1,25 @@
-<div class="wrapper">
+<div>
+    <header>
+        <app-header></app-header>
+    </header>
 
-    <aside class="advertisement"></aside>
+    <div class="wrapper">
 
-    <div class="content">
-        <header>
-            <app-header></app-header>
-        </header>
+        <aside class="advertisement"></aside>
 
-        <div class="main-and-footer">
-            <main>
-                <router-outlet></router-outlet>
-            </main>
+        <div class="content">
 
-            <footer>
-                <p>©️ MatrixDigital 2025</p>
-            </footer>
+            <div class="main-and-footer">
+                <main>
+                    <router-outlet></router-outlet>
+                </main>
+
+                <footer>
+                    <p>©️ MatrixDigital 2025</p>
+                </footer>
+            </div>
         </div>
-    </div>
 
-    <aside class="advertisement"></aside>
+        <aside class="advertisement"></aside>
+    </div>
 </div>

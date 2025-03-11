@@ -5,8 +5,10 @@
             {{course.description}}
         </mat-card-content>
 
-        <mat-divider></mat-divider>
-        
+        <div *ngIf="progressPercent === 100">
+            <mat-chip class="date-chip">Finished At: {{progress.lastWatched | date}}</mat-chip>
+        </div>
+
         <div class="bottom-area">
             <div class="progress-area">
                 <span>{{progress.completed}} / {{progress.total}} completed</span>
@@ -14,7 +16,7 @@
             </div>
             <div class="buttons-area">
                 @if (progressPercent !== 100) {
-                    <button class="leave-button" mat-flat-button (click)="unEnroll()">Leave Course<mat-icon>logout</mat-icon></button>
+                    <button class="leave-button" mat-flat-button (click)="openConfirmationDialog()">Leave Course<mat-icon>logout</mat-icon></button>
                 }
                 @else {
                     <button class="completed-button" mat-flat-button>Completed<mat-icon>checked</mat-icon></button>

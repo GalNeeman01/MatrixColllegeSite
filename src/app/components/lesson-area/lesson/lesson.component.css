@@ -60,3 +60,14 @@ mat-icon {
     min-width: 15px;
     min-height: 15px;
 }
+
+mat-chip {
+    width: fit-content;
+    padding: 3px;
+    margin-top: 5px;
+    background-color: #f0f0f0 !important;
+}
+
+.completed-chip {
+    background-color: #e0e0e0 !important;
+}

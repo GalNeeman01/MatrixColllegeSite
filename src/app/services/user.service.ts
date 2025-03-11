@@ -138,16 +138,30 @@ export class UserService {
     public async getCourseProgress(courseId: string) : Promise<CourseProgress> {
         // Retrieve user progress
         const userProgress = await this.getUserProgress();
-
-        // Retrieve completed lessons
         const lessons = await this.lessonService.getLessonsByCourseId(courseId);
-        const uniqueCompletedLessonIds = new Set(userProgress.map(p => p.lessonId));
-        const completed = Array.from(uniqueCompletedLessonIds).filter(id => lessons.some(l => l.id === id)).length;
+
+        let lastWatched = new Date('1970-01-01');
+        let completed = 0;
+
+        const courseLessonIds = new Set(lessons.map(lesson => lesson.id));
+
+        const completedLessonsSet = new Set<string>();
+        // Get data for CourseProgress
+        for (const progress of userProgress) {
+            if (courseLessonIds.has(progress.lessonId) && !completedLessonsSet.has(progress.lessonId)) {
+                completedLessonsSet.add(progress.lessonId); // Prevent duplicates
+                completed++;
+
+                if (new Date(progress.watchedAt) > lastWatched)
+                    lastWatched = progress.watchedAt;
+            }
+        }
 
         // Progress to return
         const progress : CourseProgress = {
             completed: completed,
-            total: lessons.length
+            total: lessons.length,
+            lastWatched: lastWatched
         };
 
         return progress; 
