@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } 
 import { CourseModel } from '../../../models/course.model';
 import { SnackbarService } from '../../../services/snackbar.service';
 import { UserService } from '../../../services/user.service';
-import { CourseProgress, GUID } from '../../../utils/types';
+import { CourseProgress, GUID, Roles } from '../../../utils/types';
 import { EnrollmentCardComponent } from "../../enrollment-area/enrollment-card/enrollment-card.component";
 
 @Component({
@@ -18,6 +18,8 @@ export class UserProfileComponent implements OnInit {
   private snackbarService = inject(SnackbarService);
 
   public username: string;
+  public isStudent : boolean;
+  public isProfessor : boolean;
   public courseProgress: { [courseId: string]: CourseProgress } = {};
   public enrolledCourses = signal<CourseModel[]>([]);
   public unfinishedCourses = computed<CourseModel[]>(() => this.enrolledCourses().filter(course => this.courseProgress[course.id] && (this.courseProgress[course.id].completed < this.courseProgress[course.id].total || this.courseProgress[course.id].completed === 0)))
@@ -27,11 +29,22 @@ export class UserProfileComponent implements OnInit {
 
   public async ngOnInit(): Promise<void> {
     try {
+      this.isStudent = this.userService.getUserRole() === Roles.Student;
+      this.isProfessor = this.userService.getUserRole() === Roles.Professor;
       this.username = this.userService.getUsername();
-      this.enrolledCourses.set(await this.userService.getEnrolledCourses()); // Retrieve enrolled courses
 
-      await this.loadCourseProgress(); // Load progress into dictionary
-      this.enrolledCourses.set(this.enrolledCourses().filter(course => this.completedCourses().indexOf(course) === -1));
+      // Student logic
+      if (this.isStudent) {
+        this.enrolledCourses.set(await this.userService.getEnrolledCourses()); // Retrieve enrolled courses
+
+        await this.loadCourseProgress(); // Load progress into dictionary
+        this.enrolledCourses.set(this.enrolledCourses().filter(course => this.completedCourses().indexOf(course) === -1));
+      }
+
+      // Professor logic
+      if (this.isProfessor) {
+
+      }
     }
     catch (err: any) {
       this.snackbarService.showError(err.message);

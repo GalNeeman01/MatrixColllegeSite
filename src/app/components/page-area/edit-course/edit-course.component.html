@@ -1,0 +1,86 @@
+<div class="wrapper">
+    <h1>Edit Panel</h1>
+
+    <div class="content" *ngIf="this.course() != undefined">
+        <mat-accordion>
+            <mat-expansion-panel hideToggle>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>Edit Course Details</mat-panel-title>
+                </mat-expansion-panel-header>
+            
+                <form class="update-course-form" #courseForm="ngForm">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Course Title</mat-label>
+                        <input matInput [(ngModel)]="course().title" name="title" #courseTitle="ngModel" required minlength="2" maxlength="100">
+                        <mat-error *ngIf="courseTitle.getError('required')">Course title is required</mat-error>
+                        <mat-error *ngIf="courseTitle.getError('minlength')">Course title must be at least 2 characters long</mat-error>
+                        <mat-error *ngIf="courseTitle.getError('maxlength')">Course title cannot exceed 100 characters</mat-error>
+                    </mat-form-field>
+            
+                    <mat-form-field appearance="outline">
+                        <mat-label>Course Description</mat-label>
+                        <textarea matInput [(ngModel)]="course().description" name="description" #courseDesc="ngModel" required maxlength="3000"></textarea>
+                        <mat-error *ngIf="courseDesc.getError('required')">Course description is required</mat-error>
+                    </mat-form-field>
+                </form>
+
+            </mat-expansion-panel>
+        </mat-accordion>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr class="table-headers">
+                        <th>Title</th>
+                        <th>Video URL</th>
+                        <th><mat-icon>edit</mat-icon></th>
+                        <th><mat-icon>delete</mat-icon></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (lesson of lessons(); track $index) {
+                        <tr>
+                            <td>{{lesson.title}}</td>
+                            <td><a target="_blank" href="{{lesson.videoUrl}}">{{lesson.videoUrl}}</a></td>
+                            <td><button mat-stroked-button>Edit</button></td>
+                            <td><button class="delete-button" mat-flat-button (click)="deleteLesson(lesson)">Delete</button></td>
+                        </tr>
+                    }
+                    <tr *ngIf="isCreateLesson">
+                        <td>
+                            <form #lessonTitleForm="ngForm">
+                                <mat-form-field appearance="outline" class="new-lesson-field">
+                                    <mat-label>Title</mat-label>
+                                    <input matInput [(ngModel)]="createLessonTitle" name="createLessonTitle" 
+                                            #lessonTitle="ngModel" required minlength="5" maxlength="100">
+                                    <mat-error *ngIf="lessonTitle.getError('required')">Lesson title is required</mat-error>
+                                    <mat-error *ngIf="lessonTitle.getError('minlength')">Lesson title must be at least 5 characters long</mat-error>
+                                </mat-form-field>
+                            </form>
+                        </td>
+                        <td>
+                            <form #lessonUrlForm="ngForm">
+                            <mat-form-field appearance="outline" class="new-lesson-field">
+                                    <mat-label>Video URL</mat-label>
+                                    <input [(ngModel)]="createLessonUrl" matInput name="createLessonUrl" #lessonUrl="ngModel" required>
+                                    <mat-error *ngIf="lessonUrl.getError('required')">LessonURL is required</mat-error>
+                                    <mat-error *ngIf="lessonUrl.getError('pattern')">LessonURL must be in a URL format</mat-error>
+                                </mat-form-field>
+                            </form>
+                        </td>
+                        <td></td>
+                        <td><button [disabled]="lessonTitle.invalid || lessonUrl.invalid" (click)="addLesson()" mat-flat-button>Add</button></td>
+                    </tr>
+                    <tr>
+                        <td (click)="addCreateLessonRow()" colspan="4" class="add-lesson-col"><mat-icon>add</mat-icon></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="options">
+            <button mat-flat-button (click)="resetChanges()">Reset</button>
+            <button [disabled]="courseForm.invalid" mat-flat-button (click)="applyChanges()">Save Changes</button>
+        </div>
+    </div>
+</div>

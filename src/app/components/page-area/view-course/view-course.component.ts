@@ -9,6 +9,7 @@ import { LessonService } from '../../../services/lesson.service';
 import { UserService } from '../../../services/user.service';
 import { LessonComponent } from "../../lesson-area/lesson/lesson.component";
 import { SnackbarService } from '../../../services/snackbar.service';
+import { Roles } from '../../../utils/types';
 
 @Component({
   selector: 'app-view-course',
@@ -40,7 +41,7 @@ export class ViewCourseComponent implements OnInit {
         this.courseModel = await this.courseService.getCourseById(this.id);
 
         // Fetch user progress
-        if (this.userService.isLoggedIn())
+        if (this.userService.isLoggedIn() && this.userService.getUserRole() === Roles.Student)
             this.userProgress = await this.userService.getUserProgress();
 
         // Fetch lessons (no url)

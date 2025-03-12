@@ -5,3 +5,8 @@ export type CourseProgress = {
     total: number;
     lastWatched: Date;
 }
+
+export enum Roles {
+    Student = "student",
+    Professor = "professor"
+}

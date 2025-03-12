@@ -31,4 +31,16 @@ export class LessonService {
 
     return lesson;
   }
+
+  public async removeLesson(lessonId: string) {
+    const result$ = this.http.delete(environment.lessonsUrl + lessonId);
+    const result = await firstValueFrom(result$);
+  }
+
+  public async addLesson(lesson: LessonModel) : Promise<LessonModel> {
+    const lesson$ = this.http.post<LessonModel>(environment.lessonsUrl, lesson);
+    const dbLesson = await firstValueFrom(lesson$);
+
+    return dbLesson;
+  }
 }

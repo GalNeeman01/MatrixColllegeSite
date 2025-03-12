@@ -10,7 +10,10 @@
         </div>
         
         <div class="buttons">
-            @if (!enrolled()) {
+            @if (isProfessor) {
+                <button mat-stroked-button (click)="editCourse()">Edit<mat-icon>edit</mat-icon></button>
+            }
+            @else if (!enrolled()) {
                 <button mat-stroked-button (click)="enroll()">Enroll<mat-icon>login</mat-icon></button>
             }
             @else {

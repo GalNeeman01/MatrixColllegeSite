@@ -5,6 +5,7 @@ import { CourseService } from '../../../services/course.service';
 import { UserService } from '../../../services/user.service';
 import { CourseCardComponent } from "../../course-area/course-card/course-card.component";
 import { SnackbarService } from '../../../services/snackbar.service';
+import { Roles } from '../../../utils/types';
 
 @Component({
   selector: 'app-courses',
@@ -22,7 +23,7 @@ export class CoursesComponent implements OnInit {
 
   public async ngOnInit(): Promise<void> {
     try {
-      if (this.userService.isLoggedIn())
+      if (this.userService.isLoggedIn() && this.userService.getUserRole() === Roles.Student)
           await this.userService.getUserEnrollments(); // Initialize enrollments store
       this.courses.set(await this.courseService.getAllCourses());
     }

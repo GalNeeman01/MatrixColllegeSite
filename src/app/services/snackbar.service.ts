@@ -24,4 +24,13 @@ export class SnackbarService {
       panelClass: "popup-success"
     });
   }
+
+  public showWarning(message: string) : void {
+    this.snackBarRef.open(message, 'close', {
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+      panelClass: "popup-warning"
+    });
+  }
 }

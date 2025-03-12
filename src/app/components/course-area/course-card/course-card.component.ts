@@ -9,6 +9,8 @@ import { Router, RouterModule } from '@angular/router';
 import { CourseModel } from '../../../models/course.model';
 import { SnackbarService } from '../../../services/snackbar.service';
 import { UserService } from '../../../services/user.service';
+import { Roles } from '../../../utils/types';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-course-card',
@@ -24,6 +26,7 @@ export class CourseCardComponent implements OnInit {
   public enrolled = signal<boolean>(false);
   public badge : string;
   public link : string;
+  public isProfessor : boolean = false;
   
   private isNew: boolean;
 
@@ -35,8 +38,12 @@ export class CourseCardComponent implements OnInit {
     try {
       this.link = `/courses/${this.course.id}`;
 
-      // Check if the user is enrolled in the course
+      // Check if the user is logged in
       if (this.userService.isLoggedIn()) {
+        // Assign role
+        this.isProfessor = this.userService.getUserRole() === Roles.Professor;
+
+        // Check if user is enrolled to the course
         this.enrolled.set(this.userService.isEnrolled(this.course.id));
       }
 
@@ -55,6 +62,7 @@ export class CourseCardComponent implements OnInit {
     try {
       // Verify that the user is logged in
       if (!this.userService.isLoggedIn()) {
+        this.snackbarService.showError("You must be logged in to enroll for courses.");
         this.router.navigateByUrl("login");
       }
       else { // Enroll the user in the course
@@ -65,8 +73,11 @@ export class CourseCardComponent implements OnInit {
     }
     catch (err: any)
     {
-        const errMessage = JSON.parse(err.error).errors;
-        this.snackbarService.showError(errMessage);
+        this.snackbarService.showError(err.message);
     }
+  }
+
+  public editCourse() : void {
+    this.router.navigateByUrl("courses/edit/" + this.course.id);
   }
 }

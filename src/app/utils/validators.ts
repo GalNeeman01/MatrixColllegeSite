@@ -25,3 +25,16 @@ export function strongPassword(): ValidatorFn {
         return null;
     };
 }
+
+export function urlValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (!control.value) {
+        return null;
+      }
+      
+      // URL regex
+      const urlPattern = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/;
+      
+      return urlPattern.test(control.value) ? null : { invalidUrl: { value: control.value } };
+    };
+  }

@@ -34,4 +34,11 @@ export class CourseService {
 
     return course;
   }
+
+  public async updateCourse(course: CourseModel) : Promise<CourseModel> {
+    const course$ = this.http.put<CourseModel>(environment.coursesUrl, course);
+    const dbCourse = await firstValueFrom(course$);
+
+    return dbCourse;
+  }
 }

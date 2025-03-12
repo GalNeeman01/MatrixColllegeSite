@@ -11,7 +11,7 @@ import { EnrollmentModel } from "../models/enrollment.model";
 import { CourseModel } from "../models/course.model";
 import { ProgressModel } from "../models/progress.model";
 import { LessonService } from "./lesson.service";
-import { CourseProgress } from "../utils/types";
+import { CourseProgress, Roles } from "../utils/types";
 import { EnrollmentStore } from "../storage/enrollments-store";
 import { CourseService } from "./course.service";
 import { ProgressStore } from "../storage/progress-store";
@@ -32,8 +32,6 @@ export class UserService {
     // Check if the user is logged in and set the user store accordingly
     public async checkLoggedIn(): Promise<void>
     {
-        if (this.userStore.user()) return; // No need to check
-
         const token = localStorage.getItem("token");
         if (token) {
             // Retrieve payload from token (local)
@@ -47,8 +45,11 @@ export class UserService {
 
             const user = payload.user;
             this.userStore.initUser(user);
-            const enrollments = await this.getUserEnrollments();
-            this.enrollmentStore.initEnrollments(enrollments)
+
+            if (this.userStore.user().role === Roles.Student) {
+                const enrollments = await this.getUserEnrollments();
+                this.enrollmentStore.initEnrollments(enrollments)
+            }
         }
     }
 
@@ -211,5 +212,10 @@ export class UserService {
 
         // Update ProgressStore
         this.progressStore.addProgress(progress);
+    }
+
+    // Check role - student
+    public getUserRole() : string {
+        return this.userStore.user().role.toLowerCase();
     }
 }

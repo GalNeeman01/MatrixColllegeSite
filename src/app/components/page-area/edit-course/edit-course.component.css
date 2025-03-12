@@ -1,0 +1,101 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.content {
+    width: 50vw;
+}
+
+.update-course-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-width: 600px;
+}
+
+input {
+    width: 300px;
+}
+
+.table-container {
+    margin: 20px 0;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    background-color: #ffffff;
+}
+
+thead {
+    background-color: #f8f9fa;
+}
+
+th {
+    padding: 12px 15px;
+    text-align: left;
+    font-weight: 600;
+    color: #495057;
+    border-bottom: 1px solid #e9ecef;
+}
+
+td {
+    padding: 20px 15px;
+    border-bottom: 1px solid #e9ecef;
+    color: #212529;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+tbody tr:hover {
+    background-color: #f0f0f0;
+}
+
+.options {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    width: 40%;
+    min-width: 300px;
+    margin-left: auto;
+}
+
+button {
+    border-radius: 8px;
+    flex: 1;
+}
+
+.delete-button {
+    background-color: #d32f2f;
+}
+
+a {
+    color: #1e88e5;
+}
+
+.add-lesson-col {
+    text-align: center;
+    background-color: #ebeaea;
+}
+
+.add-lesson-col:hover {
+    background-color: #dfdede;
+    cursor: pointer;
+}
+
+.new-lesson-field {
+    width: 100%;
+}
+
+mat-form-field {
+    margin-top: 1vh;
+}
