@@ -5,15 +5,29 @@ import { CoursesComponent } from './components/page-area/courses/courses.compone
 import { ViewCourseComponent } from './components/page-area/view-course/view-course.component';
 import { UserGuard } from './auth/user.guard';
 import { ProfessorGuard } from './auth/professor.guard';
+import { AnonymousGuard } from './auth/Anonymous.guard';
 
 export const routes: Routes = [
-    {path: "", redirectTo: "home", pathMatch: "full"},
+    {
+        path: "", 
+        redirectTo: "home", 
+        pathMatch: "full"
+    },
 
-    {path: "home", component: HomeComponent},
+    {
+        path: "home",
+        component: HomeComponent
+    },
 
-    {path: "courses", component: CoursesComponent},
+    {
+        path: "courses", 
+        component: CoursesComponent
+    },
 
-    {path: "courses/:id", component: ViewCourseComponent},
+    {
+        path: "courses/:id", 
+        component: ViewCourseComponent
+    },
 
     {
         path: "profile", component: UserProfileComponent,
@@ -23,9 +37,14 @@ export const routes: Routes = [
     {
         path: "login", 
         loadComponent: () => import('./components/page-area/login/login.component').then(m => m.LoginComponent),
+        canActivate: [AnonymousGuard]
     }, // Lazy load
 
-    {path: "register", loadComponent: () => import('./components/page-area/register/register.component').then(m => m.RegisterComponent)}, // Lazy load
+    {
+        path: "register", 
+        loadComponent: () => import('./components/page-area/register/register.component').then(m => m.RegisterComponent),
+        canActivate: [AnonymousGuard]
+    }, // Lazy load
 
     {
         path: "watch/:id", 
