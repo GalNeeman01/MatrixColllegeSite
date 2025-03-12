@@ -73,3 +73,9 @@ a {
     background-color: #dfdede;
     cursor: pointer;
 }
+
+.edit-lesson-save-td {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

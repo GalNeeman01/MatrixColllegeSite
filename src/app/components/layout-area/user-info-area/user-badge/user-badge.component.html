@@ -7,7 +7,7 @@
             <span>My Profile</span>
         </a>
 
-        <button class="menu-item" mat-menu-item (click)="openDialog()">
+        <button *ngIf="isProfessor" class="menu-item" mat-menu-item (click)="openDialog()">
             <mat-icon>add</mat-icon>
             <span>New Course</span>
         </button>

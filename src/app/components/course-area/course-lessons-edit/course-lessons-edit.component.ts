@@ -31,15 +31,20 @@ export class CourseLessonsEditComponent implements OnInit {
   public isCreateLesson : boolean = false;
   public createLessonTitle : string = "";
   public createLessonUrl : string = "";
+  public editLesson = new LessonModel();
 
   // Private
   private lessonsToDelete : LessonModel[] = []
   private lessonsToAdd : LessonModel[] = [];
+  private lessonsToEdit : LessonModel[] = [];
+  private backupLessons : LessonModel[] = [];
 
   // Methods
   public async ngOnInit(): Promise<void> {
     // Fetch lessons
     this.lessons.set(await this.lessonService.getLessonsByCourseId(this.courseId));
+
+    this.backupLessons = structuredClone(this.lessons());
   }
 
   public deleteLesson(lesson: LessonModel): void {
@@ -58,18 +63,24 @@ export class CourseLessonsEditComponent implements OnInit {
     this.isCreateLesson = true;
   }
 
-  public addLesson() : void {
-    // Validate url RegEx from back-end
+  private validateUrl(url: string) : boolean {
+    // Validate using url RegEx from back-end
     const urlRegex = new RegExp(/^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_+.~#?&/=]*)$/);
-    if (!urlRegex.test(this.createLessonUrl)) {
-      this.snackbarService.showError("The new lesson's VideoURL must be in a URL format.")
+
+    return urlRegex.test(url);
+  }
+
+  public addLesson() : void {
+    // Fail if bad URL
+    if (!this.validateUrl(this.createLessonUrl)) {
+      this.snackbarService.showError("The videoUrl must be in a URL format.");
       return;
     }
+    // Add logic (No DB) | Give temporary ID for Differ tracking
+    const lesson : LessonModel =  {id: crypto.randomUUID(), title: this.createLessonTitle, videoUrl: this.createLessonUrl, courseId: this.courseId};
 
-    // Add logic (No DB)
-    const lesson : LessonModel =  {id: undefined, title: this.createLessonTitle, videoUrl: this.createLessonUrl, courseId: this.courseId};
-    this.lessonsToAdd.push(lesson);
-    this.lessons().push(lesson);
+    this.lessons.set([...this.lessons(), lesson]); // Display the lesson with a temporary id
+    this.lessonsToAdd.push( lesson );
 
     this.createLessonTitle = "";
     this.createLessonUrl = "";
@@ -80,18 +91,20 @@ export class CourseLessonsEditComponent implements OnInit {
     // Close new lesson panel
     this.isCreateLesson = false;
 
-    // Reset lessons signal
-    for (const lesson of this.lessonsToDelete) {
-      this.lessons().push(lesson);
-    }
+    // Close edit lesson panel
+    this.editLesson = new LessonModel();
 
-    this.lessons.set(this.lessons().filter(l => !this.lessonsToAdd.some(le => le.id === l.id)));
+    // Reset lessons signal
+    this.lessons.set(structuredClone(this.backupLessons));
 
     // Clear delete lessons list
     this.lessonsToDelete = [];
 
     // Clear add lessons list
     this.lessonsToAdd = [];
+
+    // Clear edit lessons list
+    this.lessonsToEdit = [];
   }
 
   // Return true if changes were made
@@ -99,21 +112,22 @@ export class CourseLessonsEditComponent implements OnInit {
     try {
       let isChange = false;
 
+      // Update edited lessons
+      if (this.lessonsToEdit.length > 0) {
+        this.lessonService.updateLessons(this.lessonsToEdit);
+        isChange = true;
+      }
+
       // Apply lesson addition / deletion changes
-      const lessonIds : GUID [] = this.lessonsToDelete.map(lesson => lesson.id);
+      const lessonIds : string [] = this.lessonsToDelete.map(lesson => lesson.id);
       if (lessonIds.length > 0) {
         await this.lessonService.removeLessons(lessonIds);
       }
 
       if (this.lessonsToAdd.length > 0) {
-        const dbLessons : LessonModel[] = await this.lessonService.addLessons(this.lessonsToAdd);
-        
-        // Remove lessons without IDs from displayed lessons
-        this.lessons.set(this.lessons().filter(l => l.id != undefined));
-        
-        // Add the new lessons with IDs retrieved from back-end
-        this.lessons().push(...dbLessons);
+        await this.lessonService.addLessons(this.lessonsToAdd);
       }
+
       // Reach here after successful push to DB
       if (this.lessonsToDelete.length > 0 || this.lessonsToAdd.length > 0)
         isChange = true;
@@ -126,7 +140,29 @@ export class CourseLessonsEditComponent implements OnInit {
     }
     finally {
       this.lessonsToDelete = [];
+      this.lessonsToEdit = [];
       this.lessonsToAdd = [];
+      this.backupLessons = structuredClone(this.lessons());
     }
+  }
+
+  // Start editing a lesson
+  public startEditLesson(lesson: LessonModel) : void {
+    this.editLesson = lesson;
+  }
+
+  public saveEditLesson() {
+    // Fail if bad URL
+    if (!this.validateUrl(this.editLesson.videoUrl)) {
+      this.snackbarService.showError("The videoUrl must be in a URL format.");
+      return;
+    }
+
+    // Add to list of lessons to update when changes are saved
+    if (!this.lessonsToEdit.some(l => l.id === this.editLesson.id)
+        && !this.lessonsToAdd.some(l => l.id === this.editLesson.id))
+      this.lessonsToEdit.push(this.editLesson);
+
+    this.editLesson = new LessonModel();
   }
 }

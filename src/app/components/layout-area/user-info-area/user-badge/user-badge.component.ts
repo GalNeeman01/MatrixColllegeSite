@@ -6,10 +6,12 @@ import { Router, RouterLink } from '@angular/router';
 import { UserService } from '../../../../services/user.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddCourseComponent } from '../../../dialogs/add-course/add-course.component';
+import { Roles } from '../../../../utils/types';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-user-badge',
-  imports: [MatButtonModule, MatMenuModule, MatIconModule, RouterLink],
+  imports: [MatButtonModule, MatMenuModule, MatIconModule, RouterLink, CommonModule],
   templateUrl: './user-badge.component.html',
   styleUrl: './user-badge.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -21,10 +23,12 @@ export class UserBadgeComponent implements OnInit {
 
   public userInitials = signal<string>("");
   public userEmail = signal<string>("");
+  public isProfessor : boolean = false;
 
   ngOnInit(): void {
     this.userInitials.set(this.userService.getUsername()[0].toUpperCase());
     this.userEmail.set(this.userService.getEmail());
+    this.isProfessor = this.userService.getUserRole() === Roles.Professor;
   }
 
   public logout(): void {

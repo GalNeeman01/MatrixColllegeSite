@@ -33,7 +33,7 @@ export class LessonService {
     return lesson;
   }
 
-  public async removeLessons(lessonIds: GUID[]) {
+  public async removeLessons(lessonIds: string[]) {
     const result$ = this.http.post(environment.deleteLessonsUrl, lessonIds);
     const result = await firstValueFrom(result$);
   }
@@ -41,6 +41,13 @@ export class LessonService {
   public async addLessons(lessons: LessonModel[]) : Promise<LessonModel[]> {
     const lesson$ = this.http.post<LessonModel[]>(environment.lessonsUrl, lessons);
     const dbLessons = await firstValueFrom(lesson$);
+
+    return dbLessons;
+  }
+
+  public async updateLessons(lessons: LessonModel[]) : Promise<LessonModel[]> {
+    const lessons$ = this.http.put<LessonModel[]>(environment.lessonsUrl, lessons);
+    const dbLessons = await firstValueFrom(lessons$);
 
     return dbLessons;
   }
