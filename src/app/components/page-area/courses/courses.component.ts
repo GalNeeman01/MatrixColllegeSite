@@ -6,10 +6,11 @@ import { UserService } from '../../../services/user.service';
 import { CourseCardComponent } from "../../course-area/course-card/course-card.component";
 import { SnackbarService } from '../../../services/snackbar.service';
 import { Roles } from '../../../utils/types';
+import { CoursePageHeaderComponent } from "../../course-area/course-page-header/course-page-header.component";
 
 @Component({
   selector: 'app-courses',
-  imports: [CourseCardComponent, CommonModule],
+  imports: [CourseCardComponent, CommonModule, CoursePageHeaderComponent],
   templateUrl: './courses.component.html',
   styleUrl: './courses.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush

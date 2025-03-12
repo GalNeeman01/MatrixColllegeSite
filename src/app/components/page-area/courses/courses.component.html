@@ -1,8 +1,11 @@
  <div class="wrapper">
-    <h2 class="h1">Courses:</h2>
-    <div class="content" *ngIf="courses">
-        @for (course of courses(); track $index) {
-            <app-course-card class="course-card" [course]="course"></app-course-card>
-        }
+    <app-course-page-header badge="course catalog" title="Our Courses" description="Choose one of the many courses put together by our team of professionals with years of experience in the industry."></app-course-page-header>
+
+    <div class="content">
+        <div class="content" *ngIf="courses">
+            @for (course of courses(); track $index) {
+                <app-course-card class="course-card" [course]="course"></app-course-card>
+            }
+        </div>
     </div>
  </div>

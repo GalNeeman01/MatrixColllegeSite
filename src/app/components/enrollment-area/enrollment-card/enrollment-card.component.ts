@@ -39,6 +39,7 @@ export class EnrollmentCardComponent implements OnInit, OnChanges {
   private snackbarService = inject(SnackbarService);
   private dialog = inject(MatDialog);
 
+
   public async ngOnInit(): Promise<void> {
     this.progressPercent = this.progress.total === 0 ? 0 : (this.progress.completed / this.progress.total) * 100;
   }

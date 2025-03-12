@@ -4,6 +4,7 @@ import { LessonModel } from '../models/lesson.model';
 import { environment } from '../../environments/environment';
 import { firstValueFrom } from 'rxjs';
 import { LessonInfoModel } from '../models/lessonInfo.model';
+import { GUID } from '../utils/types';
 
 @Injectable({
   providedIn: 'root'
@@ -32,15 +33,15 @@ export class LessonService {
     return lesson;
   }
 
-  public async removeLesson(lessonId: string) {
-    const result$ = this.http.delete(environment.lessonsUrl + lessonId);
+  public async removeLessons(lessonIds: GUID[]) {
+    const result$ = this.http.post(environment.deleteLessonsUrl, lessonIds);
     const result = await firstValueFrom(result$);
   }
 
-  public async addLesson(lesson: LessonModel) : Promise<LessonModel> {
-    const lesson$ = this.http.post<LessonModel>(environment.lessonsUrl, lesson);
-    const dbLesson = await firstValueFrom(lesson$);
+  public async addLessons(lessons: LessonModel[]) : Promise<LessonModel[]> {
+    const lesson$ = this.http.post<LessonModel[]>(environment.lessonsUrl, lessons);
+    const dbLessons = await firstValueFrom(lesson$);
 
-    return dbLesson;
+    return dbLessons;
   }
 }

@@ -6,14 +6,15 @@ import { LessonInfoModel } from '../../../models/lessonInfo.model';
 import { ProgressModel } from '../../../models/progress.model';
 import { CourseService } from '../../../services/course.service';
 import { LessonService } from '../../../services/lesson.service';
-import { UserService } from '../../../services/user.service';
-import { LessonComponent } from "../../lesson-area/lesson/lesson.component";
 import { SnackbarService } from '../../../services/snackbar.service';
+import { UserService } from '../../../services/user.service';
 import { Roles } from '../../../utils/types';
+import { LessonComponent } from "../../lesson-area/lesson/lesson.component";
+import { CoursePageHeaderComponent } from '../../course-area/course-page-header/course-page-header.component';
 
 @Component({
   selector: 'app-view-course',
-  imports: [RouterModule, CommonModule, LessonComponent],
+  imports: [RouterModule, CommonModule, LessonComponent, CoursePageHeaderComponent],
   templateUrl: './view-course.component.html',
   styleUrl: './view-course.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush

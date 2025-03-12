@@ -4,6 +4,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { Router, RouterLink } from '@angular/router';
 import { UserService } from '../../../../services/user.service';
+import { MatDialog } from '@angular/material/dialog';
+import { AddCourseComponent } from '../../../dialogs/add-course/add-course.component';
 
 @Component({
   selector: 'app-user-badge',
@@ -15,6 +17,7 @@ import { UserService } from '../../../../services/user.service';
 export class UserBadgeComponent implements OnInit {
   private userService = inject(UserService);
   private router = inject(Router);
+  private dialog = inject(MatDialog);
 
   public userInitials = signal<string>("");
   public userEmail = signal<string>("");
@@ -27,5 +30,9 @@ export class UserBadgeComponent implements OnInit {
   public logout(): void {
     this.userService.logout();
     this.router.navigateByUrl('home');
+  }
+
+  public openDialog() : void {
+        this.dialog.open(AddCourseComponent);
   }
 }

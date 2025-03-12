@@ -8,4 +8,5 @@ export const environment = {
     courseLessonsInfoUrl: "http://localhost:5000/api/lessons-info-by-course/",
     enrollUserUrl: "http://localhost:5000/api/user-enroll/",
     lessonsUrl: "http://localhost:5000/api/lessons/",
+    deleteLessonsUrl: "http://localhost:5000/api/lessons/delete-multiple/"
 }

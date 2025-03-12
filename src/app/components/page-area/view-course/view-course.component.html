@@ -1,9 +1,5 @@
 <div *ngIf="courseModel">
-    <div class="header">
-        <p class="badge">Course Content</p>
-        <h1>{{courseModel.title}}</h1>
-        <p>{{courseModel.description}}</p>
-    </div>
+    <app-course-page-header badge="course content" [title]="courseModel.title" [description]="courseModel.description"></app-course-page-header>
 
     <div class="content-wrapper">
         <h2>Course Videos</h2>

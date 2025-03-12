@@ -11,7 +11,7 @@ import { EnrollmentModel } from "../models/enrollment.model";
 import { CourseModel } from "../models/course.model";
 import { ProgressModel } from "../models/progress.model";
 import { LessonService } from "./lesson.service";
-import { CourseProgress, Roles } from "../utils/types";
+import { CourseProgress, GUID, Roles } from "../utils/types";
 import { EnrollmentStore } from "../storage/enrollments-store";
 import { CourseService } from "./course.service";
 import { ProgressStore } from "../storage/progress-store";
@@ -169,7 +169,7 @@ export class UserService {
     }
 
     // Create a new enrollment for the user
-    public async enrollUser(courseId: string) : Promise<void> {
+    public async enrollUser(courseId: GUID) : Promise<void> {
         const enrollment: EnrollmentModel = {id: undefined, userId: this.userStore.user().id, courseId: courseId, enrolledAt: new Date()};
 
         const enroll$ = this.http.post<EnrollmentModel>(environment.enrollUserUrl, enrollment);
@@ -204,7 +204,7 @@ export class UserService {
     }
 
     // Add progress
-    public async addProgress(lessonId: string) : Promise<void> {
+    public async addProgress(lessonId: GUID) : Promise<void> {
         const progress: ProgressModel = {id: undefined, userId: this.userStore.user().id, lessonId: lessonId, watchedAt: new Date()};
 
         const progress$ = this.http.post(environment.progressUrl, progress);

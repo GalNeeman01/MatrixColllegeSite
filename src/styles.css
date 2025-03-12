@@ -23,3 +23,7 @@ body {
 mat-icon {
     min-width: 17px;
 }
+
+.danger-color {
+    background-color: #d32f2f !important;
+}

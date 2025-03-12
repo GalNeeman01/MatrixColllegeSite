@@ -1,7 +1,7 @@
 <div class="wrapper">
     <h1>Edit Panel</h1>
 
-    <div class="content" *ngIf="this.course() != undefined">
+    <div class="content" *ngIf="this.course() !== undefined">
         <mat-accordion>
             <mat-expansion-panel hideToggle>
                 <mat-expansion-panel-header>
@@ -30,8 +30,14 @@
         <app-course-lessons-edit #lessonsTable [courseId]="course().id"></app-course-lessons-edit>
 
         <div class="options">
-            <button mat-flat-button (click)="resetChanges()">Reset</button>
-            <button mat-flat-button (click)="openConfirmationDialog()">Save Changes</button>
+            <div class="left">
+                <button class="danger-color" mat-flat-button (click)="confirmDelete()">Delete Course</button>
+            </div>
+            
+            <div class="right">
+                <button mat-flat-button (click)="resetChanges()">Reset</button>
+                <button mat-flat-button (click)="openConfirmationDialog()">Save Changes</button>
+            </div>
         </div>
     </div>
 </div>

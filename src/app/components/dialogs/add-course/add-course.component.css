@@ -1,0 +1,30 @@
+button {
+    border-radius: 5px;
+}
+
+.form-content {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 15px;
+    width: 25vw;
+    min-width: 400px;
+}
+
+mat-form-field {
+    width: 100%;
+    margin-top: 12px;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.actions {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+}

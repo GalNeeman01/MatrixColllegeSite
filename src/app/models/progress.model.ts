@@ -1,6 +1,8 @@
+import { GUID } from "../utils/types";
+
 export class ProgressModel {
-    public id: string;
-    public userId: string;
-    public lessonId: string;
+    public id: GUID;
+    public userId: GUID;
+    public lessonId: GUID;
     public watchedAt: Date;
 }

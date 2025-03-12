@@ -1,11 +1,15 @@
 <div class="wrapper">
-    @if(!userStore.user())
+    @if(!userService.isLoggedIn())
     {
-        <a mat-button routerLink="login">Log In</a>
-        |
-        <a mat-button routerLink="register">Register</a>
+        <div class="content">
+            <a mat-button routerLink="login">Log In</a>
+            |
+            <a mat-button routerLink="register">Register</a>
+        </div>
     }
     @else {
-        <app-user-badge></app-user-badge>
+        <div class="content">
+            <app-user-badge></app-user-badge>
+        </div>
     }
 </div>

@@ -22,12 +22,6 @@ export class CourseLessonsEditComponent implements OnInit {
   @Input()
   public courseId : GUID;
 
-  @Output()
-  public lessonAdded = new EventEmitter<LessonModel>();
-
-  @Output()
-  public lessonRemoved = new EventEmitter<LessonModel>();
-
   // DI's
   private lessonService = inject(LessonService);
   private snackbarService = inject(SnackbarService);
@@ -53,13 +47,11 @@ export class CourseLessonsEditComponent implements OnInit {
     if (this.lessonsToAdd.some(l => l.title === lesson.title)) {
       this.lessonsToAdd = this.lessonsToAdd.filter(l => l.title !== lesson.title);
     }
-    else
+    else if(lesson.id != undefined)
       this.lessonsToDelete.push(lesson);
 
     // Update displayed list
     this.lessons.set(this.lessons().filter(l => l.title !== lesson.title));
-
-    this.lessonRemoved.emit(lesson);
   }
 
   public addCreateLessonRow() : void {
@@ -82,7 +74,6 @@ export class CourseLessonsEditComponent implements OnInit {
     this.createLessonTitle = "";
     this.createLessonUrl = "";
     this.isCreateLesson = false;
-    this.lessonAdded.emit(lesson);
   }
 
   public resetChanges(): void {
@@ -109,14 +100,20 @@ export class CourseLessonsEditComponent implements OnInit {
       let isChange = false;
 
       // Apply lesson addition / deletion changes
-      for (const lesson of this.lessonsToDelete) {
-        await this.lessonService.removeLesson(lesson.id);
+      const lessonIds : GUID [] = this.lessonsToDelete.map(lesson => lesson.id);
+      if (lessonIds.length > 0) {
+        await this.lessonService.removeLessons(lessonIds);
       }
 
-      for (const lesson of this.lessonsToAdd) {
-        await this.lessonService.addLesson(lesson);
+      if (this.lessonsToAdd.length > 0) {
+        const dbLessons : LessonModel[] = await this.lessonService.addLessons(this.lessonsToAdd);
+        
+        // Remove lessons without IDs from displayed lessons
+        this.lessons.set(this.lessons().filter(l => l.id != undefined));
+        
+        // Add the new lessons with IDs retrieved from back-end
+        this.lessons().push(...dbLessons);
       }
-
       // Reach here after successful push to DB
       if (this.lessonsToDelete.length > 0 || this.lessonsToAdd.length > 0)
         isChange = true;

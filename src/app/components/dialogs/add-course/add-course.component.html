@@ -1,0 +1,29 @@
+<div class="wrapper">
+    <h1 mat-dialog-title>New Course</h1>
+    <div mat-dialog-content>
+      <form #courseForm="ngForm">
+        <div class="form-content">
+            <mat-form-field appearance="outline">
+                <mat-label>Course Name</mat-label>
+                <input matInput [(ngModel)]="courseName" name="courseName"
+                        #name="ngModel" required minlength="2" maxlength="100">
+                <mat-error *ngIf="name.getError('minlength') || name.getError('maxlength')">
+                    Course name is required and must be between 2 and 100 characters.
+                </mat-error>
+                <mat-error *ngIf="name.getError('required')">Course name is required.</mat-error>
+            </mat-form-field>
+    
+            <mat-form-field appearance="outline">
+                <mat-label>Description</mat-label>
+                <textarea rows="6" matInput [(ngModel)]="courseDescription" name="courseDescription"
+                            #description="ngModel" required maxlength="3000"></textarea>
+                <mat-error *ngIf="description.getError('required')">Description is required.</mat-error>
+            </mat-form-field>
+        </div>
+      </form>
+    </div>
+    <div mat-dialog-actions class="actions">
+      <button mat-stroked-button mat-dialog-close>Cancel</button>
+      <button [disabled]="courseForm.invalid" mat-stroked-button (click)="createCourse()">Confirm</button>
+    </div>
+</div>
