@@ -1,9 +1,21 @@
 mat-card {
-    width: 100%;
-    aspect-ratio: 16 / 13;
+    min-width: 380px;
+    width: 20vw;
+    box-sizing: border-box;
+    aspect-ratio: 16 / 16;
     background-color: white;
     filter: drop-shadow(0px 0px 2px gray);
+    transition-duration: 100ms;
     padding: 20px;
+}
+
+.wrapper:hover {
+    transform: scale(1.01);
+    transition-duration: 100ms;
+}
+
+.wrapper {
+    transition-duration: 100ms;
 }
 
 .buttons {

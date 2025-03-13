@@ -1,7 +1,6 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { HeaderComponent } from "../header/header.component";
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { UserService } from '../../../services/user.service';
+import { HeaderComponent } from "../header/header.component";
 
 @Component({
   selector: 'app-layout',
@@ -9,10 +8,5 @@ import { UserService } from '../../../services/user.service';
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.css',
 })
-export class LayoutComponent implements OnInit {
-  private userService = inject(UserService);
-
-  ngOnInit(): void {
-    this.userService.checkLoggedIn();
-  }
+export class LayoutComponent {
 }

@@ -18,3 +18,9 @@ a:hover {
 .mat-toolbar {
     background-color: inherit;
 }
+
+.active-route {
+    text-decoration: underline;
+    text-underline-offset: 2vh;
+    text-decoration-color: #0066CC;
+}

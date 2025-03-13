@@ -10,74 +10,73 @@ import { CourseModel } from '../../../models/course.model';
 import { SnackbarService } from '../../../services/snackbar.service';
 import { UserService } from '../../../services/user.service';
 import { Roles } from '../../../utils/types';
-import { environment } from '../../../../environments/environment';
 
 @Component({
-  selector: 'app-course-card',
-  imports: [MatCardModule, MatButtonModule, MatIconModule, RouterModule, DatePipe, MatChipsModule, CommonModule, MatBadgeModule],
-  templateUrl: './course-card.component.html',
-  styleUrl: './course-card.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-course-card',
+    imports: [MatCardModule, MatButtonModule, MatIconModule, RouterModule, DatePipe, MatChipsModule, CommonModule, MatBadgeModule],
+    templateUrl: './course-card.component.html',
+    styleUrl: './course-card.component.css',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CourseCardComponent implements OnInit {
-  @Input()
-  public course : CourseModel;
+    @Input()
+    public course: CourseModel;
 
-  public enrolled = signal<boolean>(false);
-  public badge : string;
-  public link : string;
-  public isProfessor : boolean = false;
-  
-  private isNew: boolean;
+    public enrolled = signal<boolean>(false);
+    public badge: string;
+    public link: string;
+    public isProfessor: boolean = false;
 
-  private snackbarService = inject(SnackbarService);
-  private userService = inject(UserService);
-  private router = inject(Router);
+    private isNew: boolean;
 
-  async ngOnInit(): Promise<void> {
-    try {
-      this.link = `/courses/${this.course.id}`;
+    private snackbarService = inject(SnackbarService);
+    private userService = inject(UserService);
+    private router = inject(Router);
 
-      // Check if the user is logged in
-      if (this.userService.isLoggedIn()) {
-        // Assign role
-        this.isProfessor = this.userService.getUserRole() === Roles.Professor;
+    async ngOnInit(): Promise<void> {
+        try {
+            this.link = `/courses/${this.course.id}`;
 
-        // Check if user is enrolled to the course
-        this.enrolled.set(this.userService.isEnrolled(this.course.id));
-      }
+            // Check if the user is logged in
+            if (this.userService.isLoggedIn()) {
+                // Assign role
+                this.isProfessor = this.userService.getUserRole() === Roles.Professor;
 
-      this.isNew = (new Date().getTime()) - (new Date(this.course.createdAt).getTime()) < (7 * 24 * 60 * 60 * 1000);
+                // Check if user is enrolled to the course
+                this.enrolled.set(this.userService.isEnrolled(this.course.id));
+            }
 
-      if (this.isNew) {
-        this.badge = "NEW";
-      }
+            // Determine whether to show the "NEW" badge or not
+            this.isNew = (new Date().getTime()) - (new Date(this.course.createdAt).getTime()) < (7 * 24 * 60 * 60 * 1000);
+
+            if (this.isNew) {
+                this.badge = "NEW";
+            }
+        }
+        catch (err: any) {
+            this.snackbarService.showError(err.message);
+        }
     }
-    catch (err: any) {
-      this.snackbarService.showError(err.message);
-    }
-  }
 
-  public async enroll(): Promise<void> {
-    try {
-      // Verify that the user is logged in
-      if (!this.userService.isLoggedIn()) {
-        this.snackbarService.showError("You must be logged in to enroll for courses.");
-        this.router.navigateByUrl("login");
-      }
-      else { // Enroll the user in the course
-        await this.userService.enrollUser(this.course.id);
-        this.snackbarService.showSuccess("Successfully enrolled for course.")
-        this.router.navigateByUrl("profile");
-      }
+    public async enroll(): Promise<void> {
+        try {
+            // Verify that the user is logged in
+            if (!this.userService.isLoggedIn()) {
+                this.snackbarService.showError("You must be logged in to enroll for courses.");
+                this.router.navigateByUrl("login");
+            }
+            else { // Enroll the user in the course
+                await this.userService.enrollUser(this.course.id);
+                this.snackbarService.showSuccess("Successfully enrolled for course.")
+                this.router.navigateByUrl("profile");
+            }
+        }
+        catch (err: any) {
+            this.snackbarService.showError(err.message);
+        }
     }
-    catch (err: any)
-    {
-        this.snackbarService.showError(err.message);
-    }
-  }
 
-  public editCourse() : void {
-    this.router.navigateByUrl("courses/edit/" + this.course.id);
-  }
+    public editCourse(): void {
+        this.router.navigateByUrl("courses/edit/" + this.course.id);
+    }
 }

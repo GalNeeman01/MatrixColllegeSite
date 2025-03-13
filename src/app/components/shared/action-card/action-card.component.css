@@ -1,0 +1,29 @@
+.wrapper {
+    width: 5vw;
+    aspect-ratio: 1/1;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #CBD5FE  ;
+}
+
+.wrapper:hover {
+    background-color: #A5B4FC  ;
+    cursor: pointer;
+}
+
+mat-icon {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 5vw;
+    color: #312E81;
+}
+
+button {
+    all: unset;
+}

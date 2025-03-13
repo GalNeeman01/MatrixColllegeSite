@@ -1,0 +1,49 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    gap: 15px;
+    align-items: center;
+    text-align: center;
+    height: 100%;
+    padding: 10px;
+    transition-duration: 0.3s;
+    width: 20vw;
+    min-width: 250px;
+    min-height: 200px;
+    height: 30vh;
+}
+
+a {
+    all: unset;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+}
+
+.wrapper:hover {
+    cursor: pointer;
+    border-radius: 10px;
+    background-color: #f5f5f5;
+    box-shadow: 0px 4px 2px rgba(0, 0, 0, 0.3);
+    transition-duration: 0.3s;
+    transform: translateY(-7px);
+}
+
+mat-icon {
+    border-radius: 50%;
+    padding: 13px;
+    color: #1E3A8A;
+    background-color: #BFDBFE;
+}
+
+h3 {
+    margin: 0;
+}
+
+p {
+    margin: 0;
+    color: #466DAB;
+}

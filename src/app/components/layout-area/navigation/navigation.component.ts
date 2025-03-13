@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-navigation',
   imports: [MatToolbarModule, MatButtonModule, 
-    RouterModule],
+            RouterModule],
   templateUrl: './navigation.component.html',
   styleUrl: './navigation.component.css'
 })

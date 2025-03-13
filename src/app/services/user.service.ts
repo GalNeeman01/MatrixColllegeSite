@@ -27,7 +27,9 @@ export class UserService {
     private courseService = inject(CourseService);
     private progressStore = inject(ProgressStore);
 
-    public constructor() { }
+    public constructor() { 
+        this.checkLoggedIn();
+    }
 
     // Check if the user is logged in and set the user store accordingly
     public async checkLoggedIn(): Promise<void>

@@ -1,5 +1,8 @@
 <div class="wrapper">
-    <h1>Dashboard - {{username}}</h1>
+    <div class="header">
+        <h1>Dashboard - {{username}}</h1>
+        <h3 class="role-name">{{role}}</h3>
+    </div>
 
     <div class="content">
         <div class="enrollments-area">
@@ -34,7 +37,10 @@
 
             <!-- Professor Area -->
             <div *ngIf="isProfessor">
-                <h1>Hello, professor</h1>
+                <h2>Actions panel</h2>
+                <div class="actions-area">
+                    <app-action-card iconName="add" tooltip="New Course" (actionClicked)="addCourse()"></app-action-card>
+                </div>
             </div>
         </div>
     </div>
