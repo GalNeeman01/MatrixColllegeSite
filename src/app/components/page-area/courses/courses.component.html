@@ -3,7 +3,7 @@
 
     <div class="content">
         <div class="content" *ngIf="courses">
-            @for (course of courses(); track $index) {
+            @for (course of courses(); track course.id) {
                 <app-course-card class="course-card" [course]="course"></app-course-card>
             }
         </div>

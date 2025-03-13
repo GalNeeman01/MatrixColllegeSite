@@ -4,7 +4,7 @@
     <div class="content-wrapper">
         <h2>Course Videos</h2>
         <div class="videos">
-            @for (lesson of lessons(); track $index) {
+            @for (lesson of lessons(); track lesson.id) {
                 <app-lesson [userProgress]="userProgress" class="app-lesson" 
                             [lesson]="lesson"
                             [position]="lessons().indexOf(lesson) + 1"></app-lesson>

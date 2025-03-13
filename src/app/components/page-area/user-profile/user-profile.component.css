@@ -12,3 +12,17 @@ h1 {
     text-transform: capitalize;
     margin: auto;
 }
+
+.completed-area, .not-completed-area {
+    margin: 3vw;
+}
+
+a {
+    color: #1A73E8;
+    text-decoration: none;
+}
+
+a:hover {
+    cursor: pointer;
+    color: #1669C1;
+}

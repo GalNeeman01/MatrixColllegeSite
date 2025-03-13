@@ -7,24 +7,28 @@
             <div *ngIf="isStudent" class="student-content">
                 <div class="enrolled-courses-area">
                     <h2>My Enrollments:</h2>
-                    @if (unfinishedCourses() && unfinishedCourses().length > 0) {
-                        @for (course of unfinishedCourses(); track $index) {
-                            <app-enrollment-card *ngIf="coursesLoaded" [course]="course" [progress]="courseProgress[course.id]" (deleteClicked)="removeEnrollment($event)"></app-enrollment-card>
+                    <div class="not-completed-area">
+                        @if (unfinishedCourses() && unfinishedCourses().length > 0) {
+                            @for (course of unfinishedCourses(); track course.id) {
+                                <app-enrollment-card *ngIf="coursesLoaded" [course]="course" [progress]="courseProgress[course.id]" (deleteClicked)="removeEnrollment($event)"></app-enrollment-card>
+                            }
                         }
-                    }
-                    @else {
-                        <p>You are not enrolled in any courses yet.</p>
-                    }
+                        @else {
+                            <p>You are not enrolled in any courses yet. <a routerLink="/courses">Enroll now!</a></p>
+                        }
+                    </div>
 
                     <h2>Completed Courses:</h2>
-                    @if (completedCourses() && completedCourses().length > 0) {
-                        @for (course of completedCourses(); track $index) {
-                            <app-enrollment-card *ngIf="coursesLoaded" [course]="course" [progress]="courseProgress[course.id]"></app-enrollment-card>
+                    <div class="completed-area">
+                        @if (completedCourses() && completedCourses().length > 0) {
+                            @for (course of completedCourses(); track course.id) {
+                                <app-enrollment-card *ngIf="coursesLoaded" [course]="course" [progress]="courseProgress[course.id]"></app-enrollment-card>
+                            }
                         }
-                    }
-                    @else {
-                        <p>You have not completed any courses yet.</p>
-                    }
+                        @else {
+                            <p>You have not completed any courses yet.</p>
+                        }
+                    </div>
                 </div>
             </div>
 

@@ -5,10 +5,11 @@ import { SnackbarService } from '../../../services/snackbar.service';
 import { UserService } from '../../../services/user.service';
 import { CourseProgress, GUID, Roles } from '../../../utils/types';
 import { EnrollmentCardComponent } from "../../enrollment-area/enrollment-card/enrollment-card.component";
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-user-profile',
-  imports: [EnrollmentCardComponent, CommonModule],
+  imports: [EnrollmentCardComponent, CommonModule, RouterLink],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush

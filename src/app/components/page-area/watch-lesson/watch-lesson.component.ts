@@ -6,6 +6,7 @@ import { LessonModel } from '../../../models/lesson.model';
 import { LessonService } from '../../../services/lesson.service';
 import { UserService } from '../../../services/user.service';
 import { SnackbarService } from '../../../services/snackbar.service';
+import { Roles } from '../../../utils/types';
 
 @Component({
   selector: 'app-watch-lesson',
@@ -18,7 +19,8 @@ export class WatchLessonComponent implements OnInit {
 
   public lesson = signal<LessonModel>(undefined);
   public safeUrl : SafeResourceUrl;
-  public isEnrolled: boolean = false;
+  public isEnrolled : boolean = false;
+  public isProfessor : boolean = false;
 
   private activatedRoute = inject(ActivatedRoute);
   private userService = inject(UserService);
@@ -35,6 +37,9 @@ export class WatchLessonComponent implements OnInit {
 
       // Check if user is enrolled to the course
       this.isEnrolled = this.userService.isEnrolled(this.lesson().courseId);
+
+      // Check if user is a professor (also can watch anything)
+      this.isProfessor = this.userService.getUserRole() === Roles.Professor;
 
       // Save safe url
       this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.lesson().videoUrl);

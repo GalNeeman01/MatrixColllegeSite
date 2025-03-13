@@ -1,5 +1,5 @@
 <div class="wrapper">
-    @if (lesson() && isEnrolled)
+    @if (lesson() && (isEnrolled || isProfessor))
     {
         <h1>{{lesson().title}}</h1>
 
