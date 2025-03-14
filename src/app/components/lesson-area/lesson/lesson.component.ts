@@ -29,7 +29,7 @@ export class LessonComponent implements OnInit{
     @Input()
     public position: number;
 
-    public isEnrolled: boolean = false;
+    public isEnrolled = signal<boolean>(false);
     public isProfessor: boolean = false;
     public alreadyWatched = signal<boolean>(false);
     public toolTipPos: { value: TooltipPosition } = { value: 'above' };
@@ -39,7 +39,7 @@ export class LessonComponent implements OnInit{
     private snackbarService = inject(SnackbarService);
 
     public async ngOnInit(): Promise<void> {
-      this.isEnrolled = await this.userService.isEnrolled(this.lesson.courseId);
+      this.isEnrolled.set(await this.userService.isEnrolled(this.lesson.courseId));
       this.isProfessor = this.userService.getUserRole() === Roles.Professor;
       this.alreadyWatched.set((this.userProgress).some(p => p.lessonId === this.lesson.id));
     }
