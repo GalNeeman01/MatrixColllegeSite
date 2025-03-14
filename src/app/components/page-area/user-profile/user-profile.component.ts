@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CourseModel } from '../../../models/course.model';
 import { SnackbarService } from '../../../services/snackbar.service';
 import { UserService } from '../../../services/user.service';
@@ -21,6 +21,7 @@ export class UserProfileComponent implements OnInit {
   private userService = inject(UserService);
   private snackbarService = inject(SnackbarService);
   private dialog = inject(MatDialog);
+  private route = inject(ActivatedRoute);
 
   public username: string;
   public isStudent: boolean;
@@ -31,8 +32,6 @@ export class UserProfileComponent implements OnInit {
   public unfinishedCourses = computed<CourseModel[]>(() => this.enrolledCourses().filter(course => this.courseProgress[course.id] && (this.courseProgress[course.id].completed < this.courseProgress[course.id].total || this.courseProgress[course.id].completed === 0)))
   public completedCourses = computed<CourseModel[]>(() => this.enrolledCourses().filter(course => this.courseProgress[course.id] && this.courseProgress[course.id].completed === this.courseProgress[course.id].total && this.courseProgress[course.id].total !== 0));
 
-  public coursesLoaded: boolean = false;
-
   public async ngOnInit(): Promise<void> {
     try {
       this.isStudent = this.userService.getUserRole() === Roles.Student;
@@ -40,30 +39,12 @@ export class UserProfileComponent implements OnInit {
       this.role = this.userService.getUserRole();
       this.username = this.userService.getUsername();
 
-      // Student logic
+      // Load resolver data
       if (this.isStudent) {
-        this.enrolledCourses.set(await this.userService.getEnrolledCourses()); // Retrieve enrolled courses
-
-        await this.loadCourseProgress(); // Load progress into dictionary
-        this.enrolledCourses.set(this.enrolledCourses().filter(course => this.completedCourses().indexOf(course) === -1));
+        const data = this.route.snapshot.data["profileData"];
+        this.enrolledCourses.set(data.courses);
+        this.courseProgress = data.courseProgress;
       }
-
-      // Professor logic
-      if (this.isProfessor) {
-
-      }
-    }
-    catch (err: any) {
-      this.snackbarService.showError(err.message);
-    }
-  }
-
-  public async loadCourseProgress(): Promise<void> {
-    try {
-      for (const course of this.enrolledCourses()) {
-        this.courseProgress[course.id] = await this.userService.getCourseProgress(course.id);
-      }
-      this.coursesLoaded = true; // Flag for template
     }
     catch (err: any) {
       this.snackbarService.showError(err.message);

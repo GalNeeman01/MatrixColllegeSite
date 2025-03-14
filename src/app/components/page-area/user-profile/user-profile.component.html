@@ -13,7 +13,7 @@
                     <div class="not-completed-area">
                         @if (unfinishedCourses() && unfinishedCourses().length > 0) {
                             @for (course of unfinishedCourses(); track course.id) {
-                                <app-enrollment-card *ngIf="coursesLoaded" [course]="course" [progress]="courseProgress[course.id]" (deleteClicked)="removeEnrollment($event)"></app-enrollment-card>
+                                <app-enrollment-card [course]="course" [progress]="courseProgress[course.id]" (deleteClicked)="removeEnrollment($event)"></app-enrollment-card>
                             }
                         }
                         @else {
@@ -25,7 +25,7 @@
                     <div class="completed-area">
                         @if (completedCourses() && completedCourses().length > 0) {
                             @for (course of completedCourses(); track course.id) {
-                                <app-enrollment-card *ngIf="coursesLoaded" [course]="course" [progress]="courseProgress[course.id]"></app-enrollment-card>
+                                <app-enrollment-card [course]="course" [progress]="courseProgress[course.id]"></app-enrollment-card>
                             }
                         }
                         @else {

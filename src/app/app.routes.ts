@@ -4,9 +4,10 @@ import { ProfessorGuard } from './auth/professor.guard';
 import { UserGuard } from './auth/user.guard';
 import { CoursesComponent } from './components/page-area/courses/courses.component';
 import { HomeComponent } from './components/page-area/home/home.component';
-import { CourseResolver } from './resolvers/course.service';
-import { CoursesResolver } from './resolvers/courses.service';
+import { CourseResolver } from './resolvers/course.resolver';
+import { CoursesResolver } from './resolvers/courses.resolver';
 import { WatchLessonGuard } from './auth/watch-lesson.guard';
+import { ProfileResolver } from './resolvers/profile.resolver';
 
 export const routes: Routes = [
     {
@@ -41,7 +42,7 @@ export const routes: Routes = [
         loadComponent: () => import('./components/page-area/user-profile/user-profile.component').then(m => m.UserProfileComponent),
         canActivate: [UserGuard],
         resolve: {
-            coursesData: CoursesResolver
+            profileData: ProfileResolver
         }
     },
 
