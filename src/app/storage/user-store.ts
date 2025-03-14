@@ -18,16 +18,12 @@ export const UserStore = signalStore(
     withState(initialState),
 
     withMethods(store => ({
-        async initUser(user: UserModel) : Promise<void> {
-            await patchState(store, currentState => ({ user }));
+        initUser(user: UserModel) : void {
+            patchState(store, currentState => ({ user }));
         },
 
         logoutUser(): void {
             patchState(store, currentState => ({user: null as UserModel}));
         }
     })),
-
-    withComputed((store) => ({
-        userReady: computed(() => store.user() !== null)
-    }))
 )

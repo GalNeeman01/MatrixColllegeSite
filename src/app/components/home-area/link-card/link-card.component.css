@@ -21,6 +21,7 @@ a {
     gap: 15px;
     justify-content: center;
     align-items: center;
+    margin: auto;
 }
 
 .wrapper:hover {

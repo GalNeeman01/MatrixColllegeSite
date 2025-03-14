@@ -148,6 +148,8 @@ export class CourseLessonsEditComponent implements OnInit {
 
   // Start editing a lesson
   public startEditLesson(lesson: LessonModel) : void {
+    if (this.editLesson.id != undefined) return; // Stop if another lesson is already being edited.
+
     this.editLesson = lesson;
   }
 

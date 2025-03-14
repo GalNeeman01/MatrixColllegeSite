@@ -31,9 +31,10 @@ export class UserBadgeComponent implements OnInit {
     this.isProfessor = this.userService.getUserRole() === Roles.Professor;
   }
 
-  public logout(): void {
+  public async logout() {
     this.userService.logout();
-    this.router.navigateByUrl('home');
+    await this.router.navigateByUrl('courses'); // Added this navigation to force home to refresh after a logout (to update features courses buttons)
+    await this.router.navigateByUrl('home');
   }
 
   public openDialog() : void {

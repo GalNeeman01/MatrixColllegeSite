@@ -36,6 +36,13 @@ export class CourseService {
     return course;
   }
 
+  public async getCourseByLessonId(lessonId: string) : Promise<CourseModel> {
+    const course$ = this.http.get<CourseModel>(environment.courseByLessonUrl + lessonId);
+    const course = await firstValueFrom(course$);
+
+    return course;
+  }
+
   public async updateCourse(course: CourseModel) : Promise<CourseModel> {
     const course$ = this.http.put<CourseModel>(environment.coursesUrl, course);
     const dbCourse = await firstValueFrom(course$);

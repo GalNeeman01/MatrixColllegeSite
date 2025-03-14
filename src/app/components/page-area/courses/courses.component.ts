@@ -7,6 +7,7 @@ import { CourseCardComponent } from "../../course-area/course-card/course-card.c
 import { SnackbarService } from '../../../services/snackbar.service';
 import { Roles } from '../../../utils/types';
 import { CoursePageHeaderComponent } from "../../course-area/course-page-header/course-page-header.component";
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-courses',
@@ -21,12 +22,14 @@ export class CoursesComponent implements OnInit {
   private courseService = inject(CourseService);
   private userService = inject(UserService);
   private snackbarService = inject(SnackbarService);
+  private route = inject(ActivatedRoute);
 
   public async ngOnInit(): Promise<void> {
     try {
       if (this.userService.isLoggedIn() && this.userService.getUserRole() === Roles.Student)
           await this.userService.getUserEnrollments(); // Initialize enrollments store
-      this.courses.set(await this.courseService.getAllCourses());
+
+      this.courses.set(this.route.snapshot.data['coursesData']);
     }
     catch (err: any)
     {

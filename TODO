@@ -1,7 +1,7 @@
-Create actual home page
-
-Set up user dashboard for a professor user
-
-Add more places to create a course from
-
 Add admin page
+
+Implement resolvers for quickly loaded pages
+
+Add error messages on all forms that don't already have them
+
+Add guard to lessons to check for user enrollment

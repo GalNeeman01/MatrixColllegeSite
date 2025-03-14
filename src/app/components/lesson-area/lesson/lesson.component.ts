@@ -10,6 +10,7 @@ import { LessonInfoModel } from '../../../models/lessonInfo.model';
 import { ProgressModel } from '../../../models/progress.model';
 import { UserService } from '../../../services/user.service';
 import { SnackbarService } from '../../../services/snackbar.service';
+import { Roles } from '../../../utils/types';
 
 @Component({
   selector: 'app-lesson',
@@ -29,6 +30,7 @@ export class LessonComponent implements OnInit{
     public position: number;
 
     public isEnrolled: boolean = false;
+    public isProfessor: boolean = false;
     public alreadyWatched = signal<boolean>(false);
     public toolTipPos: { value: TooltipPosition } = { value: 'above' };
 
@@ -37,14 +39,17 @@ export class LessonComponent implements OnInit{
     private snackbarService = inject(SnackbarService);
 
     public async ngOnInit(): Promise<void> {
-      this.isEnrolled = this.userService.isEnrolled(this.lesson.courseId);
+      this.isEnrolled = await this.userService.isEnrolled(this.lesson.courseId);
+      this.isProfessor = this.userService.getUserRole() === Roles.Professor;
       this.alreadyWatched.set((this.userProgress).some(p => p.lessonId === this.lesson.id));
     }
 
     public async watchLesson(): Promise<void> {
       try {
-        // Save user progress
-        await this.userService.addProgress(this.lesson.id);
+        if (!this.isProfessor) {
+          // Save user progress
+          await this.userService.addProgress(this.lesson.id);
+        }
 
         this.router.navigateByUrl("watch/" + this.lesson.id);
       }

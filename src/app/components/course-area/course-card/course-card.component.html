@@ -1,25 +1,32 @@
 <div class="wrapper" [matBadge]="badge" matBadgePosition="before">
-    <mat-card>
-        <mat-chip>{{course.createdAt | date}}</mat-chip>
-        
+    <div class="top">
+        <img src="assets/images/course-image.jpg">
+    </div>
+    <div class="bottom">
         <div class="content">
-            <mat-card-title>{{course.title}}</mat-card-title>
-            <mat-card-content>
-                {{course.description | slice:0:150}} <span class="read-more-text">{{course.description.length >= 150 ? "... Click 'View' for more information" : ""}}</span>
-            </mat-card-content>
+            <span class="date"><mat-icon>schedule</mat-icon>{{course.createdAt | date}}</span>
+            <h3>{{course.title}}</h3>
+            <p>{{course.description | slice:0:140 }} <span class="read-more-text">{{course.description.length >= 140 ? "... Visit course page to learn more!" : ""}} </span></p>
+
+            <!-- Guest Button -->
+            <a *ngIf="!isLoggedIn" mat-stroked-button [routerLink]="link">Learn More ></a>
+
+            <!-- Student Buttons -->
+            <div class="buttons" *ngIf="isStudent">
+                @if (enrolled) {
+                    <button class="enrolled" mat-stroked-button><mat-icon>checked</mat-icon>Enrolled</button>
+                }
+                @else {
+                    <button mat-stroked-button (click)="enroll()">Enroll</button>
+                }
+                <a mat-stroked-button [routerLink]="link">View Details</a>
+            </div>
+
+            <!-- Professor Buttons -->
+            <div class="buttons" *ngIf="isProfessor">
+                <button mat-stroked-button (click)="editCourse()">Edit</button>
+                <a mat-stroked-button [routerLink]="link">View Details</a>
+            </div>
         </div>
-        
-        <div class="buttons">
-            @if (isProfessor) {
-                <button mat-stroked-button (click)="editCourse()">Edit<mat-icon>edit</mat-icon></button>
-            }
-            @else if (!enrolled()) {
-                <button mat-stroked-button (click)="enroll()">Enroll<mat-icon>login</mat-icon></button>
-            }
-            @else {
-                <button class="enrolled-button" mat-stroked-button>Enrolled<mat-icon>checked</mat-icon></button>
-            }
-            <a mat-flat-button [routerLink]="link">View<mat-icon>visibilityoutlined</mat-icon></a>
-        </div>
-    </mat-card>
+    </div>
 </div>

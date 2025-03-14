@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 
@@ -6,8 +6,8 @@ import { MatDialogModule } from '@angular/material/dialog';
   selector: 'app-confirm-delete-course',
   imports: [MatDialogModule, MatButtonModule],
   templateUrl: './confirm-delete-course.component.html',
-  styleUrl: './confirm-delete-course.component.css'
+  styleUrl: './confirm-delete-course.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ConfirmDeleteCourseComponent {
-
 }

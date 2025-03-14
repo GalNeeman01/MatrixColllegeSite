@@ -13,7 +13,8 @@ import { Roles } from '../../../utils/types';
 
 @Component({
     selector: 'app-course-card',
-    imports: [MatCardModule, MatButtonModule, MatIconModule, RouterModule, DatePipe, MatChipsModule, CommonModule, MatBadgeModule],
+    imports: [MatCardModule, MatButtonModule, MatIconModule, RouterModule, 
+                DatePipe, MatChipsModule, CommonModule, MatBadgeModule],
     templateUrl: './course-card.component.html',
     styleUrl: './course-card.component.css',
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -22,10 +23,12 @@ export class CourseCardComponent implements OnInit {
     @Input()
     public course: CourseModel;
 
-    public enrolled = signal<boolean>(false);
+    public enrolled = false;
     public badge: string;
     public link: string;
-    public isProfessor: boolean = false;
+    public isProfessor = false;
+    public isLoggedIn = false;
+    public isStudent = false;
 
     private isNew: boolean;
 
@@ -39,11 +42,15 @@ export class CourseCardComponent implements OnInit {
 
             // Check if the user is logged in
             if (this.userService.isLoggedIn()) {
+                // Save logged in
+                this.isLoggedIn = true;
+
                 // Assign role
                 this.isProfessor = this.userService.getUserRole() === Roles.Professor;
+                this.isStudent = this.userService.getUserRole() === Roles.Student;
 
                 // Check if user is enrolled to the course
-                this.enrolled.set(this.userService.isEnrolled(this.course.id));
+                this.enrolled = await this.userService.isEnrolled(this.course.id);
             }
 
             // Determine whether to show the "NEW" badge or not
@@ -61,7 +68,7 @@ export class CourseCardComponent implements OnInit {
     public async enroll(): Promise<void> {
         try {
             // Verify that the user is logged in
-            if (!this.userService.isLoggedIn()) {
+            if (!this.isLoggedIn) {
                 this.snackbarService.showError("You must be logged in to enroll for courses.");
                 this.router.navigateByUrl("login");
             }

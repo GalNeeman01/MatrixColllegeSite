@@ -9,8 +9,8 @@ import { LessonService } from '../../../services/lesson.service';
 import { SnackbarService } from '../../../services/snackbar.service';
 import { UserService } from '../../../services/user.service';
 import { Roles } from '../../../utils/types';
-import { LessonComponent } from "../../lesson-area/lesson/lesson.component";
 import { CoursePageHeaderComponent } from '../../course-area/course-page-header/course-page-header.component';
+import { LessonComponent } from "../../lesson-area/lesson/lesson.component";
 
 @Component({
   selector: 'app-view-course',
@@ -21,7 +21,6 @@ import { CoursePageHeaderComponent } from '../../course-area/course-page-header/
 })
 export class ViewCourseComponent implements OnInit {
     private activatedRoute = inject(ActivatedRoute);
-    private courseService = inject(CourseService);
     private lessonService = inject(LessonService);
     private userService = inject(UserService);
     private changeDetectorRef = inject(ChangeDetectorRef);
@@ -30,7 +29,6 @@ export class ViewCourseComponent implements OnInit {
     public courseModel: CourseModel;
     public lessons = signal<LessonInfoModel[]>([]);
 
-    @Input()
     public id : string = "";
 
     public link = '/courses/' + this.id;
@@ -39,7 +37,7 @@ export class ViewCourseComponent implements OnInit {
     async ngOnInit(): Promise<void> {
       try {
         this.id = this.activatedRoute.snapshot.params['id'];
-        this.courseModel = await this.courseService.getCourseById(this.id);
+        this.courseModel = this.activatedRoute.snapshot.data['courseData'];
 
         // Fetch user progress
         if (this.userService.isLoggedIn() && this.userService.getUserRole() === Roles.Student)

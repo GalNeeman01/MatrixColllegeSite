@@ -1,11 +1,12 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './components/page-area/home/home.component';
-import { UserProfileComponent } from './components/page-area/user-profile/user-profile.component';
-import { CoursesComponent } from './components/page-area/courses/courses.component';
-import { ViewCourseComponent } from './components/page-area/view-course/view-course.component';
-import { UserGuard } from './auth/user.guard';
+import { AnonymousGuard } from './auth/anonymous.guard';
 import { ProfessorGuard } from './auth/professor.guard';
-import { AnonymousGuard } from './auth/Anonymous.guard';
+import { UserGuard } from './auth/user.guard';
+import { CoursesComponent } from './components/page-area/courses/courses.component';
+import { HomeComponent } from './components/page-area/home/home.component';
+import { CourseResolver } from './resolvers/course.service';
+import { CoursesResolver } from './resolvers/courses.service';
+import { WatchLessonGuard } from './auth/watch-lesson.guard';
 
 export const routes: Routes = [
     {
@@ -21,17 +22,27 @@ export const routes: Routes = [
 
     {
         path: "courses", 
-        component: CoursesComponent
+        component: CoursesComponent,
+        resolve: {
+            coursesData: CoursesResolver
+        }
     },
 
     {
         path: "courses/:id", 
-        component: ViewCourseComponent
+        loadComponent: () => import('./components/page-area/view-course/view-course.component').then(m => m.ViewCourseComponent),
+        resolve: {
+            courseData: CourseResolver
+        }
     },
 
     {
-        path: "profile", component: UserProfileComponent,
-        canActivate: [UserGuard]
+        path: "profile", 
+        loadComponent: () => import('./components/page-area/user-profile/user-profile.component').then(m => m.UserProfileComponent),
+        canActivate: [UserGuard],
+        resolve: {
+            coursesData: CoursesResolver
+        }
     },
 
     {
@@ -49,7 +60,7 @@ export const routes: Routes = [
     {
         path: "watch/:id", 
         loadComponent: () => import('./components/page-area/watch-lesson/watch-lesson.component').then(m => m.WatchLessonComponent),
-        canActivate: [UserGuard]
+        canActivate: [UserGuard, WatchLessonGuard]
     }, // Lazy load
 
     {

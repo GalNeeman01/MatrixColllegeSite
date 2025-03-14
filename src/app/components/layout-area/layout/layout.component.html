@@ -1,6 +1,7 @@
 <div>
     <header>
         <app-header></app-header>
+        <mat-progress-bar *ngIf="!isPageLoaded" style="margin-top: 10vh" value="50" mode="indeterminate"></mat-progress-bar>
     </header>
 
     <div class="wrapper">
@@ -8,7 +9,6 @@
         <aside class="advertisement"></aside>
 
         <div class="content">
-
             <div class="main-and-footer">
                 <main>
                     <router-outlet></router-outlet>

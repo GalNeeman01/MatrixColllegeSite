@@ -1,15 +1,9 @@
-<div class="wrapper">
-    @if (lesson() && (isEnrolled || isProfessor))
-    {
-        <h1>{{lesson().title}}</h1>
+<div class="wrapper" *ngIf="lesson()">
+    <h1>{{lesson().title}}</h1>
 
-        <div class="iframe-container">
-            <iframe width="fit-content" [src]="safeUrl" [title]="lesson().title" frameborder="0" 
-            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        </div>
-    }
-    @else {
-        <h1>You are not enrolled to the relevant course.</h1>
-    }
+    <div class="iframe-container">
+        <iframe width="fit-content" [src]="safeUrl" [title]="lesson().title" frameborder="0" 
+        allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>
 </div>

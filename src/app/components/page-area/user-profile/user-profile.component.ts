@@ -6,9 +6,9 @@ import { CourseModel } from '../../../models/course.model';
 import { SnackbarService } from '../../../services/snackbar.service';
 import { UserService } from '../../../services/user.service';
 import { CourseProgress, GUID, Roles } from '../../../utils/types';
+import { AddCourseComponent } from '../../dialogs/add-course/add-course.component';
 import { EnrollmentCardComponent } from "../../enrollment-area/enrollment-card/enrollment-card.component";
 import { ActionCardComponent } from "../../shared/action-card/action-card.component";
-import { AddCourseComponent } from '../../dialogs/add-course/add-course.component';
 
 @Component({
   selector: 'app-user-profile',
@@ -20,12 +20,12 @@ import { AddCourseComponent } from '../../dialogs/add-course/add-course.componen
 export class UserProfileComponent implements OnInit {
   private userService = inject(UserService);
   private snackbarService = inject(SnackbarService);
-private dialog = inject(MatDialog);
+  private dialog = inject(MatDialog);
 
   public username: string;
-  public isStudent : boolean;
-  public isProfessor : boolean;
-  public role : string = "";
+  public isStudent: boolean;
+  public isProfessor: boolean;
+  public role: string = "";
   public courseProgress: { [courseId: string]: CourseProgress } = {};
   public enrolledCourses = signal<CourseModel[]>([]);
   public unfinishedCourses = computed<CourseModel[]>(() => this.enrolledCourses().filter(course => this.courseProgress[course.id] && (this.courseProgress[course.id].completed < this.courseProgress[course.id].total || this.courseProgress[course.id].completed === 0)))
@@ -74,7 +74,7 @@ private dialog = inject(MatDialog);
     this.enrolledCourses.set(this.enrolledCourses().filter(e => e.id != courseId));
   }
 
-  public addCourse() : void {
+  public addCourse(): void {
     this.dialog.open(AddCourseComponent);
   }
 }

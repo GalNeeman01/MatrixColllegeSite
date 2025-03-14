@@ -15,9 +15,9 @@ import { ConfirmUnenrollComponent } from '../../dialogs/confirm-unenroll/confirm
 
 @Component({
   selector: 'app-enrollment-card',
-  imports: [MatCardModule, MatButtonModule, MatIconModule, RouterModule, 
-            MatProgressBarModule, CommonModule, MatChipsModule,
-          MatDialogModule],
+  imports: [MatCardModule, MatButtonModule, MatIconModule, RouterModule,
+    MatProgressBarModule, CommonModule, MatChipsModule,
+    MatDialogModule],
   templateUrl: './enrollment-card.component.html',
   styleUrl: './enrollment-card.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -29,7 +29,7 @@ export class EnrollmentCardComponent implements OnInit, OnChanges {
   public progress: CourseProgress; // Receive from parent component
 
   @Input()
-  public course : CourseModel; // Receive from parent component
+  public course: CourseModel; // Receive from parent component
 
   @Output()
   public deleteClicked: EventEmitter<GUID> = new EventEmitter(); // Emit to parent component
@@ -46,13 +46,12 @@ export class EnrollmentCardComponent implements OnInit, OnChanges {
 
   public async unEnroll(): Promise<void> {
     try {
-        const enrollmentId: string = this.userService.getEnrollmentForCourse(this.course.id).id;
-        await this.userService.unenrollUser(enrollmentId);
-        this.snackbarService.showSuccess("Successfully unenrolled from course.");
-        this.deleteClicked.emit(this.course.id);
+      const enrollment = await this.userService.getEnrollmentForCourse(this.course.id);
+      await this.userService.unenrollUser(enrollment.id);
+      this.snackbarService.showSuccess("Successfully unenrolled from course.");
+      this.deleteClicked.emit(this.course.id);
     }
-    catch (err: any)
-    {
+    catch (err: any) {
       const errMessage = JSON.parse(err.error).errors;
       this.snackbarService.showError(errMessage);
     }
@@ -68,8 +67,7 @@ export class EnrollmentCardComponent implements OnInit, OnChanges {
   }
 
   // Confirm un-enroll
-  public openConfirmationDialog() : void
-  {
+  public openConfirmationDialog(): void {
     const dialogRef = this.dialog.open(ConfirmUnenrollComponent);
 
     dialogRef.afterClosed().subscribe(result => {

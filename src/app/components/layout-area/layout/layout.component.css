@@ -1,12 +1,12 @@
 .wrapper {
     display: grid;
-    grid-template-columns: 1fr 6fr 1fr;
+    grid-template-columns: 1fr 8fr 1fr;
     grid-template-rows: 1fr;
     margin-top: 10vh;
 }
 
 .content {
-    grid-column: span 6fr;
+    grid-column: span 8fr;
     height: 100%;
     grid-row: span 1fr;
 }
