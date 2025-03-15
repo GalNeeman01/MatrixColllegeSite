@@ -3,7 +3,6 @@ import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@ang
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { LessonModel } from '../../../models/lesson.model';
-import { LessonService } from '../../../services/lesson.service';
 import { SnackbarService } from '../../../services/snackbar.service';
 
 @Component({
@@ -19,16 +18,13 @@ export class WatchLessonComponent implements OnInit {
   public safeUrl : SafeResourceUrl;
 
   private activatedRoute = inject(ActivatedRoute);
-  private lessonService = inject(LessonService);
   private sanitizer = inject(DomSanitizer);
   private snackbarService = inject(SnackbarService);
 
   public async ngOnInit(): Promise<void> {
     try {
-      const id = this.activatedRoute.snapshot.params['id'];
-
       // Fetch lesson
-      this.lesson.set(await this.lessonService.getLessonById(id));
+      this.lesson.set(this.activatedRoute.snapshot.data['lessonData']);
 
       // Save safe url
       this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.lesson().videoUrl);

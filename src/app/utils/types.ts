@@ -1,5 +1,3 @@
-import { CourseModel } from "../models/course.model";
-
 export type CourseProgress = {
     completed: number;
     total: number;

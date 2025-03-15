@@ -8,6 +8,7 @@ import { CoursesResolver } from './resolvers/courses.resolver';
 import { WatchLessonGuard } from './auth/watch-lesson.guard';
 import { ProfileResolver } from './resolvers/profile.resolver';
 import { ViewCourseResolver } from './resolvers/view-course.resolver';
+import { WatchLessonResolver } from './resolvers/watch-lesson.resolver';
 
 export const routes: Routes = [
     {
@@ -61,7 +62,10 @@ export const routes: Routes = [
     {
         path: "watch/:id", 
         loadComponent: () => import('./components/page-area/watch-lesson/watch-lesson.component').then(m => m.WatchLessonComponent),
-        canActivate: [UserGuard, WatchLessonGuard]
+        canActivate: [UserGuard, WatchLessonGuard],
+        resolve: {
+            lessonData: WatchLessonResolver
+        }
     }, // Lazy load
 
     {
