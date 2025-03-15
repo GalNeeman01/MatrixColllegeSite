@@ -9,6 +9,7 @@ import { WatchLessonGuard } from './auth/watch-lesson.guard';
 import { ProfileResolver } from './resolvers/profile.resolver';
 import { ViewCourseResolver } from './resolvers/view-course.resolver';
 import { WatchLessonResolver } from './resolvers/watch-lesson.resolver';
+import { EditCourseResolver } from './resolvers/edit-course.resolver';
 
 export const routes: Routes = [
     {
@@ -51,13 +52,13 @@ export const routes: Routes = [
         path: "login", 
         loadComponent: () => import('./components/page-area/login/login.component').then(m => m.LoginComponent),
         canActivate: [AnonymousGuard]
-    }, // Lazy load
+    },
 
     {
         path: "register", 
         loadComponent: () => import('./components/page-area/register/register.component').then(m => m.RegisterComponent),
         canActivate: [AnonymousGuard]
-    }, // Lazy load
+    },
 
     {
         path: "watch/:id", 
@@ -66,13 +67,16 @@ export const routes: Routes = [
         resolve: {
             lessonData: WatchLessonResolver
         }
-    }, // Lazy load
+    },
 
     {
         path: "courses/edit/:id",
         loadComponent: () => import('./components/page-area/edit-course/edit-course.component').then(m => m.EditCourseComponent),
-        canActivate: [UserGuard, ProfessorGuard]
-    }, // Lazy load
+        canActivate: [UserGuard, ProfessorGuard],
+        resolve: {
+            courseData: EditCourseResolver
+        }
+    },
 
     {path: "**", redirectTo: "home"},
 ];

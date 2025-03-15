@@ -34,6 +34,7 @@ export class EditCourseComponent implements OnInit {
   private courseService = inject(CourseService);
   private dialog = inject(MatDialog);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
   public course = signal<CourseModel>(undefined);
   
@@ -45,7 +46,10 @@ export class EditCourseComponent implements OnInit {
       this.courseId = this.activatedRoute.snapshot.params['id'];
 
       // Fetch course
-      this.course.set(await this.courseService.getCourseById(this.courseId));
+      const resolveData : CourseModel = this.route.snapshot.data['courseData'];
+      this.course.set(resolveData);
+
+      // Save copy to use to reset the form
       this.originalCourseDetails = { title: this.course().title, desc: this.course().description };
     }
     catch (err: any)
