@@ -53,7 +53,7 @@ export class LessonComponent implements OnInit {
 
   public async watchLesson(): Promise<void> {
     try {
-      if (!this.isProfessor) {
+      if (!this.isProfessor()) {
         // Save user progress
         await this.userService.addProgress(this.lesson.id);
       }

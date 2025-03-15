@@ -29,10 +29,13 @@
                 <mat-error *ngIf="registerForm.controls['passwordControl'].hasError('noNonAlphanumeric')">At least 1 non-alphanumeric</mat-error>
             </mat-form-field>
 
-            <mat-radio-group>
-                <mat-radio-button checked="true" value="student">Student</mat-radio-button>
-                <mat-radio-button value="professor">Professor</mat-radio-button>
-            </mat-radio-group>
+            <div class="role-select-button">
+                <label>I am a:</label>
+                <mat-button-toggle-group formControlName="roleControl">
+                    <mat-button-toggle value="2" checked>Student</mat-button-toggle>
+                    <mat-button-toggle value="3">Professor</mat-button-toggle>
+                </mat-button-toggle-group>
+            </div>
     
             <button [disabled]="registerForm.invalid" mat-flat-button type="submit">Log In</button>
         </form>

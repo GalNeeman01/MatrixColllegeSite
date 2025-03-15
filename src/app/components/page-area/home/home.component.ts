@@ -5,10 +5,11 @@ import { CourseCardComponent } from "../../course-area/course-card/course-card.c
 import { CourseModel } from '../../../models/course.model';
 import { CourseService } from '../../../services/course.service';
 import { CommonModule } from '@angular/common';
+import { StudentReviewsComponent } from "../../home-area/student-reviews/student-reviews.component";
 
 @Component({
   selector: 'app-home',
-  imports: [HomeHeaderComponent, LinkCardComponent, CourseCardComponent, CommonModule],
+  imports: [HomeHeaderComponent, LinkCardComponent, CourseCardComponent, CommonModule, StudentReviewsComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
