@@ -9,7 +9,7 @@
     </mat-card-header>
 
     <mat-card-content>
-        @if (isEnrolled() || isProfessor) {
+        @if (isEnrolled() || isProfessor()) {
             <button (click)="watchLesson()" mat-raised-button>
                 <span *ngIf="alreadyWatched() === true">Watch Again</span>
                 <span *ngIf="alreadyWatched() === false">Watch Now</span>

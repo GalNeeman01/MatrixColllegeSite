@@ -7,17 +7,32 @@
             <mat-form-field appearance="outline">
                 <mat-label>Username</mat-label>
                 <input formControlName="usernameControl" matInput type="text">
+                <mat-error *ngIf="registerForm.controls['usernameControl'].hasError('required')">Username is required</mat-error>
+                <mat-error *ngIf="registerForm.controls['usernameControl'].hasError('minlength')">Username must be at least 8 characters long</mat-error>
             </mat-form-field>
     
             <mat-form-field appearance="outline">
                 <mat-label>Email</mat-label>
                 <input formControlName="emailControl" matInput type="email">
+                <mat-error *ngIf="registerForm.controls['emailControl'].hasError('required')">Email is required</mat-error>
+                <mat-error *ngIf="registerForm.controls['emailControl'].hasError('minlength')">email must be at least 10 characters long</mat-error>
+                <mat-error *ngIf="!registerForm.controls['emailControl'].hasError('required') && !registerForm.controls['emailControl'].hasError('minlength') && registerForm.controls['emailControl'].hasError('notEmailFormat')">email must be in email format</mat-error>
             </mat-form-field>
     
             <mat-form-field appearance="outline">
                 <mat-label>Password</mat-label>
                 <input formControlName="passwordControl" matInput type="password">
+                <mat-error *ngIf="registerForm.controls['passwordControl'].hasError('required')">Password is required</mat-error>
+                <mat-error *ngIf="!registerForm.controls['passwordControl'].hasError('required') && registerForm.controls['passwordControl'].hasError('minLength')">At least 8 characters long</mat-error>
+                <mat-error *ngIf="registerForm.controls['passwordControl'].hasError('noUppercase')">At least 1 uppercase character</mat-error>
+                <mat-error *ngIf="registerForm.controls['passwordControl'].hasError('noDigits')">At least 1 digit</mat-error>
+                <mat-error *ngIf="registerForm.controls['passwordControl'].hasError('noNonAlphanumeric')">At least 1 non-alphanumeric</mat-error>
             </mat-form-field>
+
+            <mat-radio-group>
+                <mat-radio-button checked="true" value="student">Student</mat-radio-button>
+                <mat-radio-button value="professor">Professor</mat-radio-button>
+            </mat-radio-group>
     
             <button [disabled]="registerForm.invalid" mat-flat-button type="submit">Log In</button>
         </form>

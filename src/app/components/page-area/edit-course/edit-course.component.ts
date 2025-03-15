@@ -37,6 +37,7 @@ export class EditCourseComponent implements OnInit {
   private route = inject(ActivatedRoute);
 
   public course = signal<CourseModel>(undefined);
+  public courseCopy : CourseModel;
   
   private courseId : string;
   private originalCourseDetails = {title: "", desc: ""};
@@ -48,6 +49,7 @@ export class EditCourseComponent implements OnInit {
       // Fetch course
       const resolveData : CourseModel = this.route.snapshot.data['courseData'];
       this.course.set(resolveData);
+      this.courseCopy = structuredClone(this.course());
 
       // Save copy to use to reset the form
       this.originalCourseDetails = { title: this.course().title, desc: this.course().description };
@@ -60,6 +62,7 @@ export class EditCourseComponent implements OnInit {
 
   public resetChanges(): void {
     this.lessonsTable.resetChanges();
+    this.course.set(this.courseCopy);
   }
 
   public async applyChanges() : Promise<void> {
@@ -71,6 +74,8 @@ export class EditCourseComponent implements OnInit {
         await this.courseService.updateCourse(this.course()); // Call to rest api
         this.originalCourseDetails = {title: this.course().title, desc: this.course().description};
       }
+
+      this.courseCopy = structuredClone(this.course());
 
       if (isChangesMade)
         this.snackbarService.showSuccess("Successfully applied changes.");

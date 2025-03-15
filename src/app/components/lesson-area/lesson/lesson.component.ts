@@ -30,7 +30,7 @@ export class LessonComponent implements OnInit {
   public position: number;
 
   public isEnrolled = signal<boolean>(false);
-  public isProfessor: boolean = false;
+  public isProfessor = signal<boolean>(false);
   public alreadyWatched = signal<boolean>(false);
   public toolTipPos: { value: TooltipPosition } = { value: 'above' };
 
@@ -43,7 +43,7 @@ export class LessonComponent implements OnInit {
       if (this.userService.isLoggedIn()) {
         this.isEnrolled.set(await this.userService.isEnrolled(this.lesson.courseId));
         this.alreadyWatched.set((this.userProgress).some(p => p.lessonId === this.lesson.id));
-        this.isProfessor = this.userService.getUserRole() === Roles.Professor;
+        this.isProfessor.set(this.userService.getUserRole() === Roles.Professor);
       }
     }
     catch (err: any) {

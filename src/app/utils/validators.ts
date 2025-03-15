@@ -9,9 +9,7 @@ export function isEmail(): ValidatorFn {
 
 export function strongPassword(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors => {
-        if (control.value == null) return { noValueError: true };
-
-        if (control.value.length < 8) return { minLengthError: true };
+        if (control.value.length < 8) return { minLength: true };
 
         const upperCaseRegex: RegExp = /[A-Z]/;
         if (!upperCaseRegex.test(control.value)) return { noUppercase: true };

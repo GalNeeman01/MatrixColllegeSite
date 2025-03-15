@@ -40,10 +40,16 @@ export class CourseLessonsEditComponent implements OnInit {
 
   // Methods
   public async ngOnInit(): Promise<void> {
-    // Fetch lessons
-    this.lessons.set(await this.lessonService.getLessonsByCourseId(this.courseId));
-
-    this.backupLessons = structuredClone(this.lessons());
+    try {
+      // Fetch lessons
+      this.lessons.set(await this.lessonService.getLessonsByCourseId(this.courseId));
+  
+      this.backupLessons = structuredClone(this.lessons());
+    }
+    catch (err: any)
+    {
+      this.snackbarService.showError(err.message);
+    }
   }
 
   public deleteLesson(lesson: LessonModel): void {

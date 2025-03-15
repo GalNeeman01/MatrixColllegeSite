@@ -25,3 +25,7 @@ mat-card {
 h2 {
     color: #1565c0;
 }
+
+mat-form-field, mat-radio-group {
+    margin-bottom: 1vh;
+}
