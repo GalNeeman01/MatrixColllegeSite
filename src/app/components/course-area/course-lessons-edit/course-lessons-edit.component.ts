@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, EventEmitter, inject, Input, OnInit, Output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Input, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule, MatLabel } from '@angular/material/form-field';
@@ -8,7 +8,6 @@ import { MatInputModule } from '@angular/material/input';
 import { LessonModel } from '../../../models/lesson.model';
 import { LessonService } from '../../../services/lesson.service';
 import { SnackbarService } from '../../../services/snackbar.service';
-import { GUID } from '../../../utils/types';
 
 @Component({
   selector: 'app-course-lessons-edit',
@@ -20,7 +19,7 @@ import { GUID } from '../../../utils/types';
 })
 export class CourseLessonsEditComponent implements OnInit {
   @Input()
-  public courseId : GUID;
+  public courseId : string;
 
   // DI's
   private lessonService = inject(LessonService);

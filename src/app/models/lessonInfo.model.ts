@@ -1,7 +1,5 @@
-import { GUID } from "../utils/types";
-
 export class LessonInfoModel {
-    public id: GUID;
-    public courseId: GUID;
+    public id: string;
+    public courseId: string;
     public title: string;
 }

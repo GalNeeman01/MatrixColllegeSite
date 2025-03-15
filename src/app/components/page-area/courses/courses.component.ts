@@ -24,8 +24,9 @@ export class CoursesComponent implements OnInit {
 
   public async ngOnInit(): Promise<void> {
     try {
+      // Initialize enrollments store (for course cards)
       if (this.userService.isLoggedIn() && this.userService.getUserRole() === Roles.Student)
-          await this.userService.getUserEnrollments(); // Initialize enrollments store
+          await this.userService.getUserEnrollments();
 
       this.courses.set(this.route.snapshot.data['coursesData']);
     }

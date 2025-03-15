@@ -3,9 +3,10 @@ import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } 
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CourseModel } from '../../../models/course.model';
+import { ProfileData } from '../../../resolvers/profile.resolver';
 import { SnackbarService } from '../../../services/snackbar.service';
 import { UserService } from '../../../services/user.service';
-import { CourseProgress, GUID, Roles } from '../../../utils/types';
+import { CourseProgress, Roles } from '../../../utils/types';
 import { AddCourseComponent } from '../../dialogs/add-course/add-course.component';
 import { EnrollmentCardComponent } from "../../enrollment-area/enrollment-card/enrollment-card.component";
 import { ActionCardComponent } from "../../shared/action-card/action-card.component";
@@ -41,7 +42,7 @@ export class UserProfileComponent implements OnInit {
 
       // Load resolver data
       if (this.isStudent) {
-        const data = this.route.snapshot.data["profileData"];
+        const data : ProfileData = this.route.snapshot.data["profileData"];
         this.enrolledCourses.set(data.courses);
         this.courseProgress = data.courseProgress;
       }
@@ -51,7 +52,7 @@ export class UserProfileComponent implements OnInit {
     }
   }
 
-  public removeEnrollment(courseId: GUID) {
+  public removeEnrollment(courseId: string) {
     this.enrolledCourses.set(this.enrolledCourses().filter(e => e.id != courseId));
   }
 

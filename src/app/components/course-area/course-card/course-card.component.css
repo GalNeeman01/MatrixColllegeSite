@@ -1,6 +1,6 @@
 .wrapper {
     width: 21vw;
-    min-width: 320px;
+    min-width: 350px;
     aspect-ratio: 9 / 11;
     background-color: #F3F4F6;
     border-radius: 15px;
@@ -103,4 +103,8 @@ button:hover {
 
 .enrolled {
     background-color: #A9D6C2 !important;
+}
+
+a {
+    min-height: 35px;
 }

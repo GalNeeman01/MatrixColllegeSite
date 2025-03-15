@@ -19,42 +19,49 @@ import { Roles } from '../../../utils/types';
   styleUrl: './lesson.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LessonComponent implements OnInit{
-    @Input()
-    public lesson: LessonInfoModel;
+export class LessonComponent implements OnInit {
+  @Input()
+  public lesson: LessonInfoModel;
 
-    @Input()
-    public userProgress: ProgressModel[];
+  @Input()
+  public userProgress: ProgressModel[];
 
-    @Input()
-    public position: number;
+  @Input()
+  public position: number;
 
-    public isEnrolled = signal<boolean>(false);
-    public isProfessor: boolean = false;
-    public alreadyWatched = signal<boolean>(false);
-    public toolTipPos: { value: TooltipPosition } = { value: 'above' };
+  public isEnrolled = signal<boolean>(false);
+  public isProfessor: boolean = false;
+  public alreadyWatched = signal<boolean>(false);
+  public toolTipPos: { value: TooltipPosition } = { value: 'above' };
 
-    private userService = inject(UserService);
-    private router = inject(Router);
-    private snackbarService = inject(SnackbarService);
+  private userService = inject(UserService);
+  private router = inject(Router);
+  private snackbarService = inject(SnackbarService);
 
-    public async ngOnInit(): Promise<void> {
-      this.isEnrolled.set(await this.userService.isEnrolled(this.lesson.courseId));
-      this.isProfessor = this.userService.getUserRole() === Roles.Professor;
-      this.alreadyWatched.set((this.userProgress).some(p => p.lessonId === this.lesson.id));
-    }
-
-    public async watchLesson(): Promise<void> {
-      try {
-        if (!this.isProfessor) {
-          // Save user progress
-          await this.userService.addProgress(this.lesson.id);
-        }
-
-        this.router.navigateByUrl("watch/" + this.lesson.id);
-      }
-      catch (err: any) {
-        this.snackbarService.showError(err.message);
+  public async ngOnInit(): Promise<void> {
+    try {
+      if (this.userService.isLoggedIn()) {
+        this.isEnrolled.set(await this.userService.isEnrolled(this.lesson.courseId));
+        this.alreadyWatched.set((this.userProgress).some(p => p.lessonId === this.lesson.id));
+        this.isProfessor = this.userService.getUserRole() === Roles.Professor;
       }
     }
+    catch (err: any) {
+      this.snackbarService.showError(err.message);
+    }
+  }
+
+  public async watchLesson(): Promise<void> {
+    try {
+      if (!this.isProfessor) {
+        // Save user progress
+        await this.userService.addProgress(this.lesson.id);
+      }
+
+      this.router.navigateByUrl("watch/" + this.lesson.id);
+    }
+    catch (err: any) {
+      this.snackbarService.showError(err.message);
+    }
+  }
 }

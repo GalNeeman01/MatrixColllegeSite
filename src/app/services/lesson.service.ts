@@ -4,7 +4,6 @@ import { LessonModel } from '../models/lesson.model';
 import { environment } from '../../environments/environment';
 import { firstValueFrom } from 'rxjs';
 import { LessonInfoModel } from '../models/lessonInfo.model';
-import { GUID } from '../utils/types';
 
 @Injectable({
   providedIn: 'root'

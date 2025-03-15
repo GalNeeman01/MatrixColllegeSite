@@ -1,8 +1,6 @@
-import { GUID } from "../utils/types";
-
 export class EnrollmentModel {
-    public id: GUID;
-    public userId: GUID;
-    public courseId: GUID;
+    public id: string;
+    public userId: string;
+    public courseId: string;
     public enrolledAt: Date;
 }

@@ -4,10 +4,10 @@ import { ProfessorGuard } from './auth/professor.guard';
 import { UserGuard } from './auth/user.guard';
 import { CoursesComponent } from './components/page-area/courses/courses.component';
 import { HomeComponent } from './components/page-area/home/home.component';
-import { CourseResolver } from './resolvers/course.resolver';
 import { CoursesResolver } from './resolvers/courses.resolver';
 import { WatchLessonGuard } from './auth/watch-lesson.guard';
 import { ProfileResolver } from './resolvers/profile.resolver';
+import { ViewCourseResolver } from './resolvers/view-course.resolver';
 
 export const routes: Routes = [
     {
@@ -33,7 +33,7 @@ export const routes: Routes = [
         path: "courses/:id", 
         loadComponent: () => import('./components/page-area/view-course/view-course.component').then(m => m.ViewCourseComponent),
         resolve: {
-            courseData: CourseResolver
+            courseData: ViewCourseResolver
         }
     },
 

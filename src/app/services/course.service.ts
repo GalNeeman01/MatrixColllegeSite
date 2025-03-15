@@ -4,7 +4,6 @@ import { environment } from '../../environments/environment';
 import { firstValueFrom } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { CourseStore } from '../storage/course-store';
-import { GUID } from '../utils/types';
 
 @Injectable({
   providedIn: 'root'

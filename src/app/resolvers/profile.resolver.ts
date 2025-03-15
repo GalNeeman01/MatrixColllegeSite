@@ -2,7 +2,13 @@ import { inject, Injectable } from '@angular/core';
 import { Resolve } from '@angular/router';
 import { SnackbarService } from '../services/snackbar.service';
 import { UserService } from '../services/user.service';
-import { CourseProgress, ProfileData, Roles } from '../utils/types';
+import { CourseProgress, Roles } from '../utils/types';
+import { CourseModel } from '../models/course.model';
+
+export interface ProfileData {
+    courses: CourseModel[],
+    courseProgress: { [courseId: string]: CourseProgress }
+}
 
 @Injectable({
     providedIn: 'root'

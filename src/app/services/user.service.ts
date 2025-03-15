@@ -1,20 +1,20 @@
 import { HttpClient } from "@angular/common/http";
-import { computed, effect, inject, Injectable } from "@angular/core";
-import { environment } from "../../environments/environment";
-import { CredentialsModel } from "../models/credentials.model";
-import { firstValueFrom, throwError } from "rxjs";
+import { inject, Injectable } from "@angular/core";
 import { jwtDecode } from "jwt-decode";
-import { UserModel } from "../models/user.model";
-import { UserStore } from "../storage/user-store";
-import { RegisterDto } from "../models/register.dto";
-import { EnrollmentModel } from "../models/enrollment.model";
+import { firstValueFrom } from "rxjs";
+import { environment } from "../../environments/environment";
 import { CourseModel } from "../models/course.model";
+import { CredentialsModel } from "../models/credentials.model";
+import { EnrollmentModel } from "../models/enrollment.model";
 import { ProgressModel } from "../models/progress.model";
-import { LessonService } from "./lesson.service";
-import { CourseProgress, GUID, Roles } from "../utils/types";
+import { RegisterDto } from "../models/register.dto";
+import { UserModel } from "../models/user.model";
 import { EnrollmentStore } from "../storage/enrollments-store";
-import { CourseService } from "./course.service";
 import { ProgressStore } from "../storage/progress-store";
+import { UserStore } from "../storage/user-store";
+import { CourseProgress, Roles } from "../utils/types";
+import { CourseService } from "./course.service";
+import { LessonService } from "./lesson.service";
 
 @Injectable({
     providedIn: 'root'
@@ -178,7 +178,7 @@ export class UserService {
     }
 
     // Create a new enrollment for the user
-    public async enrollUser(courseId: GUID) : Promise<void> {
+    public async enrollUser(courseId: string) : Promise<void> {
         const enrollment: EnrollmentModel = {id: undefined, userId: this.userStore.user().id, courseId: courseId, enrolledAt: new Date()};
 
         const enroll$ = this.http.post<EnrollmentModel>(environment.enrollUserUrl, enrollment);
@@ -217,7 +217,7 @@ export class UserService {
     }
 
     // Add progress
-    public async addProgress(lessonId: GUID) : Promise<void> {
+    public async addProgress(lessonId: string) : Promise<void> {
         const progress: ProgressModel = {id: undefined, userId: this.userStore.user().id, lessonId: lessonId, watchedAt: new Date()};
 
         const progress$ = this.http.post(environment.progressUrl, progress);

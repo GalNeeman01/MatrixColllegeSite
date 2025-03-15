@@ -7,7 +7,7 @@
             @for (lesson of lessons(); track lesson.id) {
                 <app-lesson [userProgress]="userProgress" class="app-lesson" 
                             [lesson]="lesson"
-                            [position]="lessons().indexOf(lesson) + 1"></app-lesson>
+                            [position]="$index + 1"></app-lesson>
             }
         </div>
         <p *ngIf="lessons().length === 0">There is currently no content for this course...</p>

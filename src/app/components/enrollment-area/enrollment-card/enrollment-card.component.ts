@@ -10,7 +10,7 @@ import { Router, RouterModule } from '@angular/router';
 import { CourseModel } from '../../../models/course.model';
 import { SnackbarService } from '../../../services/snackbar.service';
 import { UserService } from '../../../services/user.service';
-import { CourseProgress, GUID } from '../../../utils/types';
+import { CourseProgress } from '../../../utils/types';
 import { ConfirmUnenrollComponent } from '../../dialogs/confirm-unenroll/confirm-unenroll.component';
 
 @Component({
@@ -32,7 +32,7 @@ export class EnrollmentCardComponent implements OnInit, OnChanges {
   public course: CourseModel; // Receive from parent component
 
   @Output()
-  public deleteClicked: EventEmitter<GUID> = new EventEmitter(); // Emit to parent component
+  public deleteClicked: EventEmitter<string> = new EventEmitter(); // Emit to parent component
 
   private userService = inject(UserService);
   private router = inject(Router);
