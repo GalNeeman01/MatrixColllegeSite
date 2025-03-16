@@ -17,8 +17,8 @@
     <div class="featured-courses">
         <h4>Featured Courses</h4>
 
-        <div class="courses" *ngIf="featuredCourses.length > 0">
-            @for (featuredCourse of featuredCourses; track featuredCourse.id) {
+        <div class="courses" *ngIf="featuredCourses().length > 0">
+            @for (featuredCourse of featuredCourses(); track featuredCourse.id) {
                 <app-course-card class="course-card" [course]="featuredCourse"></app-course-card>
             }
         </div>

@@ -29,6 +29,7 @@ export class ViewCourseComponent implements OnInit {
 
     async ngOnInit(): Promise<void> {
       try {
+        window.scrollTo(0, 0);
         const data : ViewCourseData = this.activatedRoute.snapshot.data['courseData'];
 
         // Apply data from resolver

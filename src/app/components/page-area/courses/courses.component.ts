@@ -9,31 +9,31 @@ import { CourseCardComponent } from "../../course-area/course-card/course-card.c
 import { CoursePageHeaderComponent } from "../../course-area/course-page-header/course-page-header.component";
 
 @Component({
-  selector: 'app-courses',
-  imports: [CourseCardComponent, CommonModule, CoursePageHeaderComponent],
-  templateUrl: './courses.component.html',
-  styleUrl: './courses.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-courses',
+    imports: [CourseCardComponent, CommonModule, CoursePageHeaderComponent],
+    templateUrl: './courses.component.html',
+    styleUrl: './courses.component.css',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CoursesComponent implements OnInit {
-  public courses = signal<CourseModel[]>([]);
-  
-  private userService = inject(UserService);
-  private snackbarService = inject(SnackbarService);
-  private route = inject(ActivatedRoute);
+    public courses = signal<CourseModel[]>([]);
 
-  public async ngOnInit(): Promise<void> {
-    try {
-      // Initialize enrollments store (for course cards)
-      if (this.userService.isLoggedIn() && this.userService.getUserRole() === Roles.Student)
-          await this.userService.getUserEnrollments();
+    private userService = inject(UserService);
+    private snackbarService = inject(SnackbarService);
+    private route = inject(ActivatedRoute);
 
-      this.courses.set(this.route.snapshot.data['coursesData']);
+    public async ngOnInit(): Promise<void> {
+        try {
+            window.scrollTo(0, 0);
+            // Initialize enrollments store (for course cards)
+            if (this.userService.isLoggedIn() && this.userService.getUserRole() === Roles.Student)
+                await this.userService.getUserEnrollments();
+
+            this.courses.set(this.route.snapshot.data['coursesData']);
+        }
+        catch (err: any) {
+            this.snackbarService.showError(err.message);
+        }
     }
-    catch (err: any)
-    {
-      this.snackbarService.showError(err.message);
-    }
-  }
 
 }

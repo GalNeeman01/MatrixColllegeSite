@@ -23,8 +23,8 @@ export class CourseCardComponent implements OnInit {
     @Input()
     public course: CourseModel;
 
-    public enrolled = false;
-    public badge: string;
+    public isEnrolled = signal<boolean>(false);
+    public badge = signal<string>("");
     public link: string;
     public isProfessor = false;
     public isLoggedIn = false;
@@ -50,14 +50,14 @@ export class CourseCardComponent implements OnInit {
                 this.isStudent = this.userService.getUserRole() === Roles.Student;
 
                 // Check if user is enrolled to the course
-                this.enrolled = await this.userService.isEnrolled(this.course.id);
+                this.isEnrolled.set(await this.userService.isEnrolled(this.course.id));
             }
 
             // Determine whether to show the "NEW" badge or not
             this.isNew = (new Date().getTime()) - (new Date(this.course.createdAt).getTime()) < (7 * 24 * 60 * 60 * 1000);
 
             if (this.isNew) {
-                this.badge = "NEW";
+                this.badge.set("NEW");
             }
         }
         catch (err: any) {

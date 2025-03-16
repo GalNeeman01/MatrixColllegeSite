@@ -1,4 +1,4 @@
-<div class="wrapper" [matBadge]="badge" matBadgePosition="before">
+<div class="wrapper" [matBadge]="badge()" matBadgePosition="before">
     <div class="top">
         <img src="assets/images/course-image.jpg">
     </div>
@@ -13,7 +13,7 @@
 
             <!-- Student Buttons -->
             <div class="buttons" *ngIf="isStudent">
-                @if (enrolled) {
+                @if (isEnrolled()) {
                     <button class="enrolled" mat-stroked-button><mat-icon>checked</mat-icon>Enrolled</button>
                 }
                 @else {

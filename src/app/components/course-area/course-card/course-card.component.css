@@ -78,6 +78,7 @@ button, a {
     border: 1px solid lightgray !important;
     margin-top: auto;
     margin-bottom: 2vh;
+    min-height: 35px;
     height: 4vh;
     border-radius: 25px;
 }
@@ -103,8 +104,4 @@ button:hover {
 
 .enrolled {
     background-color: #A9D6C2 !important;
-}
-
-a {
-    min-height: 35px;
 }

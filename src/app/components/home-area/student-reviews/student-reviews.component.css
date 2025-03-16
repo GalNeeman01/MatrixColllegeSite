@@ -1,91 +1,33 @@
-/* Student Reviews Section - Modern Light Theme */
-
 .wrapper {
     max-width: 1200px;
-    margin: 80px auto;
-    padding: 40px;
-    background-color: #f9f9fb;
-    border-radius: 16px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    margin: 0 auto;
+    padding: 4rem 2rem;
+    border-radius: 12px;
 }
 
-h4 {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    font-size: 28px;
-    font-weight: 600;
-    color: #2d3748;
-    margin-bottom: 32px;
+.wrapper h4 {
     text-align: center;
+    font-size: 2.2rem;
+    margin-bottom: 3rem;
+    color: #2d3748;
+    font-weight: 600;
     position: relative;
 }
 
-h4:after {
-    content: '';
+.wrapper h4::after {
+    content: "";
     position: absolute;
-    width: 60px;
+    width: 80px;
     height: 4px;
-    background: linear-gradient(90deg, #4c6fff, #7e57ff);
+    background: linear-gradient(90deg, #4a6cf7, #6e8efa);
     bottom: -12px;
     left: 50%;
     transform: translateX(-50%);
     border-radius: 2px;
 }
 
-ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+.reviews {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
-}
-
-li {
-    background-color: white;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    line-height: 1.6;
-    color: #4a5568;
-    font-size: 16px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-}
-
-li:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-}
-
-li:before {
-    content: '"';
-    font-size: 60px;
-    color: #e2e8f0;
-    font-family: Georgia, serif;
-    position: absolute;
-    top: 10px;
-    left: 20px;
-    line-height: 1;
-    opacity: 0.6;
-}
-
-li:after {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 1px;
-    background-color: #edf2f7;
-    margin: 20px 0 16px;
-}
-
-li em {
-    font-style: normal;
-    font-weight: 600;
-    color: #2d3748;
-    margin-top: auto;
-    font-size: 14px;
-    display: block;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
 }

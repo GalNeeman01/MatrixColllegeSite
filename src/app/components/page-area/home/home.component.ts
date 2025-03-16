@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { HomeHeaderComponent } from "../../home-area/home-header/home-header.component";
 import { LinkCardComponent } from "../../home-area/link-card/link-card.component";
 import { CourseCardComponent } from "../../course-area/course-card/course-card.component";
@@ -6,6 +6,7 @@ import { CourseModel } from '../../../models/course.model';
 import { CourseService } from '../../../services/course.service';
 import { CommonModule } from '@angular/common';
 import { StudentReviewsComponent } from "../../home-area/student-reviews/student-reviews.component";
+import { SnackbarService } from '../../../services/snackbar.service';
 
 @Component({
   selector: 'app-home',
@@ -15,10 +16,18 @@ import { StudentReviewsComponent } from "../../home-area/student-reviews/student
 })
 export class HomeComponent implements OnInit {
     private courseService = inject(CourseService);
+    private snackbarService = inject(SnackbarService);
 
-    public featuredCourses : CourseModel[] = [];
+    public featuredCourses = signal<CourseModel[]>([]);
 
     public async ngOnInit() {
-        this.featuredCourses = (await this.courseService.getAllCourses()).slice(0, 2);
+        try {
+            window.scrollTo(0, 0);
+            this.featuredCourses.set((await this.courseService.getAllCourses()).slice(0, 2));
+        }
+        catch (err: any)
+        {
+            this.snackbarService.showError(err.message);
+        }
     }
 }

@@ -10,48 +10,48 @@ import { isEmail } from '../../../utils/validators';
 import { SnackbarService } from '../../../services/snackbar.service';
 
 @Component({
-  selector: 'app-login',
-  imports: [MatButtonModule, MatInputModule, ReactiveFormsModule, MatCardModule],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-login',
+    imports: [MatButtonModule, MatInputModule, ReactiveFormsModule, MatCardModule],
+    templateUrl: './login.component.html',
+    styleUrl: './login.component.css',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginComponent implements OnInit {
-  public credentials = new CredentialsModel();
-  public userForm: FormGroup;
+    public credentials = new CredentialsModel();
+    public userForm: FormGroup;
 
-  private formBuilder = inject(FormBuilder);
-  private userService = inject(UserService);
-  private router = inject(Router);
-  private snackbarService = inject(SnackbarService);
+    private formBuilder = inject(FormBuilder);
+    private userService = inject(UserService);
+    private router = inject(Router);
+    private snackbarService = inject(SnackbarService);
 
-  public ngOnInit(): void {
-    this.userForm = this.formBuilder.group({
-      emailControl: new FormControl("", [Validators.required, isEmail()]),
-      passwordControl: new FormControl("", [Validators.required, Validators.minLength(8)])
-    })
-  }
+    public ngOnInit(): void {
+        window.scrollTo(0, 0);
 
-  public async send() : Promise<void> {
-    try
-    {
-      this.credentials.email = this.userForm.get("emailControl").value;
-      this.credentials.password = this.userForm.get("passwordControl").value;
-  
-      await this.userService.login(this.credentials);
-
-      this.router.navigateByUrl("home");
-      this.snackbarService.showSuccess("Welcome, " + this.userService.getUsername());
+        this.userForm = this.formBuilder.group({
+            emailControl: new FormControl("", [Validators.required, isEmail()]),
+            passwordControl: new FormControl("", [Validators.required, Validators.minLength(8)])
+        })
     }
-    catch (err: any)
-    {
-        // If incorrect credentials:
-        this.userForm.get("emailControl").setValue("");
-        this.userForm.get("passwordControl").setValue("");
 
-        const errMessage = JSON.parse(err.error).errors;
+    public async send(): Promise<void> {
+        try {
+            this.credentials.email = this.userForm.get("emailControl").value;
+            this.credentials.password = this.userForm.get("passwordControl").value;
 
-        this.snackbarService.showError(errMessage);
+            await this.userService.login(this.credentials);
+
+            this.router.navigateByUrl("home");
+            this.snackbarService.showSuccess("Welcome, " + this.userService.getUsername());
+        }
+        catch (err: any) {
+            // If incorrect credentials:
+            this.userForm.get("emailControl").setValue("");
+            this.userForm.get("passwordControl").setValue("");
+
+            const errMessage = JSON.parse(err.error).errors;
+
+            this.snackbarService.showError(errMessage);
+        }
     }
-  }
 }

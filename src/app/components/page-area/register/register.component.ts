@@ -13,49 +13,50 @@ import { SnackbarService } from '../../../services/snackbar.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-register',
-  imports: [MatFormFieldModule, MatInputModule, MatButtonModule, ReactiveFormsModule, 
-            MatCardModule, CommonModule, MatButtonToggleModule],
-  templateUrl: './register.component.html',
-  styleUrl: './register.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-register',
+    imports: [MatFormFieldModule, MatInputModule, MatButtonModule, ReactiveFormsModule,
+        MatCardModule, CommonModule, MatButtonToggleModule],
+    templateUrl: './register.component.html',
+    styleUrl: './register.component.css',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RegisterComponent implements OnInit {
-  public registerDto = new RegisterDto();
-  public registerForm: FormGroup;
+    public registerDto = new RegisterDto();
+    public registerForm: FormGroup;
 
-  private formBuilder = inject(FormBuilder);
-  private userService = inject(UserService);
-  private router = inject(Router);
-  private snackbarService = inject(SnackbarService);
+    private formBuilder = inject(FormBuilder);
+    private userService = inject(UserService);
+    private router = inject(Router);
+    private snackbarService = inject(SnackbarService);
 
-  public ngOnInit(): void {
-    this.registerForm = this.formBuilder.group({
-      usernameControl: new FormControl("", [Validators.required, Validators.minLength(8), Validators.maxLength(50)]),
-      emailControl: new FormControl("", [Validators.required, isEmail(), Validators.minLength(10), Validators.maxLength(320)]),
-      passwordControl: new FormControl("", [Validators.required, strongPassword()]),
-      roleControl: new FormControl(2)
-    });
-  }
+    public ngOnInit(): void {
+        window.scrollTo(0, 0);
 
-  public async send(): Promise<void> {
-    try {
-      this.registerDto.name = this.registerForm.get("usernameControl").value;
-      this.registerDto.email = this.registerForm.get("emailControl").value;
-      this.registerDto.password = this.registerForm.get("passwordControl").value;
-      this.registerDto.roleId = this.registerForm.get("roleControl").value;
-
-      await this.userService.register(this.registerDto); // Do not navigate until response
-      this.router.navigateByUrl("home");
-      this.snackbarService.showSuccess("Welcome, " + this.userService.getUsername());
+        this.registerForm = this.formBuilder.group({
+            usernameControl: new FormControl("", [Validators.required, Validators.minLength(8), Validators.maxLength(50)]),
+            emailControl: new FormControl("", [Validators.required, isEmail(), Validators.minLength(10), Validators.maxLength(320)]),
+            passwordControl: new FormControl("", [Validators.required, strongPassword()]),
+            roleControl: new FormControl(2)
+        });
     }
-    catch(err: any)
-    {
-      // Register failed
-      this.registerForm.get("emailControl").setValue("")
 
-      const errMessage = JSON.parse(err.error).errors;
-      this.snackbarService.showError(errMessage);
+    public async send(): Promise<void> {
+        try {
+            this.registerDto.name = this.registerForm.get("usernameControl").value;
+            this.registerDto.email = this.registerForm.get("emailControl").value;
+            this.registerDto.password = this.registerForm.get("passwordControl").value;
+            this.registerDto.roleId = this.registerForm.get("roleControl").value;
+
+            await this.userService.register(this.registerDto); // Do not navigate until response
+            this.router.navigateByUrl("home");
+            this.snackbarService.showSuccess("Welcome, " + this.userService.getUsername());
+        }
+        catch (err: any) {
+            // Register failed
+            this.registerForm.get("emailControl").setValue("")
+
+            const errMessage = JSON.parse(err.error).errors;
+            this.snackbarService.showError(errMessage);
+        }
     }
-  }
 }

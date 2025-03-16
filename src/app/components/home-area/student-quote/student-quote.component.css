@@ -1,0 +1,35 @@
+.review {
+    background-color: white;
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: 0px 8px 24px rgba(149, 157, 165, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    min-height: fit-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 80%;
+}
+
+.review:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 12px 30px rgba(149, 157, 165, 0.2);
+}
+
+app-student-quote {
+    display: block;
+    position: relative;
+    padding-left: 2rem;
+    line-height: 1.6;
+}
+
+app-student-quote::before {
+    content: "";
+    position: absolute;
+    left: -10px;
+    top: -20px;
+    font-size: 4rem;
+    color: #4a6cf7;
+    opacity: 0.3;
+    font-family: Georgia, serif;
+}
