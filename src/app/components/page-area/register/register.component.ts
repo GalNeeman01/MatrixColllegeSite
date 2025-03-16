@@ -1,16 +1,16 @@
+import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { Router } from '@angular/router';
 import { RegisterDto } from '../../../models/register.dto';
+import { SnackbarService } from '../../../services/snackbar.service';
 import { UserService } from '../../../services/user.service';
 import { isEmail, strongPassword } from '../../../utils/validators';
-import { SnackbarService } from '../../../services/snackbar.service';
-import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-register',
@@ -21,14 +21,17 @@ import { CommonModule } from '@angular/common';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RegisterComponent implements OnInit {
-    public registerDto = new RegisterDto();
-    public registerForm: FormGroup;
-
+    // DI's
     private formBuilder = inject(FormBuilder);
     private userService = inject(UserService);
     private router = inject(Router);
     private snackbarService = inject(SnackbarService);
 
+    // Public
+    public registerDto = new RegisterDto();
+    public registerForm: FormGroup;
+
+    // Methods
     public ngOnInit(): void {
         window.scrollTo(0, 0);
 

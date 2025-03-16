@@ -8,15 +8,17 @@ import { SnackbarService } from '../services/snackbar.service';
   providedIn: 'root'
 })
 export class CoursesResolver implements Resolve<CourseModel[]> {
+  // DI's
   private courseService = inject(CourseService);
   private snackbarService = inject(SnackbarService);
 
-  resolve() : Promise<CourseModel[]> {
+  // Resolve
+  resolve(): Promise<CourseModel[]> {
     try {
+      // Fetch courses
       return this.courseService.getAllCourses();
     }
-    catch (err: any)
-    {
+    catch (err: any) {
       this.snackbarService.showError(err.message);
       return undefined;
     }

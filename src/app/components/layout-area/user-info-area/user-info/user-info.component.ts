@@ -7,11 +7,12 @@ import { UserBadgeComponent } from "../user-badge/user-badge.component";
 
 @Component({
   selector: 'app-user-info',
-  imports: [MatButtonModule, MatIconModule, 
-            RouterModule, UserBadgeComponent],
+  imports: [MatButtonModule, MatIconModule,
+    RouterModule, UserBadgeComponent],
   templateUrl: './user-info.component.html',
   styleUrl: './user-info.component.css'
 })
 export class UserInfoComponent {
+  // DI's
   public userService = inject(UserService);
 }

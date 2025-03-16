@@ -1,5 +1,5 @@
 import { patchState, signalStore, withMethods, withState } from "@ngrx/signals";
-import { ProgressModel } from "../models/progress.model"
+import { ProgressModel } from "../models/progress.model";
 
 export type ProgressState = {
     progresses: ProgressModel[];
@@ -10,21 +10,21 @@ const initialState: ProgressState = {
 }
 
 export const ProgressStore = signalStore(
-    { providedIn: "root"},
+    { providedIn: "root" },
 
     withState(initialState),
 
     withMethods(store => ({
         initProgresses(progresses: ProgressModel[]): void {
-            patchState(store, currentState => ({progresses}));
+            patchState(store, currentState => ({ progresses }));
         },
 
         addProgress(progress: ProgressModel): void {
-            patchState(store, currentState => ({progresses: [...currentState.progresses, progress]}));
+            patchState(store, currentState => ({ progresses: [...currentState.progresses, progress] }));
         },
 
         clearProgress(): void {
-            patchState(store, currentState => ({progresses: [] as ProgressModel[]}))
+            patchState(store, currentState => ({ progresses: [] as ProgressModel[] }))
         }
     }))
 )

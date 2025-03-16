@@ -9,9 +9,11 @@ import { CourseStore } from '../storage/course-store';
   providedIn: 'root'
 })
 export class CourseService {
+  // DI's
   private http = inject(HttpClient);
   private courseStore = inject(CourseStore);
 
+  // Methods
   public async getAllCourses() : Promise<CourseModel[]> {
     if (this.courseStore.courses().length > 0)
       return this.courseStore.courses();

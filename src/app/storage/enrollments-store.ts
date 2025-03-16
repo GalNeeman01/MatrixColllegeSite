@@ -11,26 +11,26 @@ const initialState: EnrollmentState = {
 
 export const EnrollmentStore = signalStore(
     // Defining EnrollmentStore as an injectable singleton service
-    { providedIn: "root"},
+    { providedIn: "root" },
 
     // Initial state
     withState(initialState),
 
     withMethods(store => ({
-        initEnrollments(enrollments: EnrollmentModel[]) : void {
-            patchState(store, currentState => ({enrollments}));
+        initEnrollments(enrollments: EnrollmentModel[]): void {
+            patchState(store, currentState => ({ enrollments }));
         },
 
-        addEnrollment(enrollment: EnrollmentModel) : void {
+        addEnrollment(enrollment: EnrollmentModel): void {
             patchState(store, currentState => ({ enrollments: [...currentState.enrollments, enrollment] }));
         },
 
-        deleteEnrollment(id: string) : void {
-            patchState(store, currentState => ({enrollments: currentState.enrollments.filter(e => e.id !== id)}));
+        deleteEnrollment(id: string): void {
+            patchState(store, currentState => ({ enrollments: currentState.enrollments.filter(e => e.id !== id) }));
         },
 
         clearEnrollments(): void {
-            patchState(store, currentState => ({enrollments: [] as EnrollmentModel[]}));
+            patchState(store, currentState => ({ enrollments: [] as EnrollmentModel[] }));
         }
     })),
 )

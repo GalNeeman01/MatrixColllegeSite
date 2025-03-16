@@ -5,9 +5,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { Router } from '@angular/router';
 import { CredentialsModel } from '../../../models/credentials.model';
+import { SnackbarService } from '../../../services/snackbar.service';
 import { UserService } from '../../../services/user.service';
 import { isEmail } from '../../../utils/validators';
-import { SnackbarService } from '../../../services/snackbar.service';
 
 @Component({
     selector: 'app-login',
@@ -17,14 +17,17 @@ import { SnackbarService } from '../../../services/snackbar.service';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginComponent implements OnInit {
-    public credentials = new CredentialsModel();
-    public userForm: FormGroup;
-
+    // DI's
     private formBuilder = inject(FormBuilder);
     private userService = inject(UserService);
     private router = inject(Router);
     private snackbarService = inject(SnackbarService);
 
+    // Public
+    public credentials = new CredentialsModel();
+    public userForm: FormGroup;
+
+    // Methods
     public ngOnInit(): void {
         window.scrollTo(0, 0);
 

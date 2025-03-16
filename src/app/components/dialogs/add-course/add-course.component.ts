@@ -19,14 +19,17 @@ import { CourseModel } from '../../../models/course.model';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddCourseComponent {
+  // DI's
   private courseService = inject(CourseService);
   private router = inject(Router);
   private snackbarService = inject(SnackbarService);
   private dialogRef = inject(MatDialogRef<AddCourseComponent>);
 
+  // Public
   public courseName : string;
   public courseDescription: string;
 
+  // Methods
   public async createCourse() : Promise<void> {
     try {
       const course : CourseModel = { id: undefined, title: this.courseName, description: this.courseDescription, createdAt: new Date() }

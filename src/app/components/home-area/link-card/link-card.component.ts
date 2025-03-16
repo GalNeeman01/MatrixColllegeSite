@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 
@@ -6,18 +6,20 @@ import { RouterLink } from '@angular/router';
   selector: 'app-link-card',
   imports: [MatIconModule, RouterLink],
   templateUrl: './link-card.component.html',
-  styleUrl: './link-card.component.css'
+  styleUrl: './link-card.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LinkCardComponent {
-    @Input()
-    public iconName: string;
+  // Inputs
+  @Input()
+  public iconName: string;
 
-    @Input()
-    public title: string;
+  @Input()
+  public title: string;
 
-    @Input()
-    public text: string;
+  @Input()
+  public text: string;
 
-    @Input()
-    public link: string;
+  @Input()
+  public link: string;
 }

@@ -1,6 +1,5 @@
-import { patchState, signalStore, withComputed, withMethods, withState } from "@ngrx/signals";
+import { patchState, signalStore, withMethods, withState } from "@ngrx/signals";
 import { UserModel } from "../models/user.model";
-import { computed } from "@angular/core";
 
 export type UserState = {
     user: UserModel;
@@ -18,12 +17,12 @@ export const UserStore = signalStore(
     withState(initialState),
 
     withMethods(store => ({
-        initUser(user: UserModel) : void {
+        initUser(user: UserModel): void {
             patchState(store, currentState => ({ user }));
         },
 
         logoutUser(): void {
-            patchState(store, currentState => ({user: null as UserModel}));
+            patchState(store, currentState => ({ user: null as UserModel }));
         }
     })),
 )

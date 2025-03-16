@@ -12,9 +12,10 @@ export class WatchLessonGuard implements CanActivate {
     private courseService = inject(CourseService);
     private router = inject(Router);
 
+    // Only allow enrolled users or professors to watch
     public async canActivate(route: ActivatedRouteSnapshot): Promise<boolean> {
         if (this.userService.getUserRole() === Roles.Professor)
-            return true; // Any professor can watch any lesson
+            return true; // Always allow professors in
 
         const lessonId = route.paramMap.get('id');
         if (!lessonId) {
@@ -22,6 +23,7 @@ export class WatchLessonGuard implements CanActivate {
             return false;
         }
 
+        // Retrieve data for if user is enrolled
         const course = await this.courseService.getCourseByLessonId(lessonId);
         const isEnrolled = await this.userService.isEnrolled(course.id);
 

@@ -1,13 +1,13 @@
+import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { Router, RouterLink } from '@angular/router';
 import { UserService } from '../../../../services/user.service';
-import { MatDialog } from '@angular/material/dialog';
-import { AddCourseComponent } from '../../../dialogs/add-course/add-course.component';
 import { Roles } from '../../../../utils/types';
-import { CommonModule } from '@angular/common';
+import { AddCourseComponent } from '../../../dialogs/add-course/add-course.component';
 
 @Component({
   selector: 'app-user-badge',
@@ -17,14 +17,17 @@ import { CommonModule } from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserBadgeComponent implements OnInit {
+  // DI's
   private userService = inject(UserService);
   private router = inject(Router);
   private dialog = inject(MatDialog);
 
+  // Public
   public userInitials = signal<string>("");
   public userEmail = signal<string>("");
-  public isProfessor : boolean = false;
+  public isProfessor: boolean = false;
 
+  // Methods
   ngOnInit(): void {
     this.userInitials.set(this.userService.getUsername()[0].toUpperCase());
     this.userEmail.set(this.userService.getEmail());
@@ -37,7 +40,7 @@ export class UserBadgeComponent implements OnInit {
     await this.router.navigateByUrl('home');
   }
 
-  public openDialog() : void {
-        this.dialog.open(AddCourseComponent);
+  public openDialog(): void {
+    this.dialog.open(AddCourseComponent);
   }
 }

@@ -9,8 +9,10 @@ import { LessonInfoModel } from '../models/lessonInfo.model';
   providedIn: 'root'
 })
 export class LessonService {
+  // DI's
   private http = inject(HttpClient);
 
+  // Methods
   public async getLessonsByCourseId(courseId: string) : Promise<LessonModel[]> {
     const lessons$ = this.http.get<LessonModel[]>(environment.courseLessonsUrl + courseId);
     const lessons = await firstValueFrom(lessons$);

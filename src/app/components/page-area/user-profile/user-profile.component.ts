@@ -19,11 +19,13 @@ import { ActionCardComponent } from "../../shared/action-card/action-card.compon
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserProfileComponent implements OnInit {
+    // DI's
     private userService = inject(UserService);
     private snackbarService = inject(SnackbarService);
     private dialog = inject(MatDialog);
     private route = inject(ActivatedRoute);
 
+    // Public
     public username: string;
     public isStudent: boolean;
     public isProfessor: boolean;
@@ -33,9 +35,10 @@ export class UserProfileComponent implements OnInit {
     public unfinishedCourses = computed<CourseModel[]>(() => this.enrolledCourses().filter(course => this.courseProgress[course.id] && (this.courseProgress[course.id].completed < this.courseProgress[course.id].total || this.courseProgress[course.id].completed === 0)))
     public completedCourses = computed<CourseModel[]>(() => this.enrolledCourses().filter(course => this.courseProgress[course.id] && this.courseProgress[course.id].completed === this.courseProgress[course.id].total && this.courseProgress[course.id].total !== 0));
 
+    // Methods
     public async ngOnInit(): Promise<void> {
         try {
-            window.scrollTo(0, 0);
+            window.scrollTo(0, 0); // Reset scrolling position
             this.isStudent = this.userService.getUserRole() === Roles.Student;
             this.isProfessor = this.userService.getUserRole() === Roles.Professor;
             this.role = this.userService.getUserRole();

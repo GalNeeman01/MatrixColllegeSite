@@ -20,9 +20,11 @@ import { Roles } from '../../../utils/types';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CourseCardComponent implements OnInit {
+    // Inputs
     @Input()
     public course: CourseModel;
 
+    // Public
     public isEnrolled = signal<boolean>(false);
     public badge = signal<string>("");
     public link: string;
@@ -30,12 +32,15 @@ export class CourseCardComponent implements OnInit {
     public isLoggedIn = false;
     public isStudent = false;
 
+    // Private
     private isNew: boolean;
 
+    // DI's
     private snackbarService = inject(SnackbarService);
     private userService = inject(UserService);
     private router = inject(Router);
 
+    // Methods
     async ngOnInit(): Promise<void> {
         try {
             this.link = `/courses/${this.course.id}`;

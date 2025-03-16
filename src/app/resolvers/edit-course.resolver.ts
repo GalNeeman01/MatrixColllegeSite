@@ -8,11 +8,14 @@ import { SnackbarService } from '../services/snackbar.service';
     providedIn: 'root'
 })
 export class EditCourseResolver implements Resolve<CourseModel> {
+    // DI's
     private courseService = inject(CourseService);
     private snackbarService = inject(SnackbarService);
 
+    // Resolve
     resolve(route: ActivatedRouteSnapshot): Promise<CourseModel> {
         try {
+            // Fetch course by ID
             const id = route.paramMap.get('id');
             return this.courseService.getCourseById(id);
         }

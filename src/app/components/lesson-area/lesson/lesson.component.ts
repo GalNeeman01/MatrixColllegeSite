@@ -8,8 +8,8 @@ import { MatTooltip, TooltipPosition } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
 import { LessonInfoModel } from '../../../models/lessonInfo.model';
 import { ProgressModel } from '../../../models/progress.model';
-import { UserService } from '../../../services/user.service';
 import { SnackbarService } from '../../../services/snackbar.service';
+import { UserService } from '../../../services/user.service';
 import { Roles } from '../../../utils/types';
 
 @Component({
@@ -20,6 +20,7 @@ import { Roles } from '../../../utils/types';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LessonComponent implements OnInit {
+  // Inputs
   @Input()
   public lesson: LessonInfoModel;
 
@@ -29,15 +30,18 @@ export class LessonComponent implements OnInit {
   @Input()
   public position: number;
 
+  // DI's
+  private userService = inject(UserService);
+  private router = inject(Router);
+  private snackbarService = inject(SnackbarService);
+
+  // Public
   public isEnrolled = signal<boolean>(false);
   public isProfessor = signal<boolean>(false);
   public alreadyWatched = signal<boolean>(false);
   public toolTipPos: { value: TooltipPosition } = { value: 'above' };
 
-  private userService = inject(UserService);
-  private router = inject(Router);
-  private snackbarService = inject(SnackbarService);
-
+  // Methods
   public async ngOnInit(): Promise<void> {
     try {
       if (this.userService.isLoggedIn()) {

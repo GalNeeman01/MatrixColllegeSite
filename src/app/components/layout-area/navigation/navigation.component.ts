@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
@@ -8,7 +8,8 @@ import { RouterModule } from '@angular/router';
   imports: [MatToolbarModule, MatButtonModule, 
             RouterModule],
   templateUrl: './navigation.component.html',
-  styleUrl: './navigation.component.css'
+  styleUrl: './navigation.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavigationComponent {
 }

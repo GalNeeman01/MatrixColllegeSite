@@ -23,8 +23,7 @@ import { ConfirmUnenrollComponent } from '../../dialogs/confirm-unenroll/confirm
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EnrollmentCardComponent implements OnInit, OnChanges {
-  public progressPercent: number;
-
+  // Inputs
   @Input()
   public progress: CourseProgress; // Receive from parent component
 
@@ -34,12 +33,16 @@ export class EnrollmentCardComponent implements OnInit, OnChanges {
   @Output()
   public deleteClicked: EventEmitter<string> = new EventEmitter(); // Emit to parent component
 
+  // DI's
   private userService = inject(UserService);
   private router = inject(Router);
   private snackbarService = inject(SnackbarService);
   private dialog = inject(MatDialog);
 
+  // Public
+  public progressPercent: number;
 
+  // Methods
   public async ngOnInit(): Promise<void> {
     this.progressPercent = this.progress.total === 0 ? 0 : (this.progress.completed / this.progress.total) * 100;
   }

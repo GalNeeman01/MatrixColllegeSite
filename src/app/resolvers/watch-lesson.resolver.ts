@@ -8,11 +8,14 @@ import { SnackbarService } from '../services/snackbar.service';
     providedIn: 'root'
 })
 export class WatchLessonResolver implements Resolve<LessonModel> {
+    // DI's
     private lessonService = inject(LessonService);
     private snackbarService = inject(SnackbarService);
 
+    // Resolve
     resolve(route: ActivatedRouteSnapshot): Promise<LessonModel> {
         try {
+            // Fetch lesson
             const id = route.paramMap.get('id');
             return this.lessonService.getLessonById(id)
         }

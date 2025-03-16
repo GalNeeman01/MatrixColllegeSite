@@ -1,8 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-html, body { height: 100%; }
-body { 
-    margin: 0; 
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
     font-family: 'Poppins', sans-serif;
     background-color: #F0F0F0;
 }
@@ -15,12 +19,12 @@ body {
 .mat-mdc-snack-bar-container.popup-success .mdc-snackbar__surface {
     background-color: #43a047 !important;
     color: white !important;
-} 
+}
 
 .mat-mdc-snack-bar-container.popup-warning .mdc-snackbar__surface {
     background-color: #FF9800 !important;
     color: white !important;
-} 
+}
 
 mat-icon {
     min-width: 17px;

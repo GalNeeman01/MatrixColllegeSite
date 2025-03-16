@@ -7,6 +7,7 @@ import { Component, Input } from '@angular/core';
   styleUrl: './course-page-header.component.css'
 })
 export class CoursePageHeaderComponent {
+  // Inputs
   @Input()
   public badge: string;
 

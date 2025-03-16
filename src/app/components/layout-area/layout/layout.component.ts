@@ -13,10 +13,14 @@ import { HeaderComponent } from "../header/header.component";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LayoutComponent implements OnInit {
+  // DI's
   private router = inject(Router);
   
+  // Public
   public isPageLoaded = false;
 
+  // Methods
+  // State for displaying loading progress bar
   public ngOnInit() : void {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)

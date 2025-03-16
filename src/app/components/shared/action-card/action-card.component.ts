@@ -10,16 +10,19 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   styleUrl: './action-card.component.css'
 })
 export class ActionCardComponent {
-    @Input()
-    public tooltip: string;
+  // Inputs
+  @Input()
+  public tooltip: string;
 
-    @Input()
-    public iconName: string;
+  @Input()
+  public iconName: string;
 
-    @Output()
-    public actionClicked = new EventEmitter();
+  // Outputs
+  @Output()
+  public actionClicked = new EventEmitter();
 
-    public click() : void {
-        this.actionClicked.emit();
-    }
+  // Methods
+  public click(): void {
+    this.actionClicked.emit();
+  }
 }

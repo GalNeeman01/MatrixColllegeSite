@@ -16,15 +16,18 @@ import { CoursePageHeaderComponent } from "../../course-area/course-page-header/
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CoursesComponent implements OnInit {
-    public courses = signal<CourseModel[]>([]);
-
+    // DI's
     private userService = inject(UserService);
     private snackbarService = inject(SnackbarService);
     private route = inject(ActivatedRoute);
 
+    // Public
+    public courses = signal<CourseModel[]>([]);
+
+    // Methods
     public async ngOnInit(): Promise<void> {
         try {
-            window.scrollTo(0, 0);
+            window.scrollTo(0, 0); // Reset scrolling position
             // Initialize enrollments store (for course cards)
             if (this.userService.isLoggedIn() && this.userService.getUserRole() === Roles.Student)
                 await this.userService.getUserEnrollments();

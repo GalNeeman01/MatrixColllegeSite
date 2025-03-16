@@ -20,6 +20,7 @@ import { LessonService } from "./lesson.service";
     providedIn: 'root'
 })
 export class UserService {
+    // DI's
     private http = inject(HttpClient);
     private userStore = inject(UserStore);
     private enrollmentStore = inject(EnrollmentStore);
@@ -27,13 +28,13 @@ export class UserService {
     private courseService = inject(CourseService);
     private progressStore = inject(ProgressStore);
 
-    public constructor() { 
+    // Constructor
+    public constructor() {
         this.checkLoggedIn();
     }
 
     // Check if the user is logged in and set the user store accordingly
-    public async checkLoggedIn(): Promise<void>
-    {
+    public async checkLoggedIn(): Promise<void> {
         const token = localStorage.getItem("token");
         if (token) {
             // Retrieve payload from token (local)
@@ -61,7 +62,7 @@ export class UserService {
 
     // Register a new user with the given details
     public async register(registerDto: RegisterDto) {
-        const token$ = this.http.post(environment.registerUrl, registerDto, {responseType: 'text'});
+        const token$ = this.http.post(environment.registerUrl, registerDto, { responseType: 'text' });
         const token = await firstValueFrom(token$);
         const payload = jwtDecode<{ user: UserModel }>(token);
         const user = payload.user;
@@ -72,7 +73,7 @@ export class UserService {
 
     // Log the user in with the given credentials
     public async login(credentials: CredentialsModel): Promise<void> {
-        const token$ = this.http.post(environment.loginUrl, credentials, {responseType: 'text'});
+        const token$ = this.http.post(environment.loginUrl, credentials, { responseType: 'text' });
         const token = await firstValueFrom(token$);
         const payload = jwtDecode<{ user: UserModel }>(token);
         const user = payload.user;
@@ -89,20 +90,20 @@ export class UserService {
     }
 
     // Get the username of the current user
-    public getUsername() : string {
+    public getUsername(): string {
         return this.userStore.user().name;
     }
 
-    public getEmail() : string {
+    public getEmail(): string {
         return this.userStore.user().email;
     }
 
-    public getUser() : UserModel {
+    public getUser(): UserModel {
         return this.userStore.user();
     }
 
     // Get the enrollments of the current user
-    public async getUserEnrollments() : Promise<EnrollmentModel[]> {
+    public async getUserEnrollments(): Promise<EnrollmentModel[]> {
         if (this.enrollmentStore.enrollments().length > 0)
             return this.enrollmentStore.enrollments();
 
@@ -118,11 +119,11 @@ export class UserService {
     }
 
     // Get the courses the current user is enrolled in
-    public async getEnrolledCourses() : Promise<CourseModel[]> {
+    public async getEnrolledCourses(): Promise<CourseModel[]> {
         const enrollments = await this.getUserEnrollments();
 
         // Retrieve all courses
-        let courses : CourseModel[] = await this.courseService.getAllCourses();
+        let courses: CourseModel[] = await this.courseService.getAllCourses();
 
         // Filter for courses the user is enrolled in
         courses = courses.filter(c => enrollments.some(e => e.courseId === c.id));
@@ -130,7 +131,7 @@ export class UserService {
         return courses;
     }
 
-    public async getUserProgress() : Promise<ProgressModel[]> { 
+    public async getUserProgress(): Promise<ProgressModel[]> {
         // Check if the progress is already loaded
         if (this.progressStore.progresses().length > 0)
             return this.progressStore.progresses();
@@ -145,7 +146,7 @@ export class UserService {
     }
 
     // Get the progress of the current user
-    public async getCourseProgress(courseId: string) : Promise<CourseProgress> {
+    public async getCourseProgress(courseId: string): Promise<CourseProgress> {
         // Retrieve user progress
         const userProgress = await this.getUserProgress();
         const lessons = await this.lessonService.getLessonsByCourseId(courseId);
@@ -168,18 +169,18 @@ export class UserService {
         }
 
         // Progress to return
-        const progress : CourseProgress = {
+        const progress: CourseProgress = {
             completed: completed,
             total: lessons.length,
             lastWatched: lastWatched
         };
 
-        return progress; 
+        return progress;
     }
 
     // Create a new enrollment for the user
-    public async enrollUser(courseId: string) : Promise<void> {
-        const enrollment: EnrollmentModel = {id: undefined, userId: this.userStore.user().id, courseId: courseId, enrolledAt: new Date()};
+    public async enrollUser(courseId: string): Promise<void> {
+        const enrollment: EnrollmentModel = { id: undefined, userId: this.userStore.user().id, courseId: courseId, enrolledAt: new Date() };
 
         const enroll$ = this.http.post<EnrollmentModel>(environment.enrollUserUrl, enrollment);
         const dbEnrollment = await firstValueFrom(enroll$);
@@ -188,7 +189,7 @@ export class UserService {
     }
 
     // Remove an enrollment for the user
-    public async unenrollUser(enrollmentId: string) : Promise<void> {
+    public async unenrollUser(enrollmentId: string): Promise<void> {
         const delete$ = this.http.delete(environment.enrollmentsUrl + enrollmentId);
         await firstValueFrom(delete$);
 
@@ -203,7 +204,7 @@ export class UserService {
     }
 
     // Get the enrollment for a specific course
-    public async getEnrollmentForCourse(courseId: string) : Promise<EnrollmentModel> {
+    public async getEnrollmentForCourse(courseId: string): Promise<EnrollmentModel> {
         if (this.enrollmentStore.enrollments().length === 0)
             await this.getUserEnrollments();
 
@@ -211,14 +212,14 @@ export class UserService {
     }
 
     // Check if the user is enrolled in a specific course
-    public async isEnrolled(courseId: string) : Promise<boolean> {
+    public async isEnrolled(courseId: string): Promise<boolean> {
         const result = await this.getEnrollmentForCourse(courseId);
         return result !== undefined;
     }
 
     // Add progress
-    public async addProgress(lessonId: string) : Promise<void> {
-        const progress: ProgressModel = {id: undefined, userId: this.userStore.user().id, lessonId: lessonId, watchedAt: new Date()};
+    public async addProgress(lessonId: string): Promise<void> {
+        const progress: ProgressModel = { id: undefined, userId: this.userStore.user().id, lessonId: lessonId, watchedAt: new Date() };
 
         const progress$ = this.http.post(environment.progressUrl, progress);
         await firstValueFrom(progress$);
@@ -228,7 +229,7 @@ export class UserService {
     }
 
     // Check role - student
-    public getUserRole() : string {
+    public getUserRole(): string {
         return this.userStore.user().role.toLowerCase();
     }
 }

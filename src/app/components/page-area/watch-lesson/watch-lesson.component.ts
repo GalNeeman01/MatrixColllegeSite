@@ -13,14 +13,17 @@ import { SnackbarService } from '../../../services/snackbar.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WatchLessonComponent implements OnInit {
-
-  public lesson = signal<LessonModel>(undefined);
-  public safeUrl : SafeResourceUrl;
-
+  // DI's
   private activatedRoute = inject(ActivatedRoute);
   private sanitizer = inject(DomSanitizer);
   private snackbarService = inject(SnackbarService);
+  
+  // Public
+  public lesson = signal<LessonModel>(undefined);
+  public safeUrl : SafeResourceUrl;
 
+
+  // Methods
   public async ngOnInit(): Promise<void> {
     try {
       // Fetch lesson

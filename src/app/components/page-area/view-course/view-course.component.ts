@@ -17,16 +17,18 @@ import { LessonComponent } from "../../lesson-area/lesson/lesson.component";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ViewCourseComponent implements OnInit {
+  // DI's
     private activatedRoute = inject(ActivatedRoute);
     private snackbarService = inject(SnackbarService);
 
+    // Public
     public courseModel: CourseModel;
     public lessons = signal<LessonInfoModel[]>([]);
     public id : string = "";
-
     public link = '/courses/' + this.id;
     public userProgress: ProgressModel[] = [];
 
+    // Methods
     async ngOnInit(): Promise<void> {
       try {
         window.scrollTo(0, 0);

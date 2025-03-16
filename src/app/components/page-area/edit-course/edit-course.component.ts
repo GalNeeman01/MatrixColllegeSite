@@ -26,9 +26,11 @@ import { ConfirmEditCourseComponent } from '../../dialogs/confirm-edit-course/co
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditCourseComponent implements OnInit {
+    // Template references
     @ViewChild(CourseLessonsEditComponent)
     lessonsTable: CourseLessonsEditComponent;
 
+    // DI's
     private snackbarService = inject(SnackbarService);
     private activatedRoute = inject(ActivatedRoute);
     private courseService = inject(CourseService);
@@ -36,18 +38,21 @@ export class EditCourseComponent implements OnInit {
     private router = inject(Router);
     private route = inject(ActivatedRoute);
 
+    // Public
     public course = signal<CourseModel>(undefined);
     public courseCopy: CourseModel;
 
+    // Private
     private courseId: string;
     private originalCourseDetails = { title: "", desc: "" };
 
+    // Methods
     public async ngOnInit(): Promise<void> {
         try {
-            window.scrollTo(0, 0);
+            window.scrollTo(0, 0); // Reset scrolling position
             this.courseId = this.activatedRoute.snapshot.params['id'];
 
-            // Fetch course
+            // Fetch course from resolver
             const resolveData: CourseModel = this.route.snapshot.data['courseData'];
             this.course.set(resolveData);
             this.courseCopy = structuredClone(this.course());

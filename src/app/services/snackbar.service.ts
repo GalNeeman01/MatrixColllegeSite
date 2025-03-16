@@ -5,8 +5,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   providedIn: 'root'
 })
 export class SnackbarService {
+  // DI's
   private snackBarRef = inject(MatSnackBar);
   
+  // Methods
   public showError(message: string) : void {
     this.snackBarRef.open(message, 'close', {
       duration: 3000,
