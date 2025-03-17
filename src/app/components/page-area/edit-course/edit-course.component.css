@@ -6,7 +6,7 @@
 }
 
 .content {
-    width: 50vw;
+    width: fit-content;
 }
 
 .update-course-form {

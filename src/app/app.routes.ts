@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { AnonymousGuard } from './auth/anonymous.guard';
 import { ProfessorGuard } from './auth/professor.guard';
 import { UserGuard } from './auth/user.guard';
 import { WatchLessonGuard } from './auth/watch-lesson.guard';
@@ -10,6 +9,7 @@ import { EditCourseResolver } from './resolvers/edit-course.resolver';
 import { ProfileResolver } from './resolvers/profile.resolver';
 import { ViewCourseResolver } from './resolvers/view-course.resolver';
 import { WatchLessonResolver } from './resolvers/watch-lesson.resolver';
+import { AnonymousGuard } from './auth/Anonymous.guard';
 
 export const routes: Routes = [
     {

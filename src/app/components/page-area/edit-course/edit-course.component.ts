@@ -40,11 +40,10 @@ export class EditCourseComponent implements OnInit {
 
     // Public
     public course = signal<CourseModel>(undefined);
-    public courseCopy: CourseModel;
 
     // Private
     private courseId: string;
-    private originalCourseDetails = { title: "", desc: "" };
+    private originalCourseDetails : CourseModel;
 
     // Methods
     public async ngOnInit(): Promise<void> {
@@ -55,10 +54,9 @@ export class EditCourseComponent implements OnInit {
             // Fetch course from resolver
             const resolveData: CourseModel = this.route.snapshot.data['courseData'];
             this.course.set(resolveData);
-            this.courseCopy = structuredClone(this.course());
 
             // Save copy to use to reset the form
-            this.originalCourseDetails = { title: this.course().title, desc: this.course().description };
+            this.originalCourseDetails = {id: this.course().id ,title: this.course().title, description: this.course().description, createdAt: this.course().createdAt };
         }
         catch (err: any) {
             this.snackbarService.showError(err.message);
@@ -67,7 +65,7 @@ export class EditCourseComponent implements OnInit {
 
     public resetChanges(): void {
         this.lessonsTable.resetChanges();
-        this.course.set(this.courseCopy);
+        this.course.set(structuredClone(this.originalCourseDetails));
     }
 
     public async applyChanges(): Promise<void> {
@@ -75,12 +73,11 @@ export class EditCourseComponent implements OnInit {
             let isChangesMade = await this.lessonsTable.saveChanges();
 
             // Save course data (from form)
-            if (this.course().title !== this.originalCourseDetails.title || this.course().description !== this.originalCourseDetails.desc) { // If any changes were made
+            if (this.course().title !== this.originalCourseDetails.title || this.course().description !== this.originalCourseDetails.description) { // If any changes were made
                 await this.courseService.updateCourse(this.course()); // Call to rest api
-                this.originalCourseDetails = { title: this.course().title, desc: this.course().description };
+                this.originalCourseDetails = {id: this.course().id ,title: this.course().title, description: this.course().description, createdAt: this.course().createdAt };
+                isChangesMade = true;
             }
-
-            this.courseCopy = structuredClone(this.course());
 
             if (isChangesMade)
                 this.snackbarService.showSuccess("Successfully applied changes.");
