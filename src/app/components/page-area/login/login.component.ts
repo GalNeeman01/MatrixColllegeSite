@@ -49,7 +49,6 @@ export class LoginComponent implements OnInit {
         }
         catch (err: any) {
             // If incorrect credentials:
-            this.userForm.get("emailControl").setValue("");
             this.userForm.get("passwordControl").setValue("");
 
             const errMessage = JSON.parse(err.error).errors;

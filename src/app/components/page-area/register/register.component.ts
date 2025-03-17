@@ -56,8 +56,6 @@ export class RegisterComponent implements OnInit {
         }
         catch (err: any) {
             // Register failed
-            this.registerForm.get("emailControl").setValue("")
-
             const errMessage = JSON.parse(err.error).errors;
             this.snackbarService.showError(errMessage);
         }
